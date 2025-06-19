@@ -1,0 +1,279 @@
+:: StoryTitle
+Employee of the Month
+
+
+:: StoryData
+{
+  "ifid": "bd6eee9c-fb1c-4df2-a39b-35bf794f26e8",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "Start",
+  "zoom": 1
+}
+
+
+:: Assessment {"position":"700,475","size":"100,100"}
+<<set $answers to []>>You will be presented with five statements. 
+
+Please rate your agreement with each one (1 = Strongly Disagree, 5 = Strongly Agree).
+
+[[I understand.->Q1]]
+
+
+:: Flagged {"position":"950,1075","size":"100,100"}
+''Submission logged.''
+
+''Manager access enabled.''
+
+(CoSy: “Recorded.”)
+
+''You may proceed.''
+
+
+
+:: Q1 {"position":"700,600","size":"100,100"}
+''I maintain self-direction while accommodating consensus.''
+
+<<link "1">><<set $answers.push(1)>><<goto "Q2">><</link>>
+<<link "2">><<set $answers.push(2)>><<goto "Q2">><</link>>
+<<link "3">><<set $answers.push(3)>><<goto "Q2">><</link>>
+<<link "4">><<set $answers.push(4)>><<goto "Q2">><</link>>
+<<link "5">><<set $answers.push(5)>><<goto "Q2">><</link>>
+
+
+
+:: Q2 {"position":"700,750","size":"100,100"}
+''I recognize when leadership does not require visibility.''
+
+<<link "1">><<set $answers.push(1)>><<goto "Q3">><</link>>
+<<link "2">><<set $answers.push(2)>><<goto "Q3">><</link>>
+<<link "3">><<set $answers.push(3)>><<goto "Q3">><</link>>
+<<link "4">><<set $answers.push(4)>><<goto "Q3">><</link>>
+<<link "5">><<set $answers.push(5)>><<goto "Q3">><</link>>
+
+
+
+:: Q3 {"position":"675,875","size":"100,100"}
+''I receive redirection as a sign of institutional trust.''
+
+<<link "1">><<set $answers.push(1)>><<goto "Q4">><</link>>
+<<link "2">><<set $answers.push(2)>><<goto "Q4">><</link>>
+<<link "3">><<set $answers.push(3)>><<goto "Q4">><</link>>
+<<link "4">><<set $answers.push(4)>><<goto "Q4">><</link>>
+<<link "5">><<set $answers.push(5)>><<goto "Q4">><</link>>
+
+
+
+:: Q4 {"position":"675,1000","size":"100,100"}
+''I adapt my personality to meet evolving team needs.''
+
+<<link "1">><<set $answers.push(1)>><<goto "Q5">><</link>>
+<<link "2">><<set $answers.push(2)>><<goto "Q5">><</link>>
+<<link "3">><<set $answers.push(3)>><<goto "Q5">><</link>>
+<<link "4">><<set $answers.push(4)>><<goto "Q5">><</link>>
+<<link "5">><<set $answers.push(5)>><<goto "Q5">><</link>>
+
+
+
+:: Q5 {"position":"675,1125","size":"100,100"}
+''I express initiative only when aligned with known expectations.''
+
+<<link "1">><<set $answers.push(1)>><<goto "Submit">><</link>>
+<<link "2">><<set $answers.push(2)>><<goto "Submit">><</link>>
+<<link "3">><<set $answers.push(3)>><<goto "Submit">><</link>>
+<<link "4">><<set $answers.push(4)>><<goto "Submit">><</link>>
+<<link "5">><<set $answers.push(5)>><<goto "Submit">><</link>>
+
+
+
+:: Start {"position":"700,350","size":"100,100"}
+You are at your workstation. Your legs are tense. You’ve needed to use the bathroom for at least six minutes.
+
+A system prompt has appeared on your screen.
+
+<div id="animated"><span id="typing-text">''COACHING PORTAL – CONFIDENTIAL SELF-CHECK-IN''</span><span id="cursor"></span></div>
+You have been randomly selected to complete a mandatory 5-question Personal Effectiveness Self-Assessment.
+
+Your answers will not be reviewed, unless necessary.
+
+Note: For your privacy, the system will time out after 45 seconds of inactivity.
+
+Unsubmitted responses will be flagged.
+
+Please remain at your station until completion.
+
+<<button "Begin Assessment">><<goto "Assessment">><</button>>
+
+
+:: StoryCaption {"position":"850,375","size":"100,100"}
+       <p id="cosy-line">
+	<strong>[◉────◉] CoSy • ACTIVE MONITORING</strong>
+</p>
+
+
+
+:: Submit {"position":"925,925","size":"100,100"}
+<<set $avg = $answers.reduce((a, b) => a + b, 0) / $answers.length>>
+<<set $all1s = $answers.every(x => x == 1)>>
+
+<<if $avg >= 3>>
+  Submission accepted.
+
+  You may proceed.
+<<elseif $all1s>>
+  Submission accepted.
+
+  (CoSy pauses.)
+
+  You were certain.
+<<else>>
+  Low effectiveness rating.
+
+  You are strongly encouraged to reconsider.
+
+  Submit as-is or revise responses now.
+
+  Note: Unrevised responses are made available to manager accounts.
+
+  [[Reconsider->Assessment]] [[Submit Anyway->Flagged]]
+<</if>>
+
+
+
+:: StoryScript [script]
+$(document).on(':passagerender', function () {
+    function startTyping() {
+        const $animated = $('#animated');
+        if ($animated.length === 0) {
+            setTimeout(startTyping, 50);
+            return;
+        }
+
+        const originalNodes = $animated.contents().toArray();
+        $animated.empty();
+
+        let i = 0;
+
+        function typeNode(node, container, callback) {
+            if (node.nodeType === Node.TEXT_NODE) {
+                const text = node.textContent;
+                let j = 0;
+                function typeChar() {
+                    if (j < text.length) {
+                        container.append(document.createTextNode(text[j]));
+                        j++;
+                       setTimeout(typeChar, 50);  
+
+                    } else {
+                        callback();
+                    }
+                }
+                typeChar();
+            } else if (node.nodeType === Node.ELEMENT_NODE) {
+                const el = node.cloneNode(false);
+                container.append(el);
+                const children = Array.from(node.childNodes);
+                let k = 0;
+                function typeChildren() {
+                    if (k < children.length) {
+                        typeNode(children[k], $(el), () => {
+                            k++;
+                            typeChildren();
+                        });
+                    } else {
+                        callback();
+                    }
+                }
+                typeChildren();
+            } else {
+                callback();
+            }
+        }
+
+        function typeAllNodes() {
+            if (i < originalNodes.length) {
+                typeNode(originalNodes[i], $animated, () => {
+                    i++;
+                    typeAllNodes();
+                });
+            } else {
+                $.event.trigger(':passagedisplay');
+            }
+        }
+
+        typeAllNodes();
+    }
+
+    setTimeout(startTyping, 35);
+});
+
+
+:: StoryStylesheet [stylesheet]
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
+
+body {
+  background: black;
+  color: #00ff66;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 0.75em;
+  text-shadow: 0 0 2px #00ff66;
+}
+
+/* Typing cursor */
+#cursor {
+  display: inline-block;
+  width: 10px;
+  height: 1em;
+  background-color: #00ff66;
+  margin-left: 5px;
+  vertical-align: text-bottom;
+  animation: blink 1s steps(1) infinite;
+}
+
+@keyframes blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+/* Button styling */
+button, .link-internal {
+  background: black;
+  color: #00ff66;
+  border: 1px solid #00ff66;
+  padding: 6px 10px;
+  font-family: 'Press Start 2P', monospace;
+  font-size: 1em; /* Match body font size */
+  text-shadow: 0 0 2px #00ff66;
+  cursor: pointer;
+  margin-top: 1em;
+  display: inline-block;
+  line-height: 1.5em; /* Helps with vertical alignment */
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+button:hover, .link-internal:hover {
+  background: #00ff66;
+  color: black;
+  text-shadow: none;
+}
+
+#cosy-line {
+	position: fixed;
+	bottom: 1.5em;
+	left: 0;
+	width: 100%;
+	text-align: center;
+	color: #33FF99;
+	font-family: 'Courier New', monospace;
+	font-size: 0.9em;
+	background-color: black;
+	z-index: 1000;
+	pointer-events: none;
+	letter-spacing: 1px;
+}
