@@ -1,2 +1,3 @@
-# EmployeeOfTheMonth
-Employee of the Month Twine repository
+# Employee of the Month
+
+Twine + SugarCube game project.
