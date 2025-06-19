@@ -8,7 +8,7 @@
 !.vscode/*.json
 
 # Tweego build artefacts
-/docs/index.html        # published HTML (auto-generated)
+# /docs/index.html        # published HTML (auto-generated) - commented out to allow preview builds
 /export/                # if you ever output here
 *.html~                # temp files if you open the game in an editor
 
