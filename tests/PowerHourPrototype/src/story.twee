@@ -1,7 +1,6 @@
 :: StoryTitle
 Power Hour Prototype
 
-
 :: StoryData
 {
   "ifid": "E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A",
@@ -15,7 +14,7 @@ Power Hour Prototype
 <<if !State.variables.pph>> 
   <<run setup.initPowerHour()>>
 <</if>>
-<<goto "PowerHourLoop">>
+<<run setTimeout(() => Engine.play("PowerHourLoop"), 0)>>
 
 
 :: PowerHourLoop {"position":"700,475","size":"100,100"}
