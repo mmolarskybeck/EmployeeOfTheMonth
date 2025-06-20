@@ -85,32 +85,43 @@ Power Hour Prototype
 <div id="feed">
 
 <!-- CARD 1 -->
-<div class="ticket-card" data-index="0">
+<div class="retro-window ticket-card" data-index="0">
   <<set _card = State.variables.pph.taskFeed[0]>>
 
-  <div class="card-header">
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track
-    )>>
-  </strong><br>
-  <<if _card.title>>
-    <span class="card-title"><<print _card.title>></span>
-  <</if>>
-  <<if _card.type === "pledge">>
-    <em class="pledge-label">Visibility Pledge</em>
-  <</if>>
-</div>
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
 
-  <div class="actions">
-    <<if _card.type === "pledge">>
-      <<button "Pledge">><<run setup.animatePledge(0)>><</button>>
-    <<else>>
-      <<button "Execute">><<run setup.animateExecute(0)>><</button>>
+  <div class="window-body">
+    <div class="card-meta">
+      <<print (
+        _card.type === "normal"
+          ? _card.track + " – Step " + _card.step
+          : _card.track
+      )>>
+    </div>
+
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
     <</if>>
-    <<button "Delete">><<run setup.animateDelete(0)>><</button>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <<button "Pledge">><<run setup.animatePledge(0)>><</button>>
+      <<else>>
+        <<button "Execute">><<run setup.animateExecute(0)>><</button>>
+      <</if>>
+      <<button "Delete">><<run setup.animateDelete(0)>><</button>>
+    </div>
   </div>
 </div>
 
