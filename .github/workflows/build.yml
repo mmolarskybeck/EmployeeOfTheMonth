@@ -42,8 +42,8 @@ jobs:
       - name: 🧪 Compile Twine game
         run: |
           tweego story.twee \
-            -j story.js \
-            -c style.css \
+            -m story.js \
+            --head style.css \
             -f sugarcube-2 \
             -o docs/index.html
 
