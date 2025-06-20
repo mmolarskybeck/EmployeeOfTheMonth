@@ -83,9 +83,8 @@ Power Hour Prototype
 
 
 <div id="feed">
-
-<!-- CARD 1 -->
-<div class="retro-window ticket-card" data-index="0">
+<!--CARD 1-->
+<div class="retro-window" data-index="0">
   <<set _card = State.variables.pph.taskFeed[0]>>
 
   <div class="window-header">
@@ -95,11 +94,7 @@ Power Hour Prototype
 
   <div class="window-body">
     <div class="card-meta">
-      <<print (
-        _card.type === "normal"
-          ? _card.track + " – Step " + _card.step
-          : _card.track
-      )>>
+      <<print _card.track + " – Step " + _card.step>>
     </div>
 
     <<if _card.title>>
@@ -116,14 +111,15 @@ Power Hour Prototype
 
     <div class="actions">
       <<if _card.type === "pledge">>
-        <<button "Pledge">><<run setup.animatePledge(0)>><</button>>
+        <button onclick="setup.animatePledge(0)">Pledge</button>
       <<else>>
-        <<button "Execute">><<run setup.animateExecute(0)>><</button>>
+        <button onclick="setup.animateExecute(0)">Execute</button>
       <</if>>
-      <<button "Delete">><<run setup.animateDelete(0)>><</button>>
+      <button onclick="setup.animateDelete(0)">Delete</button>
     </div>
   </div>
 </div>
+
 
 <!-- CARD 2 -->
 <div class="ticket-card" data-index="1">
