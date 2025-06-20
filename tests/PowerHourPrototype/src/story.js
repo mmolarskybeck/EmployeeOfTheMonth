@@ -116,7 +116,11 @@ setup.moraleDefinitions = {
       desc:"Attention: Half-eaten donuts in the break room. Temporary morale improvement authorized." },
   "Praise From The VP":
     { extraAction:1,
-      desc:"VP noticed your alignment efforts. CoSy acknowledges your existence positively." }
+      desc:"VP noticed your alignment efforts. CoSy acknowledges your existence positively." },
+  "Peer Compliment":
+    { burnout: -1,
+     desc: "A teammate said you were 'actually pretty great.' Enjoy this fleeting boost." }
+
 };
 
 
@@ -181,9 +185,10 @@ const stepObj = setup.trackDefinitions[t][i];
   deck.push({ type: "hazard", id: "Policy Change",     burnout: 1 });
   deck.push({ type: "hazard", id: "System Outage",      burnout: 2 });
 
-  /* 2 morale moments */
+  /* 3 morale moments */
   deck.push({ type: "morale", id: "Surprise Donuts",    burnout: -1 });
   deck.push({ type: "morale", id: "Praise From The VP", extraAction: 1 });
+  deck.push({ type: "morale", id: "Peer Compliment", burnout: -1 });
 
   /* 5 visibility pledges */
   tracks.forEach(t =>
