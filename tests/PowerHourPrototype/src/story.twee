@@ -122,101 +122,116 @@ Power Hour Prototype
 
 
 <!-- CARD 2 -->
-<div class="ticket-card" data-index="1">
+<div class="retro-window" data-index="1">
   <<set _card = State.variables.pph.taskFeed[1]>>
 
-  <div class="card-header">
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track
-    )>>
-  </strong><br>
-  <<if _card.title>>
-    <span class="card-title"><<print _card.title>></span>
-  <</if>>
-  <<if _card.type === "pledge">>
-    <em class="pledge-label">Visibility Pledge</em>
-  <</if>>
-</div>
-  <<if _card.type === "pledge">>
-        <div class="actions">
-    <<button "Pledge">><<run setup.animatePledge(1)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(1)>><</button>>
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
+
+  <div class="window-body">
+    <div class="card-meta">
+      <<print _card.track + " – Step " + _card.step>>
     </div>
-  <<else>>
-        <div class="actions">
-    <<button "Execute">><<run setup.animateExecute(1)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(1)>><</button>>
+
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
+    <</if>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <button onclick="setup.animatePledge(1)">Pledge</button>
+      <<else>>
+        <button onclick="setup.animateExecute(1)">Execute</button>
+      <</if>>
+      <button onclick="setup.animateDelete(1)">Delete</button>
     </div>
-  <</if>>
+  </div>
 </div>
+
  <!-- CARD 3 -->
-<div class="ticket-card" data-index="2">
+<div class="retro-window" data-index="2">
   <<set _card = State.variables.pph.taskFeed[2]>>
 
-  <div class="card-header">
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track
-    )>>
-  </strong><br>
-  <<if _card.title>>
-    <span class="card-title"><<print _card.title>></span>
-  <</if>>
-  <<if _card.type === "pledge">>
-    <em class="pledge-label">Visibility Pledge</em>
-  <</if>>
-</div>
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
 
-  <<if _card.type === "pledge">>
-        <div class="actions">
-    <<button "Pledge">><<run setup.animatePledge(2)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(2)>><</button>>
+  <div class="window-body">
+    <div class="card-meta">
+      <<print _card.track + " – Step " + _card.step>>
     </div>
-  <<else>>
-        <div class="actions">
-    <<button "Execute">><<run setup.animateExecute(2)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(2)>><</button>>
+
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
+    <</if>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <button onclick="setup.animatePledge(2)">Pledge</button>
+      <<else>>
+        <button onclick="setup.animateExecute(2)">Execute</button>
+      <</if>>
+      <button onclick="setup.animateDelete(2)">Delete</button>
     </div>
-  <</if>>
+  </div>
 </div>
 
 <!-- CARD 4 -->
-<div class="ticket-card" data-index="3">
+<div class="retro-window" data-index="3">
   <<set _card = State.variables.pph.taskFeed[3]>>
 
-  <div class="card-header">
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track
-    )>>
-  </strong><br>
-  <<if _card.title>>
-    <span class="card-title"><<print _card.title>></span>
-  <</if>>
-  <<if _card.type === "pledge">>
-    <em class="pledge-label">Visibility Pledge</em>
-  <</if>>
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
+
+  <div class="window-body">
+    <div class="card-meta">
+      <<print _card.track + " – Step " + _card.step>>
+    </div>
+
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
+    <</if>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <button onclick="setup.animatePledge(3)">Pledge</button>
+      <<else>>
+        <button onclick="setup.animateExecute(3)">Execute</button>
+      <</if>>
+      <button onclick="setup.animateDelete(3)">Delete</button>
+    </div>
+  </div>
 </div>
 
-  <<if _card.type === "pledge">>
-        <div class="actions">
-    <<button "Pledge">><<run setup.animatePledge(3)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(3)>><</button>>
-    </div>
-  <<else>>
-        <div class="actions">
-    <<button "Execute">><<run setup.animateExecute(3)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(3)>><</button>>
-    </div>
-  <</if>>
-</div>
 
 </div>
 <</if>>
