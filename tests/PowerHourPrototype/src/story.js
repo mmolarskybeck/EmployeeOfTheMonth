@@ -131,7 +131,7 @@ setup.debugModalMessage   = "🛠️  Debug: PowerHour initialized successfully!
 setup.initPowerHour = function() {
   State.variables.pph = {
     burnout:      0,
-    actionsLeft: 20,
+    actionsLeft: 25,
     score:        0,
     deck:         setup.buildDeck(),
     taskFeed:     [],
