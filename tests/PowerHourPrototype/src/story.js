@@ -133,21 +133,24 @@ setup.debugModalMessage   = "🛠️  Debug: PowerHour initialized successfully!
 
 /* Initialize the entire Power Hour module */
 setup.initPowerHour = function() {
-  State.variables.pph = {
-    burnout:      0,
-    actionsLeft: 25,
-    score:        0,
-    deck:         setup.buildDeck(),
-    taskFeed:     [],
-    activeTracks: {},
-    trackOrder:   [],
-    pledgedTrack: null,
-    completed:    0,
-    lastEvent: null,  // hazards/morale
-    errorMessage: null,   // out-of-order errors
-    roundStarted: false,
-    seen:          {},    // ← track every card we’ve ever drawn
-    drawLog:	[] // Intializing draw log
+  console.log("🟡 setup.initPowerHour() starting...");
+
+  try {
+    State.variables.pph = {
+      burnout:      0,
+      actionsLeft: 25,
+      score:        0,
+      deck:         setup.buildDeck(),
+      taskFeed:     [],
+      activeTracks: {},
+      trackOrder:   [],
+      pledgedTrack: null,
+      completed:    0,
+      lastEvent: null,  // hazards/morale
+      errorMessage: null,   // out-of-order errors
+      roundStarted: false,
+      seen:          {},    // ← track every card we’ve ever drawn
+      drawLog:	[] // Intializing draw log
 
   };
   setup.refillFeed();
@@ -156,6 +159,12 @@ setup.initPowerHour = function() {
     // ←— DEBUG: show a popup on startup
   if (setup.debugModalOnStart) {
     State.variables.pph.lastEvent = setup.debugModalMessage;
+  }
+
+   console.log("🟢 Power Hour initialized:", State.variables.pph);
+
+  } catch (e) {
+    console.error("❌ setup.initPowerHour() FAILED:", e);
   }
   
 };
