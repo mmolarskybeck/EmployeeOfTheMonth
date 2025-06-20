@@ -11,20 +11,12 @@ Power Hour Prototype
   "zoom": 1
 }
 
+:: StoryInit {"position":"700,350","size":"100,100"}
+<<run setup.initPowerHour()>>
 
-:: HardFail {"position":"975,525","size":"100,100"}
-<<run setup.calculateScore()>>
-<h2>Burnout Reached!</h2>
-<<if $pph.score > 0>>
-Your burnout metrics hit critical levels, but HQ noticed your productivity streak.  
-
-You’ll get a fast-track decompression break and a shiny commendation for the effort!
-<<else>>
-Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
-<</if>>
-
-Productivity Score: <<print $pph.score>>
-
+:: PowerHourStart {"position":"825,350","size":"100,100"}
+<<run setup.initPowerHour()>>
+<<goto "PowerHourLoop">>
 
 
 :: PowerHourLoop {"position":"700,475","size":"100,100"}
@@ -204,11 +196,6 @@ Productivity Score: <<print $pph.score>>
 <</if>>
 <</nobr>>
 
-
-:: PowerHourStart {"position":"825,350","size":"100,100"}
-<<run setup.initPowerHour()>>
-<<goto "PowerHourLoop">>
-
 :: SoftFail {"position":"975,425","size":"100,100"}
 <<run setup.calculateScore()>>
 <h2>Productivity Power Hour Concluded</h2>
@@ -227,9 +214,18 @@ Productivity Score: <<print $pph.score>>
   <<goto "PowerHourStart">>
 <</link>>
 
+:: HardFail {"position":"975,525","size":"100,100"}
+<<run setup.calculateScore()>>
+<h2>Burnout Reached!</h2>
+<<if $pph.score > 0>>
+Your burnout metrics hit critical levels, but HQ noticed your productivity streak.  
 
-:: StoryInit {"position":"700,350","size":"100,100"}
+You’ll get a fast-track decompression break and a shiny commendation for the effort!
+<<else>>
+Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
+<</if>>
 
+Productivity Score: <<print $pph.score>>
 
 
 :: Win {"position":"975,325","size":"100,100"}
