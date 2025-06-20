@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>Power Hour GUI Mockup</title>
+
+<style>
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inconsolata&family=Source+Code+Pro&display=swap");
+body {
+font-family: Tahoma, 'Segoe UI', sans-serif;
+  background: #e0e0e0;
+  padding: 2em;
+}
+#feed {
+  display: flex;
+  gap: 1em;
+  flex-wrap: wrap;
+  justify-content: center;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+.retro-window.ticket-card {
+  flex: 0 0 200px;
+  background: #c0c0c0;
+  border: 2px solid black;
+  box-shadow: 4px 4px 0 #888;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease,
+    max-height 0.3s ease;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* space between header and body */
+  height: 185px;
+}
+.ticket-card.collapsing {
+  transform: scaleY(0);
+  opacity: 0;
+  max-height: 0;
+  padding: 0;
+  margin: 0;
+  border: none;
+}
+.window-header {
+  background: #000080;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85em;
+}
+.window-title {
+  text-shadow: 1px 1px #000;
+}
+.close-button {
+  background: #c0c0c0;
+  border: 2px outset white;
+  color: black;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  line-height: 20px;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.window-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between; /* space between content and buttons */
+  flex: 1; /* takes remaining vertical space */
+  padding: 10px;
+  background: #f0f0f0;
+  border-top: 2px solid #808080;
+}
+
+.card-step {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 0.15em;
+  text-transform: uppercase;
+}
+
+.card-track {
+  font-size: 1em;
+  font-weight: bold;
+  color: #000080;
+  margin-bottom: 0.3em;
+  text-transform: capitalize; /* Capitalize Each Word */
+}
+
+.card-title {
+  font-size: 0.85em;
+  color: #444;
+  margin-bottom: 0.6em;
+  text-transform: none; /* or use 'capitalize' if you want initial caps */
+  font-style: italic;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5em;
+  justify-content: space-between;
+  margin-top: auto; /* pushes it to the bottom of .window-body */
+  text-transform: uppercase;
+}
+
+.actions button,
+.close-button {
+  background: #c0c0c0;
+  border: 2px outset white;
+  padding: 0.25em 0.75em;
+  font-size: 0.85em;
+  cursor: pointer;
+  font-family: inherit;
+}
+.actions button:hover,
+.close-button:hover {
+  background: #dcdcdc;
+  border: 2px inset #fff;
+  outline: 1px dotted black;
+  outline-offset: -4px;
+}
+
+
+</style>
+</head>
+<body>
+<div id="feed">
+  <div class="retro-window ticket-card">
+    <div class="window-header">
+      <span class="window-title">Task Ticket</span>
+      <button class="close-button" onclick="collapseCard(this)">✕</button>
+    </div>
+    <div class="window-body">
+      <div class="card-step">Step 1</div>
+      <div class="card-track">Backlogged Emails</div>
+      <div class="card-title">Inbox Zeroing</div>
+      <div class="actions">
+        <button onclick="collapseCard(this)">Execute</button>
+        <button onclick="collapseCard(this)">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="retro-window ticket-card">
+    <div class="window-header">
+      <span class="window-title">Task Ticket</span>
+      <button class="close-button" onclick="collapseCard(this)">✕</button>
+    </div>
+    <div class="window-body">
+      <div class="card-step">Step 2</div>
+      <div class="card-track">Project Tracker Maintenance</div>
+      <div class="card-title">Assign Ticket Owner</div>
+      <div class="actions">
+        <button onclick="collapseCard(this)">Execute</button>
+        <button onclick="collapseCard(this)">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="retro-window ticket-card">
+    <div class="window-header">
+      <span class="window-title">Task Ticket</span>
+      <button class="close-button" onclick="collapseCard(this)">✕</button>
+    </div>
+    <div class="window-body">
+      <div class="card-step">Step 3</div>
+      <div class="card-track">Client Gratitude Outreach</div>
+      <div class="card-title">Scheduled Delivery Setup</div>
+      <div class="actions">
+        <button onclick="collapseCard(this)">Execute</button>
+        <button onclick="collapseCard(this)">Delete</button>
+      </div>
+    </div>
+  </div>
+  <div class="retro-window ticket-card">
+    <div class="window-header">
+      <span class="window-title">Task Ticket</span>
+      <button class="close-button" onclick="collapseCard(this)">✕</button>
+    </div>
+    <div class="window-body">
+      <div class="card-step">Step 4</div>
+      <div class="card-track">Facilities Work Order Requests</div>
+      <div class="card-title">Follow-Up Ping</div>
+      <div class="actions">
+        <button onclick="collapseCard(this)">Execute</button>
+        <button onclick="collapseCard(this)">Delete</button>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+function collapseCard(button) {
+  const card = button.closest('.ticket-card');
+  card.classList.add('collapsing');
+  setTimeout(() => card.remove(), 300);
+}
+</script>
+</body>
+</html>
