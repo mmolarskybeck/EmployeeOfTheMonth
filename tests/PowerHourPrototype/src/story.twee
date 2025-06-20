@@ -201,12 +201,23 @@ Productivity Score: <<print State.variables.pph.score>>
 <<run setup.initPowerHour()>>
 <<goto "PowerHourLoop">>
 
-
 :: SoftFail {"position":"975,425","size":"100,100"}
 <<run setup.calculateScore()>>
-Time’s up—no track completed. 
+<h2>Productivity Power Hour Concluded</h2>
 
-Productivity Score: <<print State.variables.pph.score>>
+<<if _score > 0>>
+  <p>You didn’t complete a full track, but you made meaningful progress. Partial completions have been logged.</p>
+  <p>CoSy acknowledges your intermediate output with faint approval.</p>
+<<else>>
+  <p>No tracks were completed. CoSy notes a troubling lack of outcomes.</p>
+  <p>Recommended remediation: Self-directed motivational reflection.</p>
+<</if>>
+
+<p>Final Productivity Score: <<print State.variables.pph.score>></p>
+
+<<link "Try Again">>
+  <<goto "PowerHourStart">>
+<</link>>
 
 
 :: StoryInit {"position":"700,350","size":"100,100"}
