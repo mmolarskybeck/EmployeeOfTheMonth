@@ -13,7 +13,7 @@ Power Hour Prototype
 
 
 :: HardFail {"position":"975,525","size":"100,100"}
-Burnout at critical levels. HR workshop initiated.
+Burnout at critical levels. Please report to HR immediately for a decompression workshop.
 
 Productivity Score: <<print State.variables.pph.score>>
 
