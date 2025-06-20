@@ -14,6 +14,7 @@ Power Hour Prototype
 
 :: HardFail {"position":"975,525","size":"100,100"}
 <<run setup.calculateScore()>>
+<h3>Burnout Reached!</h3>
 <<if $pph.score > 0>>
 Your burnout metrics hit critical levels, but HQ noticed your productivity streak.  
 
