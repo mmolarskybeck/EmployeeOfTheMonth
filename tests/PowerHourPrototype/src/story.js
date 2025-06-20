@@ -1,3 +1,6 @@
+// Make sure setup exists
+window.setup = window.setup || {};
+
 setup.validateTrackDefinitions = function() {
   const expectedSteps = 5;
   for (const [track, steps] of Object.entries(setup.trackDefinitions)) {
