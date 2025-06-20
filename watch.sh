@@ -1,13 +1,10 @@
 #!/usr/bin/env bash
-set -e                # stop on first error
-mkdir -p docs         # ensure docs/ exists
+set -e
 
-# compile story.twee + story.js + story.css into docs/index.html
+echo "🔁 Watching for changes…"
 tweego -w \
   -f sugarcube-2 \
   -o tests/PowerHourPrototype/index.html \
   tests/PowerHourPrototype/src/story.twee \
   -m tests/PowerHourPrototype/src/story.js \
   -m tests/PowerHourPrototype/src/story.css
-
-echo "✅ Built tests/PowerHourPrototype/index.html"

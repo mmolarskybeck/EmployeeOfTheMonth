@@ -1,0 +1,9 @@
+{
+  "format": "SugarCube",
+  "output-file": "../PowerHour.html",
+  "files": [
+    "story.twee",
+    "story.js",
+    "story.css"
+  ]
+}
