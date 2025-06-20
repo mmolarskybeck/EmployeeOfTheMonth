@@ -16,6 +16,7 @@ Power Hour Prototype
 <<run setup.calculateScore()>>
 <<if $pph.score > 0>>
 Your burnout alarms are blaring, but HQ noticed your productivity streak.  
+
 You’ll get a fast-track decompression break and a shiny commendation for the effort!
 <<else>>
 Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
