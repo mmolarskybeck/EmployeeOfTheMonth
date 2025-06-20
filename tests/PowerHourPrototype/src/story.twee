@@ -114,17 +114,25 @@ Power Hour Prototype
   </div>
 </div>
 
-  <!-- CARD 2 -->
+<!-- CARD 2 -->
 <div class="ticket-card" data-index="1">
   <<set _card = State.variables.pph.taskFeed[1]>>
+
+  <div class="card-header">
   <strong>
     <<print (
       _card.type === "normal"
         ? _card.track + " – Step " + _card.step
-        : _card.track + " Visibility Pledge"
+        : _card.track
     )>>
-  </strong>
-
+  </strong><br>
+  <<if _card.title>>
+    <span class="card-title"><<print _card.title>></span>
+  <</if>>
+  <<if _card.type === "pledge">>
+    <em class="pledge-label">Visibility Pledge</em>
+  <</if>>
+</div>
   <<if _card.type === "pledge">>
         <div class="actions">
     <<button "Pledge">><<run setup.animatePledge(1)>><</button>>
@@ -137,16 +145,25 @@ Power Hour Prototype
     </div>
   <</if>>
 </div>
-  <!-- CARD 3 -->
+ <!-- CARD 3 -->
 <div class="ticket-card" data-index="2">
   <<set _card = State.variables.pph.taskFeed[2]>>
+
+  <div class="card-header">
   <strong>
     <<print (
       _card.type === "normal"
         ? _card.track + " – Step " + _card.step
-        : _card.track + " Visibility Pledge"
+        : _card.track
     )>>
-  </strong>
+  </strong><br>
+  <<if _card.title>>
+    <span class="card-title"><<print _card.title>></span>
+  <</if>>
+  <<if _card.type === "pledge">>
+    <em class="pledge-label">Visibility Pledge</em>
+  <</if>>
+</div>
 
   <<if _card.type === "pledge">>
         <div class="actions">
@@ -164,13 +181,22 @@ Power Hour Prototype
 <!-- CARD 4 -->
 <div class="ticket-card" data-index="3">
   <<set _card = State.variables.pph.taskFeed[3]>>
+
+  <div class="card-header">
   <strong>
     <<print (
       _card.type === "normal"
         ? _card.track + " – Step " + _card.step
-        : _card.track + " Visibility Pledge"
+        : _card.track
     )>>
-  </strong>
+  </strong><br>
+  <<if _card.title>>
+    <span class="card-title"><<print _card.title>></span>
+  <</if>>
+  <<if _card.type === "pledge">>
+    <em class="pledge-label">Visibility Pledge</em>
+  <</if>>
+</div>
 
   <<if _card.type === "pledge">>
         <div class="actions">
