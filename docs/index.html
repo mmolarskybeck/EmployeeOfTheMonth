@@ -1803,101 +1803,116 @@ document.addEventListener('keydown', function(e) {
 
 
 &lt;!-- CARD 2 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;1&quot;&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;1&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[1]&gt;&gt;
 
-  &lt;div class=&quot;card-header&quot;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track
-    )&gt;&gt;
-  &lt;/strong&gt;&lt;br&gt;
-  &lt;&lt;if _card.title&gt;&gt;
-    &lt;span class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/span&gt;
-  &lt;&lt;/if&gt;&gt;
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-    &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
-  &lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
+  &lt;div class=&quot;window-header&quot;&gt;
+    &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+    &lt;button class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;window-body&quot;&gt;
+    &lt;div class=&quot;card-meta&quot;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
     &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
+
+    &lt;&lt;if _card.title&gt;&gt;
+      &lt;div class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.description&gt;&gt;
+      &lt;div class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+      &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(1)&quot;&gt;Pledge&lt;/button&gt;
+      &lt;&lt;else&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(1)&quot;&gt;Execute&lt;/button&gt;
+      &lt;&lt;/if&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(1)&quot;&gt;Delete&lt;/button&gt;
     &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
+
  &lt;!-- CARD 3 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;2&quot;&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;2&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[2]&gt;&gt;
 
-  &lt;div class=&quot;card-header&quot;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track
-    )&gt;&gt;
-  &lt;/strong&gt;&lt;br&gt;
-  &lt;&lt;if _card.title&gt;&gt;
-    &lt;span class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/span&gt;
-  &lt;&lt;/if&gt;&gt;
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-    &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
-  &lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
+  &lt;div class=&quot;window-header&quot;&gt;
+    &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+    &lt;button class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
 
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
+  &lt;div class=&quot;window-body&quot;&gt;
+    &lt;div class=&quot;card-meta&quot;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
     &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
+
+    &lt;&lt;if _card.title&gt;&gt;
+      &lt;div class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.description&gt;&gt;
+      &lt;div class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+      &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(2)&quot;&gt;Pledge&lt;/button&gt;
+      &lt;&lt;else&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(2)&quot;&gt;Execute&lt;/button&gt;
+      &lt;&lt;/if&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(2)&quot;&gt;Delete&lt;/button&gt;
     &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- CARD 4 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;3&quot;&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;3&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[3]&gt;&gt;
 
-  &lt;div class=&quot;card-header&quot;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track
-    )&gt;&gt;
-  &lt;/strong&gt;&lt;br&gt;
-  &lt;&lt;if _card.title&gt;&gt;
-    &lt;span class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/span&gt;
-  &lt;&lt;/if&gt;&gt;
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-    &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
-  &lt;&lt;/if&gt;&gt;
+  &lt;div class=&quot;window-header&quot;&gt;
+    &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+    &lt;button class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;window-body&quot;&gt;
+    &lt;div class=&quot;card-meta&quot;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
+    &lt;/div&gt;
+
+    &lt;&lt;if _card.title&gt;&gt;
+      &lt;div class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.description&gt;&gt;
+      &lt;div class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+      &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(3)&quot;&gt;Pledge&lt;/button&gt;
+      &lt;&lt;else&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(3)&quot;&gt;Execute&lt;/button&gt;
+      &lt;&lt;/if&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(3)&quot;&gt;Delete&lt;/button&gt;
+    &lt;/div&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
 
 &lt;/div&gt;
 &lt;&lt;/if&gt;&gt;
