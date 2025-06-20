@@ -204,7 +204,7 @@ Productivity Score: <<print $pph.score>>
 <</nobr>>
 
 
-:: Start {"position":"825,350","size":"100,100"}
+:: PowerHourStart {"position":"825,350","size":"100,100"}
 <<run setup.initPowerHour()>>
 <<goto "PowerHourLoop">>
 
@@ -223,7 +223,7 @@ Productivity Score: <<print $pph.score>>
 <p>Final Productivity Score: <<print State.variables.pph.score>></p>
 
 <<link "Try Again">>
-  <<goto "Start">>
+  <<goto "PowerHourStart">>
 <</link>>
 
 
