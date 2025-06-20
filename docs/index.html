@@ -256,37 +256,34 @@ setup.initPowerHour = function() {
 };
 
 /* Build & shuffle the deck */
-setup.buildDeck = function() {
-  const defs = setup.trackDefinitions;
-    let deck = [];
+setup.buildDeck = function () {
+  const deck = [];
 
-  /* 25 normal tickets with flavor text */
+  /* 25 normal tickets with flavour text */
   Object.entries(setup.trackDefinitions).forEach(([track, steps]) =>
     steps.forEach((stepDef, i) => {
       const step = i + 1;
-const stepDef = setup.trackDefinitions[t][i];
       deck.push({
-        type: "normal",
-        track,
+        type:  "normal",
+        track,              // shorthand for track: track
         step,
         title: stepDef.title,
         description: stepDef.desc
       });
-
     })
   );
 
   /* 2 hazards */
-  deck.push({ type: "hazard", id: "Policy Change",     burnout: 1 });
-  deck.push({ type: "hazard", id: "System Outage",      burnout: 2 });
+  deck.push({ type: "hazard", id: "Policy Change", burnout: 1 });
+  deck.push({ type: "hazard", id: "System Outage", burnout: 2 });
 
   /* 3 morale moments */
   deck.push({ type: "morale", id: "Surprise Donuts",    burnout: -1 });
   deck.push({ type: "morale", id: "Praise From The VP", extraAction: 1 });
-  deck.push({ type: "morale", id: "Peer Compliment", burnout: -1 });
+  deck.push({ type: "morale", id: "Peer Compliment",    burnout: -1 });
 
-  /* 5 visibility pledges */
-  tracks.forEach(t =>
+  /* 5 visibility pledges — one per track */
+  Object.keys(setup.trackDefinitions).forEach(track =>
     deck.push({ type: "pledge", track })
   );
 
@@ -1179,37 +1176,34 @@ setup.initPowerHour = function() {
 };
 
 /* Build & shuffle the deck */
-setup.buildDeck = function() {
-  const defs = setup.trackDefinitions;
-    let deck = [];
+setup.buildDeck = function () {
+  const deck = [];
 
-  /* 25 normal tickets with flavor text */
+  /* 25 normal tickets with flavour text */
   Object.entries(setup.trackDefinitions).forEach(([track, steps]) =>
     steps.forEach((stepDef, i) => {
       const step = i + 1;
-const stepDef = setup.trackDefinitions[t][i];
       deck.push({
-        type: "normal",
-        track,
+        type:  "normal",
+        track,              // shorthand for track: track
         step,
         title: stepDef.title,
         description: stepDef.desc
       });
-
     })
   );
 
   /* 2 hazards */
-  deck.push({ type: "hazard", id: "Policy Change",     burnout: 1 });
-  deck.push({ type: "hazard", id: "System Outage",      burnout: 2 });
+  deck.push({ type: "hazard", id: "Policy Change", burnout: 1 });
+  deck.push({ type: "hazard", id: "System Outage", burnout: 2 });
 
   /* 3 morale moments */
   deck.push({ type: "morale", id: "Surprise Donuts",    burnout: -1 });
   deck.push({ type: "morale", id: "Praise From The VP", extraAction: 1 });
-  deck.push({ type: "morale", id: "Peer Compliment", burnout: -1 });
+  deck.push({ type: "morale", id: "Peer Compliment",    burnout: -1 });
 
-  /* 5 visibility pledges */
-  tracks.forEach(t =>
+  /* 5 visibility pledges — one per track */
+  Object.keys(setup.trackDefinitions).forEach(track =>
     deck.push({ type: "pledge", track })
   );
 
