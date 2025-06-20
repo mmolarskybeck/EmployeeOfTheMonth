@@ -660,19 +660,6 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   text-align: center;
 } ——— */
 
-/* ——— Flip-Out Animation for ticket 
-@keyframes slideOut {
-  from { transform: translateX(0) scale(1); opacity: 1; }
-  to   { transform: translateX(150%) scale(0.8); opacity: 0; }
-}
-
-.ticket-card.slide-out {
-  animation: slideOut 0.3s ease-in forwards;
-} ——— */
-
-
-
-
 /* ——— Old Buttons Buttons 
 .ticket-card button {
   width: 100%;             /* full-width buttons */
@@ -891,6 +878,16 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   font-family: inherit;
   cursor: pointer;
 }
+
+/* ——— Flip-Out Animation for ticket  ——— */
+@keyframes slideOut {
+  from { transform: translateX(0) scale(1); opacity: 1; }
+  to   { transform: translateX(150%) scale(0.8); opacity: 0; }
+}
+
+.retro-window.slide-out {
+  animation: slideOut 0.3s ease-in forwards;
+} 
 
 
 </style>
@@ -955,19 +952,6 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   text-align: center;
 } ——— */
 
-/* ——— Flip-Out Animation for ticket 
-@keyframes slideOut {
-  from { transform: translateX(0) scale(1); opacity: 1; }
-  to   { transform: translateX(150%) scale(0.8); opacity: 0; }
-}
-
-.ticket-card.slide-out {
-  animation: slideOut 0.3s ease-in forwards;
-} ——— */
-
-
-
-
 /* ——— Old Buttons Buttons 
 .ticket-card button {
   width: 100%;             /* full-width buttons */
@@ -1186,6 +1170,16 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   font-family: inherit;
   cursor: pointer;
 }
+
+/* ——— Flip-Out Animation for ticket  ——— */
+@keyframes slideOut {
+  from { transform: translateX(0) scale(1); opacity: 1; }
+  to   { transform: translateX(150%) scale(0.8); opacity: 0; }
+}
+
+.retro-window.slide-out {
+  animation: slideOut 0.3s ease-in forwards;
+} 
 
 
 </style>
