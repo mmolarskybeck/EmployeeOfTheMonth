@@ -13,9 +13,15 @@ Power Hour Prototype
 
 
 :: HardFail {"position":"975,525","size":"100,100"}
-Burnout at critical levels. Please report to HR immediately for a decompression workshop.
+<<run setup.calculateScore()>>
+<<if $pph.score > 0>>
+Your burnout alarms are blaring, but HQ noticed your productivity streak.  
+You’ll get a fast-track decompression break and a shiny commendation for the effort!
+<<else>>
+Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
+<</if>>
 
-Productivity Score: <<print State.variables.pph.score>>
+Productivity Score: <<print $pph.score>>
 
 
 
