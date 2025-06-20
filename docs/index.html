@@ -623,7 +623,7 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   flex-wrap: wrap;        /* if you ever go over FEED_SIZE, it won’t overflow */
 }
 
-/* ——— Ticket Card ——— */
+/* ——— Ticket Card
 .ticket-card {
     /* fixed width so all cards line up neatly */
   flex: 0 0 170px;
@@ -639,16 +639,16 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   flex-direction: column;
   justify-content: space-between;
   gap: 0.6em; /* uniform gap between buttons */
-}
+}  ——— */
 
-.actions {
+/* ——— .actions {
   display: flex;
   flex-direction: column;
   gap: 0.6em; /* consistent between the two   buttons */
-}
+}  ——— */
 
 
-/* ——— Title ——— */
+/* ——— Title 
 .ticket-card strong {
   display: block;          /* forces the title onto its own “row” */
   margin: 0;
@@ -658,9 +658,9 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   line-height: 1.2;
   word-break: break-word;  /* wrap long track names */
   text-align: center;
-}
+} ——— */
 
-/* ——— Flip-Out Animation for ticket ——— */
+/* ——— Flip-Out Animation for ticket 
 @keyframes slideOut {
   from { transform: translateX(0) scale(1); opacity: 1; }
   to   { transform: translateX(150%) scale(0.8); opacity: 0; }
@@ -668,19 +668,19 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
 
 .ticket-card.slide-out {
   animation: slideOut 0.3s ease-in forwards;
-}
+} ——— */
 
 
 
 
-/* ——— Buttons ——— */
+/* ——— Old Buttons Buttons 
 .ticket-card button {
   width: 100%;             /* full-width buttons */
   padding: 0.4em 0;        /* tighter vertical padding */
   font-size: 0.9em;
   margin: 0;               /* gaps handled by parent‘s “gap” */
-  display: block;
-}
+ /* ——— display: block;
+} ——— */
 
 /* ——— Remove stray <br> if you have any ——— */
 .ticket-card br {
@@ -815,6 +815,83 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   margin: 0.2em 0;
   white-space: pre;          /* preserves your padded ASCII */
 }
+
+.retro-window {
+  background: #c0c0c0;
+  border: 2px solid black;
+  box-shadow: 4px 4px 0 #888;
+  font-family: 'Tahoma', sans-serif;
+  margin-bottom: 1.5em;
+}
+
+.window-header {
+  background: #000080;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85em;
+}
+
+.window-title {
+  text-shadow: 1px 1px #000;
+}
+
+.close-button {
+  background: #c0c0c0;
+  border: 2px outset white;
+  color: black;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.window-body {
+  padding: 10px;
+  background: #f0f0f0;
+  border-top: 2px solid #808080;
+}
+
+.card-meta {
+  font-size: 0.75em;
+  color: #555;
+  margin-bottom: 0.3em;
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-size: 1em;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 0.2em;
+}
+
+.card-desc {
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 1em;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5em;
+}
+
+.actions button {
+  background: #c0c0c0;
+  border: 2px outset white;
+  padding: 0.25em 0.75em;
+  font-size: 0.85em;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 
 </style>
 </head>
@@ -841,7 +918,7 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   flex-wrap: wrap;        /* if you ever go over FEED_SIZE, it won’t overflow */
 }
 
-/* ——— Ticket Card ——— */
+/* ——— Ticket Card
 .ticket-card {
     /* fixed width so all cards line up neatly */
   flex: 0 0 170px;
@@ -857,16 +934,16 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   flex-direction: column;
   justify-content: space-between;
   gap: 0.6em; /* uniform gap between buttons */
-}
+}  ——— */
 
-.actions {
+/* ——— .actions {
   display: flex;
   flex-direction: column;
   gap: 0.6em; /* consistent between the two   buttons */
-}
+}  ——— */
 
 
-/* ——— Title ——— */
+/* ——— Title 
 .ticket-card strong {
   display: block;          /* forces the title onto its own “row” */
   margin: 0;
@@ -876,9 +953,9 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   line-height: 1.2;
   word-break: break-word;  /* wrap long track names */
   text-align: center;
-}
+} ——— */
 
-/* ——— Flip-Out Animation for ticket ——— */
+/* ——— Flip-Out Animation for ticket 
 @keyframes slideOut {
   from { transform: translateX(0) scale(1); opacity: 1; }
   to   { transform: translateX(150%) scale(0.8); opacity: 0; }
@@ -886,19 +963,19 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
 
 .ticket-card.slide-out {
   animation: slideOut 0.3s ease-in forwards;
-}
+} ——— */
 
 
 
 
-/* ——— Buttons ——— */
+/* ——— Old Buttons Buttons 
 .ticket-card button {
   width: 100%;             /* full-width buttons */
   padding: 0.4em 0;        /* tighter vertical padding */
   font-size: 0.9em;
   margin: 0;               /* gaps handled by parent‘s “gap” */
-  display: block;
-}
+ /* ——— display: block;
+} ——— */
 
 /* ——— Remove stray <br> if you have any ——— */
 .ticket-card br {
@@ -1033,6 +1110,83 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   margin: 0.2em 0;
   white-space: pre;          /* preserves your padded ASCII */
 }
+
+.retro-window {
+  background: #c0c0c0;
+  border: 2px solid black;
+  box-shadow: 4px 4px 0 #888;
+  font-family: 'Tahoma', sans-serif;
+  margin-bottom: 1.5em;
+}
+
+.window-header {
+  background: #000080;
+  color: white;
+  font-weight: bold;
+  padding: 4px 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.85em;
+}
+
+.window-title {
+  text-shadow: 1px 1px #000;
+}
+
+.close-button {
+  background: #c0c0c0;
+  border: 2px outset white;
+  color: black;
+  font-weight: bold;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  line-height: 16px;
+  padding: 0;
+  cursor: pointer;
+}
+
+.window-body {
+  padding: 10px;
+  background: #f0f0f0;
+  border-top: 2px solid #808080;
+}
+
+.card-meta {
+  font-size: 0.75em;
+  color: #555;
+  margin-bottom: 0.3em;
+  text-transform: uppercase;
+}
+
+.card-title {
+  font-size: 1em;
+  font-weight: bold;
+  color: #000;
+  margin-bottom: 0.2em;
+}
+
+.card-desc {
+  font-size: 0.9em;
+  color: #333;
+  margin-bottom: 1em;
+}
+
+.actions {
+  display: flex;
+  gap: 0.5em;
+}
+
+.actions button {
+  background: #c0c0c0;
+  border: 2px outset white;
+  padding: 0.25em 0.75em;
+  font-size: 0.85em;
+  font-family: inherit;
+  cursor: pointer;
+}
+
 
 </style>
 </style><script role="script" id="twine-user-script" type="text/twine-javascript">// Make sure setup exists
