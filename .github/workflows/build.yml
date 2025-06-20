@@ -44,7 +44,7 @@ jobs:
         run: |
           tweego . \
             -m story.js \
-            --head style.css \
+            --head story.css \
             -f sugarcube-2 \
             -o ../../docs/index.html
 
