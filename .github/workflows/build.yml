@@ -24,7 +24,7 @@ jobs:
           path: ~/.cache/tweego             # folder we’ll store tweego in
           key: tweego-2.1.1-${{ runner.os }}  # bump version in key when you upgrade
 
-      # 2️⃣ Install Tweego only if cache miss
+      # 2️⃣ Install Tweego only if cache missing
       - name: ⚙️ Install Tweego (if needed)
         if: steps.tweego-cache.outputs.cache-hit != 'true'
         run: |
@@ -40,12 +40,14 @@ jobs:
 
       # 4️⃣ Compile game
       - name: 🧪 Compile Twine game
+        working-directory: tests/PowerHourPrototype/src 
         run: |
-          tweego story.twee \
+          tweego . \
+            -R \
             -m story.js \
             --head style.css \
             -f sugarcube-2 \
-            -o docs/index.html
+            -o ../../docs/index.html
 
       # 5️⃣ Commit HTML if changed
       - name: ✅ Commit compiled HTML
