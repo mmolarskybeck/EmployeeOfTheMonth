@@ -46,7 +46,7 @@ jobs:
             -m story.js \
             --head story.css \
             -f sugarcube-2 \
-            -o ../../docs/index.html
+            -o ../../../docs/index.html
 
       # 5️⃣ Commit HTML if changed
       - name: ✅ Commit compiled HTML
