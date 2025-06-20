@@ -104,11 +104,6 @@ Power Hour Prototype
   <</if>>
 </div>
 
-
-  <<if _card.description>>
-    <p class="card-desc"><<print _card.description>></p>
-  <</if>>
-
   <div class="actions">
     <<if _card.type === "pledge">>
       <<button "Pledge">><<run setup.animatePledge(0)>><</button>>
