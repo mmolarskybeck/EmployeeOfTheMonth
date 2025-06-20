@@ -1770,9 +1770,8 @@ document.addEventListener('keydown', function(e) {
 
 
 &lt;div id=&quot;feed&quot;&gt;
-
-&lt;!-- CARD 1 --&gt;
-&lt;div class=&quot;retro-window ticket-card&quot; data-index=&quot;0&quot;&gt;
+&lt;!--CARD 1--&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;0&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[0]&gt;&gt;
 
   &lt;div class=&quot;window-header&quot;&gt;
@@ -1782,11 +1781,7 @@ document.addEventListener('keydown', function(e) {
 
   &lt;div class=&quot;window-body&quot;&gt;
     &lt;div class=&quot;card-meta&quot;&gt;
-      &lt;&lt;print (
-        _card.type === &quot;normal&quot;
-          ? _card.track + &quot; – Step &quot; + _card.step
-          : _card.track
-      )&gt;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
     &lt;/div&gt;
 
     &lt;&lt;if _card.title&gt;&gt;
@@ -1803,14 +1798,15 @@ document.addEventListener('keydown', function(e) {
 
     &lt;div class=&quot;actions&quot;&gt;
       &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(0)&quot;&gt;Pledge&lt;/button&gt;
       &lt;&lt;else&gt;&gt;
-        &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(0)&quot;&gt;Execute&lt;/button&gt;
       &lt;&lt;/if&gt;&gt;
-      &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(0)&quot;&gt;Delete&lt;/button&gt;
     &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
+
 
 &lt;!-- CARD 2 --&gt;
 &lt;div class=&quot;ticket-card&quot; data-index=&quot;1&quot;&gt;
