@@ -1647,17 +1647,25 @@ document.addEventListener('keydown', function(e) {
   &lt;/div&gt;
 &lt;/div&gt;
 
-  &lt;!-- CARD 2 --&gt;
+&lt;!-- CARD 2 --&gt;
 &lt;div class=&quot;ticket-card&quot; data-index=&quot;1&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[1]&gt;&gt;
+
+  &lt;div class=&quot;card-header&quot;&gt;
   &lt;strong&gt;
     &lt;&lt;print (
       _card.type === &quot;normal&quot;
         ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
+        : _card.track
     )&gt;&gt;
-  &lt;/strong&gt;
-
+  &lt;/strong&gt;&lt;br&gt;
+  &lt;&lt;if _card.title&gt;&gt;
+    &lt;span class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/span&gt;
+  &lt;&lt;/if&gt;&gt;
+  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+    &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+  &lt;&lt;/if&gt;&gt;
+&lt;/div&gt;
   &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
         &lt;div class=&quot;actions&quot;&gt;
     &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
@@ -1670,16 +1678,25 @@ document.addEventListener('keydown', function(e) {
     &lt;/div&gt;
   &lt;&lt;/if&gt;&gt;
 &lt;/div&gt;
-  &lt;!-- CARD 3 --&gt;
+ &lt;!-- CARD 3 --&gt;
 &lt;div class=&quot;ticket-card&quot; data-index=&quot;2&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[2]&gt;&gt;
+
+  &lt;div class=&quot;card-header&quot;&gt;
   &lt;strong&gt;
     &lt;&lt;print (
       _card.type === &quot;normal&quot;
         ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
+        : _card.track
     )&gt;&gt;
-  &lt;/strong&gt;
+  &lt;/strong&gt;&lt;br&gt;
+  &lt;&lt;if _card.title&gt;&gt;
+    &lt;span class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/span&gt;
+  &lt;&lt;/if&gt;&gt;
+  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+    &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+  &lt;&lt;/if&gt;&gt;
+&lt;/div&gt;
 
   &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
         &lt;div class=&quot;actions&quot;&gt;
@@ -1697,13 +1714,22 @@ document.addEventListener('keydown', function(e) {
 &lt;!-- CARD 4 --&gt;
 &lt;div class=&quot;ticket-card&quot; data-index=&quot;3&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[3]&gt;&gt;
+
+  &lt;div class=&quot;card-header&quot;&gt;
   &lt;strong&gt;
     &lt;&lt;print (
       _card.type === &quot;normal&quot;
         ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
+        : _card.track
     )&gt;&gt;
-  &lt;/strong&gt;
+  &lt;/strong&gt;&lt;br&gt;
+  &lt;&lt;if _card.title&gt;&gt;
+    &lt;span class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/span&gt;
+  &lt;&lt;/if&gt;&gt;
+  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+    &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+  &lt;&lt;/if&gt;&gt;
+&lt;/div&gt;
 
   &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
         &lt;div class=&quot;actions&quot;&gt;
