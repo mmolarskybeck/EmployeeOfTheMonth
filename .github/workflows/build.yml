@@ -13,27 +13,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Check out your repo
       - name: 📥 Checkout
         uses: actions/checkout@v3
 
-      # 2) Download Tweego binary
-      - name: ⚙️ Install Tweego
-        run: |
-          curl -L -o tweego.zip \
-            https://github.com/tmedwards/tweego/releases/download/v2.1.1/tweego-2.1.1-linux64.zip
-          unzip tweego.zip
-          chmod +x tweego
-          sudo mv tweego /usr/local/bin/
+      # 1️⃣ Try to restore Tweego cache
+      - name: 💾 Restore Tweego cache
+        id: tweego-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/tweego             # folder we’ll store tweego in
+          key: tweego-2.1.1-${{ runner.os }}  # bump version in key when you upgrade
 
-      # 3) Grab SugarCube 2.37.3 format.js
+      # 2️⃣ Install Tweego only if cache miss
+      - name: ⚙️ Install Tweego (if needed)
+        if: steps.tweego-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.cache/tweego
+          curl -L -o /tmp/tweego.zip \
+            https://github.com/tmedwards/tweego/releases/download/v2.1.1/tweego-2.1.1-linux64.zip
+          unzip /tmp/tweego.zip -d ~/.cache/tweego
+          chmod +x ~/.cache/tweego/tweego
+
+      # 3️⃣ Add Tweego to PATH
+      - name: 🔑 Add Tweego to PATH
+        run: echo "$HOME/.cache/tweego" >> $GITHUB_PATH
+
+      # 4️⃣ Fetch SugarCube format
       - name: 📦 Fetch SugarCube format
         run: |
           mkdir -p storyformats/sugarcube-2
           curl -L -o storyformats/sugarcube-2/format.js \
             https://raw.githubusercontent.com/tmedwards/sugarcube-2/2.37.3/dist/format.js
 
-      # 4) Compile your game to docs/index.html
+      # 5️⃣ Compile game
       - name: 🧪 Compile Twine game
         run: |
           tweego story.twee \
@@ -42,15 +54,13 @@ jobs:
             -f storyformats/sugarcube-2 \
             -o docs/index.html
 
-      # 5) Commit the freshly built HTML back to main
+      # 6️⃣ Commit HTML if changed
       - name: ✅ Commit compiled HTML
         run: |
           git config --global user.name  "GitHub Actions"
           git config --global user.email "actions@github.com"
           git add docs/index.html
-          # Silently skip commit if nothing changed
           git diff --cached --quiet || git commit -m "🚀 Auto-build on ${{ github.sha }}"
           git push
         env:
-          # The default token allows push to the same repo
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
