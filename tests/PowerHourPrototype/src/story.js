@@ -342,6 +342,10 @@ setup.handleExecute = function(index) {
    // at the very end clear errorMessage so it doesn't linger
   pph.errorMessage = null;
 
+  pph.lastEvent = `${card.title} — ${card.description}`;
+  return Engine.play("PowerHourLoop");
+
+
   // 6) Route to next - only end when actions run out or burnout
   if (pph.burnout >= 10) {
     return Engine.play("HardFail");
