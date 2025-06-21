@@ -1,7 +1,6 @@
 :: StoryTitle
 Power Hour Prototype
 
-
 :: StoryData
 {
   "ifid": "E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A",
@@ -11,12 +10,11 @@ Power Hour Prototype
   "zoom": 1
 }
 
-
-:: HardFail {"position":"975,525","size":"100,100"}
-Burnout hit 10. HR workshop initiated.
-
-Productivity Score: <<print State.variables.pph.score>>
-
+:: PowerHourStart {"position":"825,350","size":"100,100"}
+<<if !State.variables.pph>> 
+  <<run setup.initPowerHour()>>
+<</if>>
+<<run setTimeout(() => Engine.play("PowerHourLoop"), 0)>>
 
 
 :: PowerHourLoop {"position":"700,475","size":"100,100"}
@@ -89,720 +87,192 @@ Productivity Score: <<print State.variables.pph.score>>
 
 
 <div id="feed">
-
-<!-- CARD 1 -->
-<div class="ticket-card" data-index="0">
+<!--CARD 1-->
+<div class="retro-window" data-index="0">
   <<set _card = State.variables.pph.taskFeed[0]>>
 
-  <div class="card-header">
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track
-    )>>
-  </strong><br>
-  <<if _card.title>>
-    <span class="card-title"><<print _card.title>></span>
-  <</if>>
-  <<if _card.type === "pledge">>
-    <em class="pledge-label">Visibility Pledge</em>
-  <</if>>
-</div>
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
 
+  <div class="window-body">
+    <div class="card-meta">
+      <<print _card.track + " – Step " + _card.step>>
+    </div>
 
-  <<if _card.description>>
-    <p class="card-desc"><<print _card.description>></p>
-  <</if>>
-
-  <div class="actions">
-    <<if _card.type === "pledge">>
-      <<button "Pledge">><<run setup.animatePledge(0)>><</button>>
-    <<else>>
-      <<button "Execute">><<run setup.animateExecute(0)>><</button>>
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
     <</if>>
-    <<button "Delete">><<run setup.animateDelete(0)>><</button>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <button onclick="setup.animatePledge(0)">Pledge</button>
+      <<else>>
+        <button onclick="setup.animateExecute(0)">Execute</button>
+      <</if>>
+      <button onclick="setup.animateDelete(0)">Delete</button>
+    </div>
   </div>
 </div>
 
-  <!-- CARD 2 -->
-<div class="ticket-card" data-index="1">
+
+<!-- CARD 2 -->
+<div class="retro-window" data-index="1">
   <<set _card = State.variables.pph.taskFeed[1]>>
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track + " Visibility Pledge"
-    )>>
-  </strong>
 
-  <<if _card.type === "pledge">>
-        <div class="actions">
-    <<button "Pledge">><<run setup.animatePledge(1)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(1)>><</button>>
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
+
+  <div class="window-body">
+    <div class="card-meta">
+      <<print _card.track + " – Step " + _card.step>>
     </div>
-  <<else>>
-        <div class="actions">
-    <<button "Execute">><<run setup.animateExecute(1)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(1)>><</button>>
+
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
+    <</if>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <button onclick="setup.animatePledge(1)">Pledge</button>
+      <<else>>
+        <button onclick="setup.animateExecute(1)">Execute</button>
+      <</if>>
+      <button onclick="setup.animateDelete(1)">Delete</button>
     </div>
-  <</if>>
+  </div>
 </div>
-  <!-- CARD 3 -->
-<div class="ticket-card" data-index="2">
-  <<set _card = State.variables.pph.taskFeed[2]>>
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track + " Visibility Pledge"
-    )>>
-  </strong>
 
-  <<if _card.type === "pledge">>
-        <div class="actions">
-    <<button "Pledge">><<run setup.animatePledge(2)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(2)>><</button>>
+ <!-- CARD 3 -->
+<div class="retro-window" data-index="2">
+  <<set _card = State.variables.pph.taskFeed[2]>>
+
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
+
+  <div class="window-body">
+    <div class="card-meta">
+      <<print _card.track + " – Step " + _card.step>>
     </div>
-  <<else>>
-        <div class="actions">
-    <<button "Execute">><<run setup.animateExecute(2)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(2)>><</button>>
+
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
+    <</if>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <button onclick="setup.animatePledge(2)">Pledge</button>
+      <<else>>
+        <button onclick="setup.animateExecute(2)">Execute</button>
+      <</if>>
+      <button onclick="setup.animateDelete(2)">Delete</button>
     </div>
-  <</if>>
+  </div>
 </div>
 
 <!-- CARD 4 -->
-<div class="ticket-card" data-index="3">
+<div class="retro-window" data-index="3">
   <<set _card = State.variables.pph.taskFeed[3]>>
-  <strong>
-    <<print (
-      _card.type === "normal"
-        ? _card.track + " – Step " + _card.step
-        : _card.track + " Visibility Pledge"
-    )>>
-  </strong>
 
-  <<if _card.type === "pledge">>
-        <div class="actions">
-    <<button "Pledge">><<run setup.animatePledge(3)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(3)>><</button>>
+  <div class="window-header">
+    <span class="window-title">Task Ticket</span>
+    <button class="close-button">✕</button>
+  </div>
+
+  <div class="window-body">
+    <div class="card-meta">
+      <<print _card.track + " – Step " + _card.step>>
     </div>
-  <<else>>
-        <div class="actions">
-    <<button "Execute">><<run setup.animateExecute(3)>><</button>>
-    <<button "Delete">><<run setup.animateDelete(3)>><</button>>
+
+    <<if _card.title>>
+      <div class="card-title"><<print _card.title>></div>
+    <</if>>
+
+    <<if _card.description>>
+      <div class="card-desc"><<print _card.description>></div>
+    <</if>>
+
+    <<if _card.type === "pledge">>
+      <em class="pledge-label">Visibility Pledge</em>
+    <</if>>
+
+    <div class="actions">
+      <<if _card.type === "pledge">>
+        <button onclick="setup.animatePledge(3)">Pledge</button>
+      <<else>>
+        <button onclick="setup.animateExecute(3)">Execute</button>
+      <</if>>
+      <button onclick="setup.animateDelete(3)">Delete</button>
     </div>
-  <</if>>
+  </div>
 </div>
+
 
 </div>
 <</if>>
 <</nobr>>
 
-
-:: PowerHourStart {"position":"825,350","size":"100,100"}
-<<run setup.initPowerHour()>>
-<<goto "PowerHourLoop">>
-
-
 :: SoftFail {"position":"975,425","size":"100,100"}
 <<run setup.calculateScore()>>
-Time’s up—no track completed. 
+<h2>Productivity Power Hour Concluded</h2>
 
-Productivity Score: <<print State.variables.pph.score>>
+<<if _score > 0>>
+  <p>You didn’t complete a full track, but you made meaningful progress. Partial completions have been logged.</p>
+  <p>CoSy acknowledges your intermediate output with faint approval.</p>
+<<else>>
+  <p>No tracks were completed. CoSy notes a troubling lack of outcomes.</p>
+  <p>Recommended remediation: Self-directed motivational reflection.</p>
+<</if>>
 
+<p>Final Productivity Score: <<print State.variables.pph.score>></p>
 
-:: StoryInit {"position":"700,350","size":"100,100"}
+<<link "Try Again">>
+  <<goto "PowerHourStart">>
+<</link>>
 
+:: HardFail {"position":"975,525","size":"100,100"}
+<<run setup.calculateScore()>>
+<h2>Burnout Reached!</h2>
+<<if $pph.score > 0>>
+Your burnout metrics hit critical levels, but HQ noticed your productivity streak.  
+
+You’ll get a fast-track decompression break and a shiny commendation for the effort!
+<<else>>
+Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
+<</if>>
+
+Productivity Score: <<print $pph.score>>
 
 
 :: Win {"position":"975,325","size":"100,100"}
 <<run setup.calculateScore()>>
 Congrats, you won with a score of <<print State.variables.pph.score>>!
-
-
-
-:: StoryScript [script]
-
-// —— Global config ——
-setup.FEED_SIZE = 4;  // change feed size here
-
-// —— Debug modal config ——
-setup.debugModalOnStart   = false;
-setup.debugModalMessage   = "🛠️  Debug: PowerHour initialized successfully!";
-
-/* Initialize the entire Power Hour module */
-setup.initPowerHour = function() {
-  State.variables.pph = {
-    burnout:      0,
-    actionsLeft: 20,
-    score:        0,
-    deck:         setup.buildDeck(),
-    taskFeed:     [],
-    activeTracks: {},
-    trackOrder:   [],
-    pledgedTrack: null,
-    completed:    0,
-    lastEvent: null,  // hazards/morale
-    errorMessage: null,   // out-of-order errors
-    roundStarted: false,
-    seen:          {},    // ← track every card we’ve ever drawn
-    drawLog:	[] // Intializing draw log
-
-  };
-  setup.refillFeed();
-  setup.ensureFullFeed();
-  
-    // ←— DEBUG: show a popup on startup
-  if (setup.debugModalOnStart) {
-    State.variables.pph.lastEvent = setup.debugModalMessage;
-  }
-  
-};
-
-/* Build & shuffle the deck */
-setup.buildDeck = function() {
-  const tracks = [
-    "Expense Reconciliation",
-    "Backlogged Emails",
-    "Client Gratitude Outreach",
-    "Project Tracker Maintenance",
-    "Facilities Work Order Requests"
-  ];
-  let deck = [];
-
-  /* 25 normal tickets */
-  tracks.forEach(t =>
-    Array.from({ length: 5 }, (_, i) =>
-      deck.push({ type: "normal", track: t, step: i + 1 })
-    )
-  );
-
-  /* 2 hazards */
-  deck.push({ type: "hazard", id: "Policy Change",     burnout: 1 });
-  deck.push({ type: "hazard", id: "System Outage",      burnout: 2 });
-
-  /* 2 morale moments */
-  deck.push({ type: "morale", id: "Surprise Donuts",    burnout: -1 });
-  deck.push({ type: "morale", id: "Praise From The VP", extraAction: 1 });
-
-  /* 5 visibility pledges */
-  tracks.forEach(t =>
-    deck.push({ type: "pledge", track: t })
-  );
-
-  return deck.shuffle();
-};
-
-/* Set up Refilling the Feed */
-setup.refillFeed = function(index = null) {
-  const pph = State.variables.pph;
-  let card, key;
-
-  while (true) {
-    card = pph.deck.shift();
-    if (!card) {
-      console.warn("PPH: deck exhausted!");
-      return;
-    }
-
-    // 1) Gate hazards/morale until first action
-    if (!pph.roundStarted && (card.type === "hazard" || card.type === "morale")) {
-      pph.deck.push(card);
-      continue;
-    }
-
-    // 2) Build a unique key
-    if (card.type === "normal") {
-      key = `normal|${card.track}|${card.step}`;
-    } else if (card.type === "pledge") {
-      key = `pledge|${card.track}`;
-    } else {
-      key = `event|${card.id}`;
-    }
-
-    // 3) Skip if we’ve already seen it
-    if (pph.seen[key]) {
-      continue;
-    }
-
-    // 4) Mark it and log it
-    pph.seen[key] = true;
-    pph.drawLog.push({
-      type:  card.type,
-      track: card.track || null,
-      step:  card.step  || null,
-      event: card.id    || null
-    });
-
-    // now break out to handle the card
-    break;
-  }
-
-  console.log("PPH:: Drew card →", card);
-
-  // —— then your existing hazard/morale handlers ——
-  if (card.type === "hazard") {
-    pph.burnout += card.burnout;
-    pph.lastEvent = `${card.id} (+${card.burnout} Burnout)`;
-    setup.checkBurnout();
-    return setup.refillFeed(index);
-  }
-  if (card.type === "morale") {
-    if (card.burnout) {
-      pph.burnout = Math.max(0, pph.burnout + card.burnout);
-      pph.lastEvent = `${card.id} (${card.burnout} Burnout)`;
-    } else if (card.extraAction) {
-      pph.actionsLeft += card.extraAction;
-      pph.lastEvent = `${card.id} (+${card.extraAction} Action)`;
-    }
-    return setup.refillFeed(index);
-  }
-
-  // —— finally deal it into the feed ——
-  if (index === null) {
-    pph.taskFeed.push(card);
-  } else {
-    pph.taskFeed[index] = card;
-  }
-};
-
-
-/* Ensure feed size determines # cards in feed */
-setup.ensureFullFeed = function() {
-  const pph = State.variables.pph;
-  // for every slot 0…FEED_SIZE–1, if it’s falsy, refill that index
-  for (let i = 0; i < setup.FEED_SIZE; i++) {
-    if (!pph.taskFeed[i]) {
-      setup.refillFeed(i);
-    }
-  }
-};
-
-/* Open a new initiative track with escalating burnout */
-setup.openTrack = function(track) {
-  const pph = State.variables.pph;
-  if (!pph.activeTracks.hasOwnProperty(track)) {
-    pph.trackOrder.push(track);
-    const order = pph.trackOrder.length - 1;
-    const delta = Math.min(order, 4);
-    pph.burnout += delta;
-    pph.activeTracks[track] = 0;
-    setup.checkBurnout();
-  }
-};
-
-/* Handle executing a card */
-setup.handleExecute = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;  // mark that we’ve now begun
-  const card = pph.taskFeed[index];
-  if (!card) return;
-
-  // 1) Pledges still route to the pledge handler
-  if (card.type === "pledge") {
-    return setup.handlePledge(index);
-  }
-
-  // 2) Normal‐ticket sequencing guard
-  //    currentStep is 0 if unopened, or the last completed step
-  const currentStep = pph.activeTracks[card.track] || 0;
-  if (card.step !== currentStep + 1) {
-    // Out-of-order click → bail with an error
-    pph.errorMessage = "Please adhere to CoSy-mandated productivity sequencing chains."; return Engine.play("PowerHourLoop");
-  }
-
-  // 3) It’s valid: if it’s Step 1, opening the track (and burnout) happens here
-  if (!pph.activeTracks.hasOwnProperty(card.track)) {
-    setup.openTrack(card.track);
-  }
-
-  // 4) Advance the step
-  pph.activeTracks[card.track] = currentStep + 1;
-  if (pph.activeTracks[card.track] === 5) {
-    pph.completed += 1;
-  }
-
-  // 5) Spend an action, refill that slot
-  pph.actionsLeft -= 1;
-  setup.refillFeed(index);   
-   // at the very end clear errorMessage so it doesn't linger
-  pph.errorMessage = null;
-
-  // 6) Route to next - only end when actions run out or burnout
-  if (pph.burnout >= 10) {
-    return Engine.play("HardFail");
-  }
-  if (pph.actionsLeft <= 0) {
-    // if you've finished ≥1 track by the end, go to Win, otherwise SoftFail
-    return pph.completed > 0
-      ? Engine.play("Win")
-      : Engine.play("SoftFail");
-  }
-  Engine.play("PowerHourLoop");
-
-};
-
-/* Handle deleting a card */
-setup.handleDelete = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  pph.actionsLeft -= 1;
-
-  // 1) Clear just that slot
-  pph.taskFeed[index] = null;
-
-  // 2) Refill that slot (handles hazards, morale, seen-logic)
-  setup.refillFeed(index);
-
-  // 3) Then top up any other empty slots
-  setup.ensureFullFeed();
-
-  // 4) Route to next passage
-  if (pph.burnout >= 10)      return Engine.play("HardFail");
-  if (pph.actionsLeft <= 0) {
-    return pph.completed > 0
-      ? Engine.play("Win")
-      : Engine.play("SoftFail");
-  }
-  return Engine.play("PowerHourLoop");
-};
-
-
-/* Handle pledging */
-setup.handlePledge = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;  // mark that we’ve now begun
-  const card = pph.taskFeed[index];
-  // Safety check
-  if (!card || card.type !== "pledge") {
-    return Engine.play("PowerHourLoop");
-  }
-
-  // Record pledge and spend an action
-  pph.pledgedTrack = card.track;
-  pph.actionsLeft -= 1;
-  // 1) Refill exactly that slot (auto-firing hazards/morale as needed)
-  setup.refillFeed(index);
-  // 2) Then top up any remaining gaps so we always have 3 cards
-  setup.ensureFullFeed();
-
-  // Finally, route to the correct passage
-  if (pph.completed > 0)       return Engine.play("Win");
-  if (pph.burnout >= 10)       return Engine.play("HardFail");
-  if (pph.actionsLeft <= 0)    return Engine.play("SoftFail");
-  return Engine.play("PowerHourLoop");
-};
-
-
-// Animate then call handleDelete
-setup.animateDelete = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  const el = document.querySelector('.ticket-card[data-index="'+index+'"]');
-  if (!el) return setup.handleDelete(index);
-  el.classList.add('slide-out');
-  el.addEventListener('animationend', function once() {
-    el.removeEventListener('animationend', once);
-    setup.handleDelete(index);
-  });
-};
-
-// Animate then call handleExecute
-setup.animateExecute = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  const el = document.querySelector('.ticket-card[data-index="'+index+'"]');
-  if (!el) return setup.handleExecute(index);
-  el.classList.add('slide-out');
-  el.addEventListener('animationend', function once() {
-    el.removeEventListener('animationend', once);
-    setup.handleExecute(index);
-  });
-};
-
-// Animate then call handlePledge
-setup.animatePledge = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  const el = document.querySelector('.ticket-card[data-index="'+index+'"]');
-  if (!el) return setup.handlePledge(index);
-  el.classList.add('slide-out');
-  el.addEventListener('animationend', function once() {
-    el.removeEventListener('animationend', once);
-    setup.handlePledge(index);
-  });
-};
-
-
-
-/* Fail on burnout ≥10 */
-setup.checkBurnout = function() {
-  if (State.variables.pph.burnout >= 10) {
-    Engine.play("HardFail");
-  }
-};
-
-/* Win if any track complete, else soft-fail on out of actions */
-setup.checkWinOrFail = function() {
-  const pph = State.variables.pph;
-  if (pph.completed > 0)      Engine.play("Win");
-  else if (pph.actionsLeft <= 0) Engine.play("SoftFail");
-};
-
-/*─────────────────────────────────────────────────────
-  Calculate Productivity Score at win/lose time
-─────────────────────────────────────────────────────*/
-setup.calculateScore = function() {
-  const pph = State.variables.pph;
-  let partialPoints = 0;
-
-  // 0.6 points per step in any unfinished track (capped at 3 per track)
-  Object.entries(pph.activeTracks).forEach(([track, progress]) => {
-    if (progress < 5) {
-      partialPoints += Math.min(progress * 0.6, 3);
-    }
-  });
-
-  // raw formula:
-  //   7 × full tracks  +  partialPoints  −  0.75 × burnout
-  const raw = (7 * pph.completed) + partialPoints - (pph.burnout * 0.75);
-
-  // round and clamp ≥0
-  pph.score = Math.max(Math.round(raw), 0);
-};
-
-// Expose a console‐logging helper
-window.pphLog = function() {
-  console.table(State.variables.pph.drawLog);
-};
-
-
-// Allow ENTER key to dismiss an active modal
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    const modal = document.getElementById('modal');
-    if (!modal || modal.classList.contains('exit')) return;
-    modal.classList.add('exit');
-    modal.addEventListener('animationend', function handler() {
-      modal.removeEventListener('animationend', handler);
-      // clear whichever flag was showing it
-      const pph = State.variables.pph;
-      pph.errorMessage = null;
-      pph.lastEvent    = null;
-      Engine.play('PowerHourLoop');
-    });
-  }
-});
-
-
-:: StoryStylesheet [stylesheet]
-@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inconsolata&family=Source+Code+Pro&display=swap");
-
-
-html {
-font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
-
-}
-
-/***** Kanban Layout for Task Feed *****/
-#feed {
-  display: flex;
-  gap: 1em;               /* space between cards */
-  margin-top: 50px;
-  flex-wrap: wrap;        /* if you ever go over FEED_SIZE, it won’t overflow */
-}
-
-/* ——— Ticket Card ——— */
-.ticket-card {
-    /* fixed width so all cards line up neatly */
-  flex: 0 0 170px;
-  min-height: 160px; /* ensures cards with fewer buttons don’t collapse */
-  
-  background: #1a1a1a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 0.75em;
-  
-  /* stack content at the top and give a fixed gap */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0.6em; /* uniform gap between buttons */
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6em; /* consistent between the two   buttons */
-}
-
-
-/* ——— Title ——— */
-.ticket-card strong {
-  display: block;          /* forces the title onto its own “row” */
-  margin: 0;
-  margin-bottom: 0.3em;    /* small gap before the button stack */
-  font-family: monospace;
-  font-size: 1em;
-  line-height: 1.2;
-  word-break: break-word;  /* wrap long track names */
-  text-align: center;
-}
-
-/* ——— Flip-Out Animation for ticket ——— */
-@keyframes slideOut {
-  from { transform: translateX(0) scale(1); opacity: 1; }
-  to   { transform: translateX(150%) scale(0.8); opacity: 0; }
-}
-
-.ticket-card.slide-out {
-  animation: slideOut 0.3s ease-in forwards;
-}
-
-
-
-
-/* ——— Buttons ——— */
-.ticket-card button {
-  width: 100%;             /* full-width buttons */
-  padding: 0.4em 0;        /* tighter vertical padding */
-  font-size: 0.9em;
-  margin: 0;               /* gaps handled by parent‘s “gap” */
-  display: block;
-}
-
-/* ——— Remove stray <br> if you have any ——— */
-.ticket-card br {
-  display: none;
-}
-
-/* full-screen dimmer + perspective */
-.modal-overlay {
-  position: fixed;
-  inset: 0;                    /* shorthand for top:0; right:0; bottom:0; left:0; */
-  background: rgba(0,0,0,0.6);
-  z-index: 999;
-
-  /* set the viewing distance for 3D children */
-  perspective: 1200px;
-}
-
-/* a fixed wrapper that actually does the translate(-50%,-50%) centering */
-.modal-wrapper {
-  position: fixed;
-  top: 25%; left: 50%;
-  transform: translate(-50%, -50%);
-  /* if you like, you can also set perspective here instead of on the overlay */
-}
-
-/* this is your flipping bit */
-.modal-card {
-  background: #1a1a1a;
-  padding: 1em;
-  border: 1px solid #888;
-  border-radius: 4px;
-
-  /* 3D backface setup */
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transform-origin: center center;
-
-  /* your snappy flip */
-  animation: cardFlipSnappy 0.5s cubic-bezier(0.25,1.5,0.5,1) forwards;
-}
-rds;
-}
-
-/* ——— Snappier Fade-Blur In/Out ——— */
-@keyframes modalFadeBlurIn {
-  0%   { opacity: 0; filter: blur(6px);  transform: scale(0.95); }
-  80%  { opacity: 1; filter: blur(1px);  transform: scale(1.02);}
-  100% { opacity: 1; filter: blur(0px);  transform: scale(1);   }
-}
-@keyframes modalFadeBlurOut {
-  0%   { opacity: 1; filter: blur(0px);  transform: scale(1);   }
-  100% { opacity: 0; filter: blur(6px);  transform: scale(0.95);}
-}
-
-/* apply to your #modal element */
-#modal {
-  animation: modalFadeBlurIn 0.4s cubic-bezier(0.25,1,0.5,1) forwards;
-}
-#modal.exit {
-  animation: modalFadeBlurOut 0.3s cubic-bezier(0.25,1,0.5,1) forwards;
-}
-
-/* track progress + pledge styling */ 
-
-.progress-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.progress-list li {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin: 0.4em 0;
-}
-.track-label {
-  position: relative;
-  padding-right: 1.2em;
-  font-weight: bold;
-}
-.pledge-dot {
-  position: absolute;
-  right: 0;
-  top: 0.1em;
-  width: 0.7em;
-  height: 0.7em;
-  background: #f90;
-  border-radius: 50%;
-}
-.bar-bg {
-  flex: 1;
-  background: #444;
-  height: 0.6em;
-  border-radius: 3px;
-  overflow: hidden;
-}
-.bar-fill {
-  background: #f90;
-  height: 100%;
-}
-.step-count {
-  font-size: 0.85em;
-  color: #ccc;
-  min-width: 2.2em;
-  text-align: right;
-}
-
-
-/* ——— Retro Monospace Dashboard ——— */
-#dashboard {
-font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
-  line-height: 1.2;          /* tighter lines */
-}
-
-/* status lines: no extra gaps */
-#dashboard #status > div {
-  margin: 0.1em 0;
-}
-
-/* pull the progress title up closer */
-#dashboard #progress {
-  margin-top: 0.3em;         /* small gap from status */
-}
-#dashboard #progress h4 {
-  margin: 0;                 /* remove default h4 margins */
-  font-size: 1em;
-  font-weight: bold;
-}
-
-/* tighten the list items */
-#dashboard .progress-list li {
-  margin: 0.2em 0;
-  white-space: pre;          /* preserves your padded ASCII */
-}

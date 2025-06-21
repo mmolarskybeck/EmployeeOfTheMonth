@@ -1,3 +1,6 @@
+// Make sure setup exists
+window.setup = window.setup || {};
+
 setup.validateTrackDefinitions = function() {
   const expectedSteps = 5;
   for (const [track, steps] of Object.entries(setup.trackDefinitions)) {
@@ -116,7 +119,11 @@ setup.moraleDefinitions = {
       desc:"Attention: Half-eaten donuts in the break room. Temporary morale improvement authorized." },
   "Praise From The VP":
     { extraAction:1,
-      desc:"VP noticed your alignment efforts. CoSy acknowledges your existence positively." }
+      desc:"VP noticed your alignment efforts. CoSy acknowledges your existence positively." },
+  "Peer Compliment":
+    { burnout: -1,
+     desc: "A teammate said you were 'actually pretty great.' Enjoy this fleeting boost." }
+
 };
 
 
@@ -129,21 +136,24 @@ setup.debugModalMessage   = "🛠️  Debug: PowerHour initialized successfully!
 
 /* Initialize the entire Power Hour module */
 setup.initPowerHour = function() {
-  State.variables.pph = {
-    burnout:      0,
-    actionsLeft: 20,
-    score:        0,
-    deck:         setup.buildDeck(),
-    taskFeed:     [],
-    activeTracks: {},
-    trackOrder:   [],
-    pledgedTrack: null,
-    completed:    0,
-    lastEvent: null,  // hazards/morale
-    errorMessage: null,   // out-of-order errors
-    roundStarted: false,
-    seen:          {},    // ← track every card we’ve ever drawn
-    drawLog:	[] // Intializing draw log
+  console.log("🟡 setup.initPowerHour() starting...");
+
+  try {
+    State.variables.pph = {
+      burnout:      0,
+      actionsLeft: 25,
+      score:        0,
+      deck:         setup.buildDeck(),
+      taskFeed:     [],
+      activeTracks: {},
+      trackOrder:   [],
+      pledgedTrack: null,
+      completed:    0,
+      lastEvent: null,  // hazards/morale
+      errorMessage: null,   // out-of-order errors
+      roundStarted: false,
+      seen:          {},    // ← track every card we’ve ever drawn
+      drawLog:	[] // Intializing draw log
 
   };
   setup.refillFeed();
@@ -153,41 +163,45 @@ setup.initPowerHour = function() {
   if (setup.debugModalOnStart) {
     State.variables.pph.lastEvent = setup.debugModalMessage;
   }
+
+   console.log("🟢 Power Hour initialized:", State.variables.pph);
+
+  } catch (e) {
+    console.error("❌ setup.initPowerHour() FAILED:", e);
+  }
   
 };
 
 /* Build & shuffle the deck */
-setup.buildDeck = function() {
-  const defs = setup.trackDefinitions;
-    let deck = [];
+setup.buildDeck = function () {
+  const deck = [];
 
-  /* 25 normal tickets with flavor text */
+  /* 25 normal tickets with flavour text */
   Object.entries(setup.trackDefinitions).forEach(([track, steps]) =>
     steps.forEach((stepDef, i) => {
       const step = i + 1;
-const stepObj = setup.trackDefinitions[t][i];
       deck.push({
-        type: "normal",
-        track: t,
+        type:  "normal",
+        track,              // shorthand for track: track
         step,
         title: stepDef.title,
         description: stepDef.desc
       });
-
     })
   );
 
   /* 2 hazards */
-  deck.push({ type: "hazard", id: "Policy Change",     burnout: 1 });
-  deck.push({ type: "hazard", id: "System Outage",      burnout: 2 });
+  deck.push({ type: "hazard", id: "Policy Change", burnout: 1 });
+  deck.push({ type: "hazard", id: "System Outage", burnout: 2 });
 
-  /* 2 morale moments */
+  /* 3 morale moments */
   deck.push({ type: "morale", id: "Surprise Donuts",    burnout: -1 });
   deck.push({ type: "morale", id: "Praise From The VP", extraAction: 1 });
+  deck.push({ type: "morale", id: "Peer Compliment",    burnout: -1 });
 
-  /* 5 visibility pledges */
-  tracks.forEach(t =>
-    deck.push({ type: "pledge", track: t })
+  /* 5 visibility pledges — one per track */
+  Object.keys(setup.trackDefinitions).forEach(track =>
+    deck.push({ type: "pledge", track })
   );
 
   return deck.shuffle();
@@ -327,6 +341,10 @@ setup.handleExecute = function(index) {
   setup.refillFeed(index);   
    // at the very end clear errorMessage so it doesn't linger
   pph.errorMessage = null;
+
+  pph.lastEvent = `${card.title} — ${card.description}`;
+  return Engine.play("PowerHourLoop");
+
 
   // 6) Route to next - only end when actions run out or burnout
   if (pph.burnout >= 10) {

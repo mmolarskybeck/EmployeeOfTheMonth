@@ -97,7 +97,10 @@ var LZString=function(){var r=String.fromCharCode,o="ABCDEFGHIJKLMNOPQRSTUVWXYZa
 <style id="style-ui-bar" type="text/css">#story{margin-left:20em;-webkit-transition:margin-left .2s ease-in;-o-transition:margin-left .2s ease-in;transition:margin-left .2s ease-in}#ui-bar.stowed~#story{margin-left:4.5em}@media screen and (max-width:1136px){#story{margin-left:19em}#ui-bar.stowed~#story{margin-left:3.5em}}@media screen and (max-width:768px){#story{margin-left:3.5em}}#ui-bar{background-color:#222;border-right:1px solid #444;height:100%;left:0;margin:0;padding:0;position:fixed;text-align:center;top:0;-webkit-transition:left .2s ease-in;-o-transition:left .2s ease-in;transition:left .2s ease-in;width:17.5em;z-index:50}#ui-bar.stowed{left:-15.5em}#ui-bar-tray{position:absolute;top:.2em;left:0;right:0}#ui-bar-body{height:calc(100% - 2.5em);line-height:1.5;margin:2.5em 0;overflow:auto;padding:0 1.5em}#ui-bar.stowed #ui-bar-body,#ui-bar.stowed #ui-bar-history{visibility:hidden;-webkit-transition:visibility .2s step-end;-o-transition:visibility .2s step-end;transition:visibility .2s step-end}#ui-bar a{text-decoration:none}#ui-bar hr{border-color:#444}#ui-bar-tray button{color:#eee;background-color:transparent;border:1px solid #444}#ui-bar-tray button:hover{background-color:#444;border-color:#eee}#ui-bar-tray button:disabled{color:#444;background-color:transparent;border-color:#444}button#ui-bar-toggle{border-right:none;position:absolute;right:0;top:0}#ui-bar-history{margin:0 auto}#ui-bar-history button:not(:first-child){margin-left:1.2em}#ui-bar-body>:not(:first-child){margin-top:2em}#story-title{margin:0;font-size:162.5%}#story-author{margin-top:2em;font-weight:700}#menu ul{margin:1em 0 0;padding:0;list-style:none;border:1px solid #444}#menu ul:empty{display:none}#menu li{margin:0}#menu li:not(:first-child){border-top:1px solid #444}#menu li a{display:block;padding:.25em .75em;border:1px solid transparent;color:#eee;text-transform:uppercase}#menu li a:hover{background-color:#444;border-color:#eee}#menu a,#ui-bar-tray button{-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none}#menu-core li[id|=menu-item] a::before,#ui-bar-tray button::before{font-family:sc-icons!important;font-style:normal;font-weight:400;font-variant:normal;line-height:1;speak:never;text-rendering:auto;text-transform:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}#ui-bar-tray button::before{display:block;font-size:1.1em;width:1em}#ui-bar-toggle::before{content:"\f053"}#ui-bar.stowed #ui-bar-toggle::before{content:"\f054"}#ui-bar-tray #history-backward::before{content:"\f060"}#ui-bar-tray #history-jumpto::before{content:"\f0e7"}#ui-bar-tray #history-forward::before{content:"\f061"}#menu-item-continue a::before,#menu-item-restart a::before,#menu-item-saves a::before,#menu-item-settings a::before,#menu-item-share a::before{margin-right:.35em}#menu-item-continue a::before{content:"\f04b"}#menu-item-saves a::before{content:"\f0c7"}#menu-item-settings a::before{content:"\f013"}#menu-item-restart a::before{content:"\f011"}#menu-item-share a::before{content:"\f1e0"}@media (prefers-reduced-motion:reduce){#story{-webkit-transition:margin-left 0s;-o-transition:margin-left 0s;transition:margin-left 0s}#ui-bar{-webkit-transition:left 0s;-o-transition:left 0s;transition:left 0s}}</style>
 <style id="style-ui-debug-bar" type="text/css">#debug-bar{background-color:#222;border-left:1px solid #444;border-top:1px solid #444;bottom:0;margin:0;max-height:95%;max-width:66em;min-width:300px;padding:.5em;position:fixed;right:0;z-index:99900}#debug-bar>div:not([id])+div{margin-top:.5em}#debug-bar>div>label{margin-right:.5em}#debug-bar>div>input[type=text]{min-width:8em;width:14em}#debug-bar>div>select{width:22em}#debug-bar-toggle{color:#eee;background-color:#222;border:1px solid #444;height:calc(100% + 1px);left:calc(-2em - 1px);position:absolute;top:-1px;width:2em}#debug-bar-toggle:hover{background-color:#333;border-color:#eee}#debug-bar-hint{bottom:.75em;font-size:4.5em;opacity:.33;pointer-events:none;position:fixed;right:.6em;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;white-space:nowrap}#debug-bar-watch{background-color:#222;border-left:1px solid #444;border-top:1px solid #444;bottom:calc(100% + 1px);font-size:.9em;left:-1px;max-height:280%;max-height:calc(95vh - 100%);position:absolute;overflow-x:hidden;overflow-y:scroll;right:0;z-index:99800}#debug-bar-watch[hidden]{display:none}#debug-bar-watch div{color:#999;font-style:italic;margin:1em auto;text-align:center}#debug-bar-watch table{width:100%}#debug-bar-watch tr:nth-child(2n){background-color:rgba(127,127,127,.15)}#debug-bar-watch td{padding:.2em 0}#debug-bar-watch td:first-child+td{padding:.2em .3em .2em .1em}#debug-bar-watch .watch-delete{background-color:transparent;border:none;color:#c00}#debug-bar-watch-all,#debug-bar-watch-clear{margin-left:.5em}#debug-bar-views-toggle,#debug-bar-watch-toggle{color:#eee;background-color:transparent;border:1px solid #444;margin-right:1em;padding:.4em}#debug-bar-views-toggle:hover,#debug-bar-watch-toggle:hover{background-color:#333;border-color:#eee}#debug-bar-watch:not([hidden])~div #debug-bar-watch-toggle,html[data-debug-view] #debug-bar-views-toggle{background-color:#282;border-color:#4a4}#debug-bar-watch:not([hidden])~div #debug-bar-watch-toggle:hover,html[data-debug-view] #debug-bar-views-toggle:hover{background-color:#4a4;border-color:#6c6}#debug-bar-hint::after,#debug-bar-passage-play::before,#debug-bar-toggle::before,#debug-bar-views-toggle::after,#debug-bar-watch .watch-delete::before,#debug-bar-watch-add::before,#debug-bar-watch-all::before,#debug-bar-watch-clear::before,#debug-bar-watch-toggle::after{font-family:sc-icons!important;font-style:normal;font-weight:400;font-variant:normal;line-height:1;speak:never;text-rendering:auto;text-transform:none;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}#debug-bar-toggle::before{content:"\f188"}#debug-bar-hint::after{content:"\f188\202f\f061"}#debug-bar-watch .watch-delete::before{content:"\f00d"}#debug-bar-watch-add::before{content:"\f067"}#debug-bar-watch-all::before{content:"\f0d0"}#debug-bar-watch-clear::before{content:"\f2ed"}#debug-bar-views-toggle::after,#debug-bar-watch-toggle::after{content:"\f204";margin-left:.35em}#debug-bar-watch:not([hidden])~div #debug-bar-watch-toggle::after,html[data-debug-view] #debug-bar-views-toggle::after{content:"\f205"}#debug-bar-passage-play::before{content:"\f04b"}</style>
 <style id="style-ui-debug-views" type="text/css">html[data-debug-view] .debug{padding:.25em;background-color:#234}html[data-debug-view] .debug[title]{cursor:help}html[data-debug-view] .debug.block{display:inline-block;vertical-align:middle}html[data-debug-view] .debug.invalid{text-decoration:line-through}html[data-debug-view] .debug.hidden,html[data-debug-view] .debug.hidden .debug{background-color:#555}html:not([data-debug-view]) .debug.hidden{display:none}html[data-debug-view] .debug[data-name][data-type].nonvoid::after,html[data-debug-view] .debug[data-name][data-type]::before{background-color:rgba(0,0,0,.25);font-family:monospace,monospace;white-space:pre}html[data-debug-view] .debug[data-name][data-type]::before{content:attr(data-name)}html[data-debug-view] .debug[data-name][data-type|=macro]::before{content:"<<" attr(data-name) ">>"}html[data-debug-view] .debug[data-name][data-type|=macro].nonvoid::after{content:"<</" attr(data-name) ">>"}html[data-debug-view] .debug[data-name][data-type|=html]::before{content:"<" attr(data-name) ">"}html[data-debug-view] .debug[data-name][data-type|=html].nonvoid::after{content:"</" attr(data-name) ">"}html[data-debug-view] .debug[data-name][data-type]:not(:empty)::before{margin-right:.25em}html[data-debug-view] .debug[data-name][data-type].nonvoid:not(:empty)::after{margin-left:.25em}html[data-debug-view] .debug[data-name][data-type|=special],html[data-debug-view] .debug[data-name][data-type|=special]::before{display:block}</style>
-<script id="script-module-story" type="text/javascript">setup.validateTrackDefinitions = function() {
+<script id="script-module-story" type="text/javascript">// Make sure setup exists
+window.setup = window.setup || {};
+
+setup.validateTrackDefinitions = function() {
   const expectedSteps = 5;
   for (const [track, steps] of Object.entries(setup.trackDefinitions)) {
     if (!Array.isArray(steps)) {
@@ -215,7 +218,11 @@ setup.moraleDefinitions = {
       desc:"Attention: Half-eaten donuts in the break room. Temporary morale improvement authorized." },
   "Praise From The VP":
     { extraAction:1,
-      desc:"VP noticed your alignment efforts. CoSy acknowledges your existence positively." }
+      desc:"VP noticed your alignment efforts. CoSy acknowledges your existence positively." },
+  "Peer Compliment":
+    { burnout: -1,
+     desc: "A teammate said you were 'actually pretty great.' Enjoy this fleeting boost." }
+
 };
 
 
@@ -228,21 +235,24 @@ setup.debugModalMessage   = "🛠️  Debug: PowerHour initialized successfully!
 
 /* Initialize the entire Power Hour module */
 setup.initPowerHour = function() {
-  State.variables.pph = {
-    burnout:      0,
-    actionsLeft: 20,
-    score:        0,
-    deck:         setup.buildDeck(),
-    taskFeed:     [],
-    activeTracks: {},
-    trackOrder:   [],
-    pledgedTrack: null,
-    completed:    0,
-    lastEvent: null,  // hazards/morale
-    errorMessage: null,   // out-of-order errors
-    roundStarted: false,
-    seen:          {},    // ← track every card we’ve ever drawn
-    drawLog:	[] // Intializing draw log
+  console.log("🟡 setup.initPowerHour() starting...");
+
+  try {
+    State.variables.pph = {
+      burnout:      0,
+      actionsLeft: 25,
+      score:        0,
+      deck:         setup.buildDeck(),
+      taskFeed:     [],
+      activeTracks: {},
+      trackOrder:   [],
+      pledgedTrack: null,
+      completed:    0,
+      lastEvent: null,  // hazards/morale
+      errorMessage: null,   // out-of-order errors
+      roundStarted: false,
+      seen:          {},    // ← track every card we’ve ever drawn
+      drawLog:	[] // Intializing draw log
 
   };
   setup.refillFeed();
@@ -252,41 +262,45 @@ setup.initPowerHour = function() {
   if (setup.debugModalOnStart) {
     State.variables.pph.lastEvent = setup.debugModalMessage;
   }
+
+   console.log("🟢 Power Hour initialized:", State.variables.pph);
+
+  } catch (e) {
+    console.error("❌ setup.initPowerHour() FAILED:", e);
+  }
   
 };
 
 /* Build & shuffle the deck */
-setup.buildDeck = function() {
-  const defs = setup.trackDefinitions;
-    let deck = [];
+setup.buildDeck = function () {
+  const deck = [];
 
-  /* 25 normal tickets with flavor text */
+  /* 25 normal tickets with flavour text */
   Object.entries(setup.trackDefinitions).forEach(([track, steps]) =>
     steps.forEach((stepDef, i) => {
       const step = i + 1;
-const stepObj = setup.trackDefinitions[t][i];
       deck.push({
-        type: "normal",
-        track: t,
+        type:  "normal",
+        track,              // shorthand for track: track
         step,
         title: stepDef.title,
         description: stepDef.desc
       });
-
     })
   );
 
   /* 2 hazards */
-  deck.push({ type: "hazard", id: "Policy Change",     burnout: 1 });
-  deck.push({ type: "hazard", id: "System Outage",      burnout: 2 });
+  deck.push({ type: "hazard", id: "Policy Change", burnout: 1 });
+  deck.push({ type: "hazard", id: "System Outage", burnout: 2 });
 
-  /* 2 morale moments */
+  /* 3 morale moments */
   deck.push({ type: "morale", id: "Surprise Donuts",    burnout: -1 });
   deck.push({ type: "morale", id: "Praise From The VP", extraAction: 1 });
+  deck.push({ type: "morale", id: "Peer Compliment",    burnout: -1 });
 
-  /* 5 visibility pledges */
-  tracks.forEach(t =>
-    deck.push({ type: "pledge", track: t })
+  /* 5 visibility pledges — one per track */
+  Object.keys(setup.trackDefinitions).forEach(track =>
+    deck.push({ type: "pledge", track })
   );
 
   return deck.shuffle();
@@ -426,6 +440,10 @@ setup.handleExecute = function(index) {
   setup.refillFeed(index);   
    // at the very end clear errorMessage so it doesn't linger
   pph.errorMessage = null;
+
+  pph.lastEvent = `${card.title} — ${card.description}`;
+  return Engine.play("PowerHourLoop");
+
 
   // 6) Route to next - only end when actions run out or burnout
   if (pph.burnout >= 10) {
@@ -592,7 +610,8 @@ document.addEventListener('keydown', function(e) {
     });
   }
 });</script>
-<style id="style-module-story" type="text/css">@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inconsolata&family=Source+Code+Pro&display=swap");
+<style id="style-module-story" type="text/css"><style>
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inconsolata&family=Source+Code+Pro&display=swap");
 
 
 body {
@@ -691,13 +710,18 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
   justify-content: flex-start;
 }
 
-/* Ticket Cards */
-.retro-window.ticket-card {
-  flex: 0 0 200px;
-  background: #000;
-  border: 1px solid #333;
-  box-shadow: 3px 3px 0 #444;
-  color: #f0f0f0;
+/* ——— Ticket Card ——— */
+.ticket-card {
+    /* fixed width so all cards line up neatly */
+  flex: 0 0 170px;
+  min-height: 160px; /* ensures cards with fewer buttons don’t collapse */
+  
+  background: #1a1a1a;
+  border: 1px solid #444;
+  border-radius: 4px;
+  padding: 0.75em;
+  
+  /* stack content at the top and give a fixed gap */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -951,585 +975,10 @@ font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
 		<div id="init-lacking"><p>Browser lacks capabilities required to play.</p><p>Upgrade or switch to another browser.</p></div>
 		<div id="init-loading"><div>Loading&hellip;</div></div>
 	</div>
-	<!-- UUID://E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A// --><tw-storydata name="Power Hour Prototype" startnode="3" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A" zoom="1" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css">@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inconsolata&family=Source+Code+Pro&display=swap");
-
-
-html {
-font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
-
-}
-
-/***** Kanban Layout for Task Feed *****/
-#feed {
-  display: flex;
-  gap: 1em;               /* space between cards */
-  margin-top: 50px;
-  flex-wrap: wrap;        /* if you ever go over FEED_SIZE, it won’t overflow */
-}
-
-/* ——— Ticket Card ——— */
-.ticket-card {
-    /* fixed width so all cards line up neatly */
-  flex: 0 0 170px;
-  min-height: 160px; /* ensures cards with fewer buttons don’t collapse */
-  
-  background: #1a1a1a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 0.75em;
-  
-  /* stack content at the top and give a fixed gap */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0.6em; /* uniform gap between buttons */
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6em; /* consistent between the two   buttons */
-}
-
-
-/* ——— Title ——— */
-.ticket-card strong {
-  display: block;          /* forces the title onto its own “row” */
-  margin: 0;
-  margin-bottom: 0.3em;    /* small gap before the button stack */
-  font-family: monospace;
-  font-size: 1em;
-  line-height: 1.2;
-  word-break: break-word;  /* wrap long track names */
-  text-align: center;
-}
-
-/* ——— Flip-Out Animation for ticket ——— */
-@keyframes slideOut {
-  from { transform: translateX(0) scale(1); opacity: 1; }
-  to   { transform: translateX(150%) scale(0.8); opacity: 0; }
-}
-
-.ticket-card.slide-out {
-  animation: slideOut 0.3s ease-in forwards;
-}
-
-
-
-
-/* ——— Buttons ——— */
-.ticket-card button {
-  width: 100%;             /* full-width buttons */
-  padding: 0.4em 0;        /* tighter vertical padding */
-  font-size: 0.9em;
-  margin: 0;               /* gaps handled by parent‘s “gap” */
-  display: block;
-}
-
-/* ——— Remove stray <br> if you have any ——— */
-.ticket-card br {
-  display: none;
-}
-
-/* full-screen dimmer + perspective */
-.modal-overlay {
-  position: fixed;
-  inset: 0;                    /* shorthand for top:0; right:0; bottom:0; left:0; */
-  background: rgba(0,0,0,0.6);
-  z-index: 999;
-
-  /* set the viewing distance for 3D children */
-  perspective: 1200px;
-}
-
-/* a fixed wrapper that actually does the translate(-50%,-50%) centering */
-.modal-wrapper {
-  position: fixed;
-  top: 25%; left: 50%;
-  transform: translate(-50%, -50%);
-  /* if you like, you can also set perspective here instead of on the overlay */
-}
-
-/* this is your flipping bit */
-.modal-card {
-  background: #1a1a1a;
-  padding: 1em;
-  border: 1px solid #888;
-  border-radius: 4px;
-
-  /* 3D backface setup */
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transform-origin: center center;
-
-  /* your snappy flip */
-  animation: cardFlipSnappy 0.5s cubic-bezier(0.25,1.5,0.5,1) forwards;
-}
-rds;
-}
-
-/* ——— Snappier Fade-Blur In/Out ——— */
-@keyframes modalFadeBlurIn {
-  0%   { opacity: 0; filter: blur(6px);  transform: scale(0.95); }
-  80%  { opacity: 1; filter: blur(1px);  transform: scale(1.02);}
-  100% { opacity: 1; filter: blur(0px);  transform: scale(1);   }
-}
-@keyframes modalFadeBlurOut {
-  0%   { opacity: 1; filter: blur(0px);  transform: scale(1);   }
-  100% { opacity: 0; filter: blur(6px);  transform: scale(0.95);}
-}
-
-/* apply to your #modal element */
-#modal {
-  animation: modalFadeBlurIn 0.4s cubic-bezier(0.25,1,0.5,1) forwards;
-}
-#modal.exit {
-  animation: modalFadeBlurOut 0.3s cubic-bezier(0.25,1,0.5,1) forwards;
-}
-
-/* track progress + pledge styling */ 
-
-.progress-list {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-.progress-list li {
-  display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin: 0.4em 0;
-}
-.track-label {
-  position: relative;
-  padding-right: 1.2em;
-  font-weight: bold;
-}
-.pledge-dot {
-  position: absolute;
-  right: 0;
-  top: 0.1em;
-  width: 0.7em;
-  height: 0.7em;
-  background: #f90;
-  border-radius: 50%;
-}
-.bar-bg {
-  flex: 1;
-  background: #444;
-  height: 0.6em;
-  border-radius: 3px;
-  overflow: hidden;
-}
-.bar-fill {
-  background: #f90;
-  height: 100%;
-}
-.step-count {
-  font-size: 0.85em;
-  color: #ccc;
-  min-width: 2.2em;
-  text-align: right;
-}
-
-
-/* ——— Retro Monospace Dashboard ——— */
-#dashboard {
-font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
-  line-height: 1.2;          /* tighter lines */
-}
-
-/* status lines: no extra gaps */
-#dashboard #status > div {
-  margin: 0.1em 0;
-}
-
-/* pull the progress title up closer */
-#dashboard #progress {
-  margin-top: 0.3em;         /* small gap from status */
-}
-#dashboard #progress h4 {
-  margin: 0;                 /* remove default h4 margins */
-  font-size: 1em;
-  font-weight: bold;
-}
-
-/* tighten the list items */
-#dashboard .progress-list li {
-  margin: 0.2em 0;
-  white-space: pre;          /* preserves your padded ASCII */
-}</style><script role="script" id="twine-user-script" type="text/twine-javascript">// —— Global config ——
-setup.FEED_SIZE = 4;  // change feed size here
-
-// —— Debug modal config ——
-setup.debugModalOnStart   = false;
-setup.debugModalMessage   = "🛠️  Debug: PowerHour initialized successfully!";
-
-/* Initialize the entire Power Hour module */
-setup.initPowerHour = function() {
-  State.variables.pph = {
-    burnout:      0,
-    actionsLeft: 20,
-    score:        0,
-    deck:         setup.buildDeck(),
-    taskFeed:     [],
-    activeTracks: {},
-    trackOrder:   [],
-    pledgedTrack: null,
-    completed:    0,
-    lastEvent: null,  // hazards/morale
-    errorMessage: null,   // out-of-order errors
-    roundStarted: false,
-    seen:          {},    // ← track every card we’ve ever drawn
-    drawLog:	[] // Intializing draw log
-
-  };
-  setup.refillFeed();
-  setup.ensureFullFeed();
-  
-    // ←— DEBUG: show a popup on startup
-  if (setup.debugModalOnStart) {
-    State.variables.pph.lastEvent = setup.debugModalMessage;
-  }
-  
-};
-
-/* Build & shuffle the deck */
-setup.buildDeck = function() {
-  const tracks = [
-    "Expense Reconciliation",
-    "Backlogged Emails",
-    "Client Gratitude Outreach",
-    "Project Tracker Maintenance",
-    "Facilities Work Order Requests"
-  ];
-  let deck = [];
-
-  /* 25 normal tickets */
-  tracks.forEach(t =>
-    Array.from({ length: 5 }, (_, i) =>
-      deck.push({ type: "normal", track: t, step: i + 1 })
-    )
-  );
-
-  /* 2 hazards */
-  deck.push({ type: "hazard", id: "Policy Change",     burnout: 1 });
-  deck.push({ type: "hazard", id: "System Outage",      burnout: 2 });
-
-  /* 2 morale moments */
-  deck.push({ type: "morale", id: "Surprise Donuts",    burnout: -1 });
-  deck.push({ type: "morale", id: "Praise From The VP", extraAction: 1 });
-
-  /* 5 visibility pledges */
-  tracks.forEach(t =>
-    deck.push({ type: "pledge", track: t })
-  );
-
-  return deck.shuffle();
-};
-
-/* Set up Refilling the Feed */
-setup.refillFeed = function(index = null) {
-  const pph = State.variables.pph;
-  let card, key;
-
-  while (true) {
-    card = pph.deck.shift();
-    if (!card) {
-      console.warn("PPH: deck exhausted!");
-      return;
-    }
-
-    // 1) Gate hazards/morale until first action
-    if (!pph.roundStarted && (card.type === "hazard" || card.type === "morale")) {
-      pph.deck.push(card);
-      continue;
-    }
-
-    // 2) Build a unique key
-    if (card.type === "normal") {
-      key = `normal|${card.track}|${card.step}`;
-    } else if (card.type === "pledge") {
-      key = `pledge|${card.track}`;
-    } else {
-      key = `event|${card.id}`;
-    }
-
-    // 3) Skip if we’ve already seen it
-    if (pph.seen[key]) {
-      continue;
-    }
-
-    // 4) Mark it and log it
-    pph.seen[key] = true;
-    pph.drawLog.push({
-      type:  card.type,
-      track: card.track || null,
-      step:  card.step  || null,
-      event: card.id    || null
-    });
-
-    // now break out to handle the card
-    break;
-  }
-
-  console.log("PPH:: Drew card →", card);
-
-  // —— then your existing hazard/morale handlers ——
-  if (card.type === "hazard") {
-    pph.burnout += card.burnout;
-    pph.lastEvent = `${card.id} (+${card.burnout} Burnout)`;
-    setup.checkBurnout();
-    return setup.refillFeed(index);
-  }
-  if (card.type === "morale") {
-    if (card.burnout) {
-      pph.burnout = Math.max(0, pph.burnout + card.burnout);
-      pph.lastEvent = `${card.id} (${card.burnout} Burnout)`;
-    } else if (card.extraAction) {
-      pph.actionsLeft += card.extraAction;
-      pph.lastEvent = `${card.id} (+${card.extraAction} Action)`;
-    }
-    return setup.refillFeed(index);
-  }
-
-  // —— finally deal it into the feed ——
-  if (index === null) {
-    pph.taskFeed.push(card);
-  } else {
-    pph.taskFeed[index] = card;
-  }
-};
-
-
-/* Ensure feed size determines # cards in feed */
-setup.ensureFullFeed = function() {
-  const pph = State.variables.pph;
-  // for every slot 0…FEED_SIZE–1, if it’s falsy, refill that index
-  for (let i = 0; i < setup.FEED_SIZE; i++) {
-    if (!pph.taskFeed[i]) {
-      setup.refillFeed(i);
-    }
-  }
-};
-
-/* Open a new initiative track with escalating burnout */
-setup.openTrack = function(track) {
-  const pph = State.variables.pph;
-  if (!pph.activeTracks.hasOwnProperty(track)) {
-    pph.trackOrder.push(track);
-    const order = pph.trackOrder.length - 1;
-    const delta = Math.min(order, 4);
-    pph.burnout += delta;
-    pph.activeTracks[track] = 0;
-    setup.checkBurnout();
-  }
-};
-
-/* Handle executing a card */
-setup.handleExecute = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;  // mark that we’ve now begun
-  const card = pph.taskFeed[index];
-  if (!card) return;
-
-  // 1) Pledges still route to the pledge handler
-  if (card.type === "pledge") {
-    return setup.handlePledge(index);
-  }
-
-  // 2) Normal‐ticket sequencing guard
-  //    currentStep is 0 if unopened, or the last completed step
-  const currentStep = pph.activeTracks[card.track] || 0;
-  if (card.step !== currentStep + 1) {
-    // Out-of-order click → bail with an error
-    pph.errorMessage = "Please adhere to CoSy-mandated productivity sequencing chains."; return Engine.play("PowerHourLoop");
-  }
-
-  // 3) It’s valid: if it’s Step 1, opening the track (and burnout) happens here
-  if (!pph.activeTracks.hasOwnProperty(card.track)) {
-    setup.openTrack(card.track);
-  }
-
-  // 4) Advance the step
-  pph.activeTracks[card.track] = currentStep + 1;
-  if (pph.activeTracks[card.track] === 5) {
-    pph.completed += 1;
-  }
-
-  // 5) Spend an action, refill that slot
-  pph.actionsLeft -= 1;
-  setup.refillFeed(index);   
-   // at the very end clear errorMessage so it doesn't linger
-  pph.errorMessage = null;
-
-  // 6) Route to next - only end when actions run out or burnout
-  if (pph.burnout >= 10) {
-    return Engine.play("HardFail");
-  }
-  if (pph.actionsLeft <= 0) {
-    // if you've finished ≥1 track by the end, go to Win, otherwise SoftFail
-    return pph.completed > 0
-      ? Engine.play("Win")
-      : Engine.play("SoftFail");
-  }
-  Engine.play("PowerHourLoop");
-
-};
-
-/* Handle deleting a card */
-setup.handleDelete = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  pph.actionsLeft -= 1;
-
-  // 1) Clear just that slot
-  pph.taskFeed[index] = null;
-
-  // 2) Refill that slot (handles hazards, morale, seen-logic)
-  setup.refillFeed(index);
-
-  // 3) Then top up any other empty slots
-  setup.ensureFullFeed();
-
-  // 4) Route to next passage
-  if (pph.burnout >= 10)      return Engine.play("HardFail");
-  if (pph.actionsLeft <= 0) {
-    return pph.completed > 0
-      ? Engine.play("Win")
-      : Engine.play("SoftFail");
-  }
-  return Engine.play("PowerHourLoop");
-};
-
-
-/* Handle pledging */
-setup.handlePledge = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;  // mark that we’ve now begun
-  const card = pph.taskFeed[index];
-  // Safety check
-  if (!card || card.type !== "pledge") {
-    return Engine.play("PowerHourLoop");
-  }
-
-  // Record pledge and spend an action
-  pph.pledgedTrack = card.track;
-  pph.actionsLeft -= 1;
-  // 1) Refill exactly that slot (auto-firing hazards/morale as needed)
-  setup.refillFeed(index);
-  // 2) Then top up any remaining gaps so we always have 3 cards
-  setup.ensureFullFeed();
-
-  // Finally, route to the correct passage
-  if (pph.completed > 0)       return Engine.play("Win");
-  if (pph.burnout >= 10)       return Engine.play("HardFail");
-  if (pph.actionsLeft <= 0)    return Engine.play("SoftFail");
-  return Engine.play("PowerHourLoop");
-};
-
-
-// Animate then call handleDelete
-setup.animateDelete = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  const el = document.querySelector('.ticket-card[data-index="'+index+'"]');
-  if (!el) return setup.handleDelete(index);
-  el.classList.add('slide-out');
-  el.addEventListener('animationend', function once() {
-    el.removeEventListener('animationend', once);
-    setup.handleDelete(index);
-  });
-};
-
-// Animate then call handleExecute
-setup.animateExecute = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  const el = document.querySelector('.ticket-card[data-index="'+index+'"]');
-  if (!el) return setup.handleExecute(index);
-  el.classList.add('slide-out');
-  el.addEventListener('animationend', function once() {
-    el.removeEventListener('animationend', once);
-    setup.handleExecute(index);
-  });
-};
-
-// Animate then call handlePledge
-setup.animatePledge = function(index) {
-  const pph = State.variables.pph;
-  pph.roundStarted = true;
-  const el = document.querySelector('.ticket-card[data-index="'+index+'"]');
-  if (!el) return setup.handlePledge(index);
-  el.classList.add('slide-out');
-  el.addEventListener('animationend', function once() {
-    el.removeEventListener('animationend', once);
-    setup.handlePledge(index);
-  });
-};
-
-
-
-/* Fail on burnout ≥10 */
-setup.checkBurnout = function() {
-  if (State.variables.pph.burnout >= 10) {
-    Engine.play("HardFail");
-  }
-};
-
-/* Win if any track complete, else soft-fail on out of actions */
-setup.checkWinOrFail = function() {
-  const pph = State.variables.pph;
-  if (pph.completed > 0)      Engine.play("Win");
-  else if (pph.actionsLeft <= 0) Engine.play("SoftFail");
-};
-
-/*─────────────────────────────────────────────────────
-  Calculate Productivity Score at win/lose time
-─────────────────────────────────────────────────────*/
-setup.calculateScore = function() {
-  const pph = State.variables.pph;
-  let partialPoints = 0;
-
-  // 0.6 points per step in any unfinished track (capped at 3 per track)
-  Object.entries(pph.activeTracks).forEach(([track, progress]) => {
-    if (progress < 5) {
-      partialPoints += Math.min(progress * 0.6, 3);
-    }
-  });
-
-  // raw formula:
-  //   7 × full tracks  +  partialPoints  −  0.75 × burnout
-  const raw = (7 * pph.completed) + partialPoints - (pph.burnout * 0.75);
-
-  // round and clamp ≥0
-  pph.score = Math.max(Math.round(raw), 0);
-};
-
-// Expose a console‐logging helper
-window.pphLog = function() {
-  console.table(State.variables.pph.drawLog);
-};
-
-
-// Allow ENTER key to dismiss an active modal
-document.addEventListener('keydown', function(e) {
-  if (e.key === 'Enter') {
-    const modal = document.getElementById('modal');
-    if (!modal || modal.classList.contains('exit')) return;
-    modal.classList.add('exit');
-    modal.addEventListener('animationend', function handler() {
-      modal.removeEventListener('animationend', handler);
-      // clear whichever flag was showing it
-      const pph = State.variables.pph;
-      pph.errorMessage = null;
-      pph.lastEvent    = null;
-      Engine.play('PowerHourLoop');
-    });
-  }
-});</script><tw-passagedata pid="1" name="HardFail" tags="" position="975,525" size="100,100">Burnout hit 10. HR workshop initiated.
-
-Productivity Score: &lt;&lt;print State.variables.pph.score&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="PowerHourLoop" tags="" position="700,475" size="100,100">&lt;&lt;nobr&gt;&gt;
+	<!-- UUID://E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A// --><tw-storydata name="Power Hour Prototype" startnode="1" creator="Tweego" creator-version="2.1.1+81d1d71" ifid="E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A" zoom="1" format="SugarCube" format-version="2.37.3" options="" hidden><style role="stylesheet" id="twine-user-stylesheet" type="text/twine-css"></style><script role="script" id="twine-user-script" type="text/twine-javascript"></script><tw-passagedata pid="1" name="PowerHourStart" tags="" position="825,350" size="100,100">&lt;&lt;if !State.variables.pph&gt;&gt; 
+  &lt;&lt;run setup.initPowerHour()&gt;&gt;
+&lt;&lt;/if&gt;&gt;
+&lt;&lt;run setTimeout(() =&gt; Engine.play(&quot;PowerHourLoop&quot;), 0)&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="PowerHourLoop" tags="" position="700,475" size="100,100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;run setup.ensureFullFeed()&gt;&gt;
 &lt;&lt;set _pph = State.variables.pph&gt;&gt;
 
@@ -1598,120 +1047,184 @@ Productivity Score: &lt;&lt;print State.variables.pph.score&gt;&gt;</tw-passaged
 
 
 &lt;div id=&quot;feed&quot;&gt;
-
-&lt;!-- CARD 1 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;0&quot;&gt;
+&lt;!--CARD 1--&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;0&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[0]&gt;&gt;
 
-  &lt;div class=&quot;card-header&quot;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track
-    )&gt;&gt;
-  &lt;/strong&gt;&lt;br&gt;
-  &lt;&lt;if _card.title&gt;&gt;
-    &lt;span class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/span&gt;
-  &lt;&lt;/if&gt;&gt;
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-    &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
-  &lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
+  &lt;div class=&quot;window-header&quot;&gt;
+    &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+    &lt;button class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
 
+  &lt;div class=&quot;window-body&quot;&gt;
+    &lt;div class=&quot;card-meta&quot;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
+    &lt;/div&gt;
 
-  &lt;&lt;if _card.description&gt;&gt;
-    &lt;p class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/p&gt;
-  &lt;&lt;/if&gt;&gt;
-
-  &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-      &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;else&gt;&gt;
-      &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
+    &lt;&lt;if _card.title&gt;&gt;
+      &lt;div class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/div&gt;
     &lt;&lt;/if&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
+
+    &lt;&lt;if _card.description&gt;&gt;
+      &lt;div class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+      &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(0)&quot;&gt;Pledge&lt;/button&gt;
+      &lt;&lt;else&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(0)&quot;&gt;Execute&lt;/button&gt;
+      &lt;&lt;/if&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(0)&quot;&gt;Delete&lt;/button&gt;
+    &lt;/div&gt;
   &lt;/div&gt;
 &lt;/div&gt;
 
-  &lt;!-- CARD 2 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;1&quot;&gt;
+
+&lt;!-- CARD 2 --&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;1&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[1]&gt;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
-    )&gt;&gt;
-  &lt;/strong&gt;
 
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
+  &lt;div class=&quot;window-header&quot;&gt;
+    &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+    &lt;button class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;window-body&quot;&gt;
+    &lt;div class=&quot;card-meta&quot;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
     &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
+
+    &lt;&lt;if _card.title&gt;&gt;
+      &lt;div class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.description&gt;&gt;
+      &lt;div class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+      &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(1)&quot;&gt;Pledge&lt;/button&gt;
+      &lt;&lt;else&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(1)&quot;&gt;Execute&lt;/button&gt;
+      &lt;&lt;/if&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(1)&quot;&gt;Delete&lt;/button&gt;
     &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
-  &lt;!-- CARD 3 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;2&quot;&gt;
-  &lt;&lt;set _card = State.variables.pph.taskFeed[2]&gt;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
-    )&gt;&gt;
-  &lt;/strong&gt;
 
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
+ &lt;!-- CARD 3 --&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;2&quot;&gt;
+  &lt;&lt;set _card = State.variables.pph.taskFeed[2]&gt;&gt;
+
+  &lt;div class=&quot;window-header&quot;&gt;
+    &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+    &lt;button class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;window-body&quot;&gt;
+    &lt;div class=&quot;card-meta&quot;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
     &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
+
+    &lt;&lt;if _card.title&gt;&gt;
+      &lt;div class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.description&gt;&gt;
+      &lt;div class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+      &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(2)&quot;&gt;Pledge&lt;/button&gt;
+      &lt;&lt;else&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(2)&quot;&gt;Execute&lt;/button&gt;
+      &lt;&lt;/if&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(2)&quot;&gt;Delete&lt;/button&gt;
     &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
 
 &lt;!-- CARD 4 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;3&quot;&gt;
+&lt;div class=&quot;retro-window&quot; data-index=&quot;3&quot;&gt;
   &lt;&lt;set _card = State.variables.pph.taskFeed[3]&gt;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
-    )&gt;&gt;
-  &lt;/strong&gt;
 
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
+  &lt;div class=&quot;window-header&quot;&gt;
+    &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+    &lt;button class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
+  &lt;/div&gt;
+
+  &lt;div class=&quot;window-body&quot;&gt;
+    &lt;div class=&quot;card-meta&quot;&gt;
+      &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
     &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
+
+    &lt;&lt;if _card.title&gt;&gt;
+      &lt;div class=&quot;card-title&quot;&gt;&lt;&lt;print _card.title&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.description&gt;&gt;
+      &lt;div class=&quot;card-desc&quot;&gt;&lt;&lt;print _card.description&gt;&gt;&lt;/div&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+      &lt;em class=&quot;pledge-label&quot;&gt;Visibility Pledge&lt;/em&gt;
+    &lt;&lt;/if&gt;&gt;
+
+    &lt;div class=&quot;actions&quot;&gt;
+      &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
+        &lt;button onclick=&quot;setup.animatePledge(3)&quot;&gt;Pledge&lt;/button&gt;
+      &lt;&lt;else&gt;&gt;
+        &lt;button onclick=&quot;setup.animateExecute(3)&quot;&gt;Execute&lt;/button&gt;
+      &lt;&lt;/if&gt;&gt;
+      &lt;button onclick=&quot;setup.animateDelete(3)&quot;&gt;Delete&lt;/button&gt;
     &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
+  &lt;/div&gt;
 &lt;/div&gt;
+
 
 &lt;/div&gt;
 &lt;&lt;/if&gt;&gt;
-&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="PowerHourStart" tags="" position="825,350" size="100,100">&lt;&lt;run setup.initPowerHour()&gt;&gt;
-&lt;&lt;goto &quot;PowerHourLoop&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="SoftFail" tags="" position="975,425" size="100,100">&lt;&lt;run setup.calculateScore()&gt;&gt;
-Time’s up—no track completed. 
+&lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="SoftFail" tags="" position="975,425" size="100,100">&lt;&lt;run setup.calculateScore()&gt;&gt;
+&lt;h2&gt;Productivity Power Hour Concluded&lt;/h2&gt;
 
-Productivity Score: &lt;&lt;print State.variables.pph.score&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="StoryInit" tags="" position="700,350" size="100,100"></tw-passagedata><tw-passagedata pid="6" name="Win" tags="" position="975,325" size="100,100">&lt;&lt;run setup.calculateScore()&gt;&gt;
+&lt;&lt;if _score &gt; 0&gt;&gt;
+  &lt;p&gt;You didn’t complete a full track, but you made meaningful progress. Partial completions have been logged.&lt;/p&gt;
+  &lt;p&gt;CoSy acknowledges your intermediate output with faint approval.&lt;/p&gt;
+&lt;&lt;else&gt;&gt;
+  &lt;p&gt;No tracks were completed. CoSy notes a troubling lack of outcomes.&lt;/p&gt;
+  &lt;p&gt;Recommended remediation: Self-directed motivational reflection.&lt;/p&gt;
+&lt;&lt;/if&gt;&gt;
+
+&lt;p&gt;Final Productivity Score: &lt;&lt;print State.variables.pph.score&gt;&gt;&lt;/p&gt;
+
+&lt;&lt;link &quot;Try Again&quot;&gt;&gt;
+  &lt;&lt;goto &quot;PowerHourStart&quot;&gt;&gt;
+&lt;&lt;/link&gt;&gt;</tw-passagedata><tw-passagedata pid="4" name="HardFail" tags="" position="975,525" size="100,100">&lt;&lt;run setup.calculateScore()&gt;&gt;
+&lt;h2&gt;Burnout Reached!&lt;/h2&gt;
+&lt;&lt;if $pph.score &gt; 0&gt;&gt;
+Your burnout metrics hit critical levels, but HQ noticed your productivity streak.  
+
+You’ll get a fast-track decompression break and a shiny commendation for the effort!
+&lt;&lt;else&gt;&gt;
+Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
+&lt;&lt;/if&gt;&gt;
+
+Productivity Score: &lt;&lt;print $pph.score&gt;&gt;</tw-passagedata><tw-passagedata pid="5" name="Win" tags="" position="975,325" size="100,100">&lt;&lt;run setup.calculateScore()&gt;&gt;
 Congrats, you won with a score of &lt;&lt;print State.variables.pph.score&gt;&gt;!</tw-passagedata></tw-storydata>
 	<script id="script-sugarcube" type="text/javascript">
 	/*! SugarCube JS */

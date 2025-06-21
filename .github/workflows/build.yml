@@ -1,0 +1,63 @@
+name: Build & Deploy Productivity Power Hour
+
+permissions:
+  contents: write 
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - '**.twee'
+      - '**.js'
+      - '**.css'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout
+        uses: actions/checkout@v3
+
+      # 1️⃣ Try to restore Tweego cache
+      - name: 💾 Restore Tweego cache
+        id: tweego-cache
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/tweego             # folder we’ll store tweego in
+          key: tweego-2.1.1-${{ runner.os }}  # bump version in key when you upgrade
+
+      # 2️⃣ Install Tweego only if cache missing
+      - name: ⚙️ Install Tweego (if needed)
+        if: steps.tweego-cache.outputs.cache-hit != 'true'
+        run: |
+          mkdir -p ~/.cache/tweego
+          curl -L -o /tmp/tweego.zip \
+            https://github.com/tmedwards/tweego/releases/download/v2.1.1/tweego-2.1.1-linux-x64.zip
+          unzip /tmp/tweego.zip -d ~/.cache/tweego
+          chmod +x ~/.cache/tweego/tweego
+
+      # 3️⃣ Add Tweego to PATH
+      - name: 🔑 Add Tweego to PATH
+        run: echo "$HOME/.cache/tweego" >> $GITHUB_PATH
+
+      # 4️⃣ Compile game
+      - name: 🧪 Compile Twine game
+        working-directory: tests/PowerHourPrototype/src 
+        run: |
+          tweego . \
+            -m story.js \
+            --head story.css \
+            -f sugarcube-2 \
+            -o ../../../docs/index.html
+
+      # 5️⃣ Commit HTML if changed
+      - name: ✅ Commit compiled HTML
+        run: |
+          git config --global user.name  "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          git add docs/index.html
+          git diff --cached --quiet || git commit -m "🚀 Auto-build on ${{ github.sha }}"
+          git push
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
