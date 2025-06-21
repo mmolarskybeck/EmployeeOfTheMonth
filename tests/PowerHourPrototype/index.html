@@ -595,210 +595,354 @@ document.addEventListener('keydown', function(e) {
 <style id="style-module-story" type="text/css">@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inconsolata&family=Source+Code+Pro&display=swap");
 
 
-html {
+body {
+  background: #000;
+  color: #f0f0f0;
 font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
-
-}
-
-/***** Kanban Layout for Task Feed *****/
-#feed {
-  display: flex;
-  gap: 1em;               /* space between cards */
-  margin-top: 50px;
-  flex-wrap: wrap;        /* if you ever go over FEED_SIZE, it won’t overflow */
-}
-
-/* ——— Ticket Card ——— */
-.ticket-card {
-    /* fixed width so all cards line up neatly */
-  flex: 0 0 170px;
-  min-height: 160px; /* ensures cards with fewer buttons don’t collapse */
-  
-  background: #1a1a1a;
-  border: 1px solid #444;
-  border-radius: 4px;
-  padding: 0.75em;
-  
-  /* stack content at the top and give a fixed gap */
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  gap: 0.6em; /* uniform gap between buttons */
-}
-
-.actions {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6em; /* consistent between the two   buttons */
-}
-
-
-/* ——— Title ——— */
-.ticket-card strong {
-  display: block;          /* forces the title onto its own “row” */
   margin: 0;
-  margin-bottom: 0.3em;    /* small gap before the button stack */
-  font-family: monospace;
-  font-size: 1em;
-  line-height: 1.2;
-  word-break: break-word;  /* wrap long track names */
-  text-align: center;
 }
 
-/* ——— Flip-Out Animation for ticket ——— */
-@keyframes slideOut {
-  from { transform: translateX(0) scale(1); opacity: 1; }
-  to   { transform: translateX(150%) scale(0.8); opacity: 0; }
+.story-title {
+  font-weight: bold;
+  font-size: 1.4em;
+  margin-bottom: 2em;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #7aff7a;
+ text-shadow:
+    0 0 2px #00ffcc,
+    0 0 6px #00ffcc,
+    0 0 10px #00ffaa;
 }
 
-.ticket-card.slide-out {
-  animation: slideOut 0.3s ease-in forwards;
-}
-
-
-
-
-/* ——— Buttons ——— */
-.ticket-card button {
-  width: 100%;             /* full-width buttons */
-  padding: 0.4em 0;        /* tighter vertical padding */
-  font-size: 0.9em;
-  margin: 0;               /* gaps handled by parent‘s “gap” */
-  display: block;
-}
-
-/* ——— Remove stray <br> if you have any ——— */
-.ticket-card br {
+/* ─── Hide the default “tray” toggle (if you’re never going to use it) ─── */
+#ui-bar-tray {
   display: none;
 }
 
-/* full-screen dimmer + perspective */
-.modal-overlay {
+/* ─── Turn the built-in menu into your fixed sidebar ─── */
+#menu {
   position: fixed;
-  inset: 0;                    /* shorthand for top:0; right:0; bottom:0; left:0; */
-  background: rgba(0,0,0,0.6);
-  z-index: 999;
-
-  /* set the viewing distance for 3D children */
-  perspective: 1200px;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background-color: #000;
+  border-right: 2px solid #333;
+  box-shadow: 3px 0 0 #222;
+  padding: 2em 1em;
+  z-index: 1000;
+  color: #7aff7a;
+  font-family: "Fira Code", monospace;
 }
 
-/* a fixed wrapper that actually does the translate(-50%,-50%) centering */
-.modal-wrapper {
-  position: fixed;
-  top: 25%; left: 50%;
-  transform: translate(-50%, -50%);
-  /* if you like, you can also set perspective here instead of on the overlay */
-}
-
-/* this is your flipping bit */
-.modal-card {
-  background: #1a1a1a;
-  padding: 1em;
-  border: 1px solid #888;
-  border-radius: 4px;
-
-  /* 3D backface setup */
-  transform-style: preserve-3d;
-  backface-visibility: hidden;
-  transform-origin: center center;
-
-  /* your snappy flip */
-  animation: cardFlipSnappy 0.5s cubic-bezier(0.25,1.5,0.5,1) forwards;
-}
-rds;
-}
-
-/* ——— Snappier Fade-Blur In/Out ——— */
-@keyframes modalFadeBlurIn {
-  0%   { opacity: 0; filter: blur(6px);  transform: scale(0.95); }
-  80%  { opacity: 1; filter: blur(1px);  transform: scale(1.02);}
-  100% { opacity: 1; filter: blur(0px);  transform: scale(1);   }
-}
-@keyframes modalFadeBlurOut {
-  0%   { opacity: 1; filter: blur(0px);  transform: scale(1);   }
-  100% { opacity: 0; filter: blur(6px);  transform: scale(0.95);}
-}
-
-/* apply to your #modal element */
-#modal {
-  animation: modalFadeBlurIn 0.4s cubic-bezier(0.25,1,0.5,1) forwards;
-}
-#modal.exit {
-  animation: modalFadeBlurOut 0.3s cubic-bezier(0.25,1,0.5,1) forwards;
-}
-
-/* track progress + pledge styling */ 
-
-.progress-list {
+/* ─── Stack the two buttons vertically ─── */
+#menu-core {
   list-style: none;
-  padding: 0;
   margin: 0;
-}
-.progress-list li {
+  padding: 0;
   display: flex;
-  align-items: center;
-  gap: 0.6em;
-  margin: 0.4em 0;
+  flex-direction: column;
+  gap: 1em;
 }
-.track-label {
-  position: relative;
-  padding-right: 1.2em;
-  font-weight: bold;
-}
-.pledge-dot {
-  position: absolute;
-  right: 0;
-  top: 0.1em;
-  width: 0.7em;
-  height: 0.7em;
-  background: #f90;
-  border-radius: 50%;
-}
-.bar-bg {
-  flex: 1;
-  background: #444;
-  height: 0.6em;
-  border-radius: 3px;
-  overflow: hidden;
-}
-.bar-fill {
-  background: #f90;
-  height: 100%;
-}
-.step-count {
+
+/* ─── Style each link just like your mockup buttons ─── */
+#menu-core li a {
+  display: block;
+  background: #000;
+  color: #7aff7a;
+  border: 1px solid #7aff7a;
+  padding: 0.5em;
   font-size: 0.85em;
-  color: #ccc;
-  min-width: 2.2em;
-  text-align: right;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.05);
+  text-decoration: none;
+}
+
+/* ─── Hover state ─── */
+#menu-core li a:hover {
+  background: #111;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
 }
 
 
-/* ——— Retro Monospace Dashboard ——— */
-#dashboard {
-font-family: "Fira Code", "Source Code Pro", Inconsolata, monospace;
-  line-height: 1.2;          /* tighter lines */
-}
-
-/* status lines: no extra gaps */
+/* Dashboard */
 #dashboard #status > div {
   margin: 0.1em 0;
 }
-
-/* pull the progress title up closer */
 #dashboard #progress {
-  margin-top: 0.3em;         /* small gap from status */
+  margin-top: 0.3em;
 }
 #dashboard #progress h4 {
-  margin: 0;                 /* remove default h4 margins */
   font-size: 1em;
   font-weight: bold;
+  margin: 0;
 }
 
-/* tighten the list items */
-#dashboard .progress-list li {
-  margin: 0.2em 0;
-  white-space: pre;          /* preserves your padded ASCII */
+/* Task Feed */
+#feed {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-top: 2em;
+  justify-content: flex-start;
+}
+
+/* Ticket Cards */
+.retro-window.ticket-card {
+  flex: 0 0 200px;
+  background: #000;
+  border: 1px solid #333;
+  box-shadow: 3px 3px 0 #444;
+  color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  overflow: visible;
+}
+
+.ticket-card.collapsing {
+  animation: retroCollapse 0.4s ease-out forwards;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes retroCollapse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    height: auto;
+    margin-bottom: 1em;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+/* Window Header */
+.window-header {
+  background: #111;
+  color: #7aff7a;
+  padding: 4px 8px;
+  font-weight: bold;
+  font-size: 0.85em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  box-shadow: inset 0 -1px 0 #000;
+}
+.window-title {
+  font-weight: bold;
+}
+.close-button {
+  background: #000;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+/* Card Body */
+.window-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 10px;
+}
+.card-step {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.card-track {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 0.3em;
+  color: #7aff7a;
+}
+.card-title {
+  font-size: 0.85em;
+  color: #bbb;
+  font-style: italic;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 0.5em;
+  justify-content: space-between;
+  margin-top: auto;
+}
+.actions button {
+  background: #111;
+  color: #7aff7a;
+  border: 1px solid #7aff7a;
+  padding: 0.25em 0.75em;
+  font-size: 0.85em;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.07);
+}
+.actions button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+.actions button:active,
+.close-button:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.15);
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); 
+  z-index: 9998;                /* just below modal-wrapper (z-index: 9999) */
+  font-family: "Fira Code", monospace;
+
+}
+
+.modal-position {
+  position: fixed;
+  top: 25%;
+  left: calc(50% + 120px);
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.modal-wrapper {
+  background: #000;
+  border: 2px solid #7aff7a;
+  box-shadow: 0 0 10px #7aff7a88;
+  width: 400px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  animation: modalPopIn 0.3s ease-out forwards;
+}
+
+.modal-window {
+  display: flex;
+  flex-direction: column;
+  color: #f0f0f0;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #111;
+  color: #7aff7a;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.modal-close {
+  background: transparent;
+  border: 1px solid #7aff7a;
+  color: #7aff7a;
+  padding: 0.2em 0.5em;
+  font-size: 1em;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.modal-close:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+.modal-body {
+  background: #000;
+  padding: 1.2em;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5em 1em;
+  background: #111;
+  border-top: 1px solid #333;
+}
+
+.modal-footer button {
+  background: #111;
+  color: #7aff7a;
+  border: 1px solid #7aff7a;
+  padding: 0.4em 1em;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9em;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.07);
+}
+
+.modal-footer button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-wrapper.collapsing {
+  animation: retroCollapse 0.4s ease-out forwards;
+  /* Remove transform-origin: top; */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+
+.modal-footer button:active,
+.modal-close:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.15);
+  border: 1px inset #7aff7a;
 }</style>
 </head>
 <body>
@@ -1429,13 +1573,17 @@ Productivity Score: &lt;&lt;print State.variables.pph.score&gt;&gt;</tw-passaged
 &lt;&lt;else&gt;&gt;
 
   &lt;!-- Your normal UI below: status, progress, feed columns… --&gt;
+    
+
+    &lt;div id=&quot;dashboard&quot;&gt;
+      &lt;div id=&quot;status&quot;&gt;
     &lt;div id=&quot;dashboard&quot;&gt;
     &lt;div id=&quot;status&quot;&gt;
       &lt;div&gt;Burnout: &lt;&lt;print &quot;▓&quot;.repeat(_pph.burnout) + &quot;░&quot;.repeat(10 - _pph.burnout)&gt;&gt; &lt;&lt;print _pph.burnout&gt;&gt;/10&lt;/div&gt;
       &lt;div&gt;Actions Left: &lt;&lt;print _pph.actionsLeft&gt;&gt;&lt;/div&gt;
     &lt;/div&gt;
     &lt;div id=&quot;progress&quot;&gt;
-      Initiative Progress&lt;br&gt;
+      Initiative Progress:&lt;br&gt;
       &lt;&lt;if Object.keys(_pph.activeTracks).length&gt;&gt;
         &lt;&lt;for _track,_step range _pph.activeTracks&gt;&gt;
           &lt;&lt;set _bar  = &quot;■&quot;.repeat(_step) + &quot;□&quot;.repeat(5 - _step)&gt;&gt;

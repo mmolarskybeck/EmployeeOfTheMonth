@@ -64,13 +64,17 @@ Productivity Score: <<print State.variables.pph.score>>
 <<else>>
 
   <!-- Your normal UI below: status, progress, feed columns… -->
+    
+
+    <div id="dashboard">
+      <div id="status">
     <div id="dashboard">
     <div id="status">
       <div>Burnout: <<print "▓".repeat(_pph.burnout) + "░".repeat(10 - _pph.burnout)>> <<print _pph.burnout>>/10</div>
       <div>Actions Left: <<print _pph.actionsLeft>></div>
     </div>
     <div id="progress">
-      Initiative Progress<br>
+      Initiative Progress:<br>
       <<if Object.keys(_pph.activeTracks).length>>
         <<for _track,_step range _pph.activeTracks>>
           <<set _bar  = "■".repeat(_step) + "□".repeat(5 - _step)>>
