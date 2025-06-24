@@ -6,51 +6,49 @@
   <title>Centering Women: Scoreboard Compact</title>
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
   <style>
+
     body {
-      font-family: Courier, monospace;
-      background-color: #111;
-      color: white;
-      margin: 0;
-      padding: 0;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-    }
+  font-family: Courier, monospace;
+  background-color: #111;
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
 
 .wrapper {
   width: 600px;
   margin: 20px auto;
-  padding: 0 10px;           /* 👈 10px on left and right */
+  padding: 0 10px; /* 👈 10px on left and right */
   position: relative;
   border: 1px solid #0f0;
   border-radius: 4px;
   box-sizing: border-box;
-    padding: 0 10px; /* ✅ This stays */
-
+  padding: 0 10px; /* ✅ This stays */
 }
-
 
 /* the little rules banner */
 .rules {
   background: #222;
   color: #0f0;
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   font-size: 0.9em;
   border: 1px solid #0f0;
   border-radius: 4px;
-  margin: 10px 0;           /* 10px top and bottom only */
+  margin: 10px 0; /* 10px top and bottom only */
   box-sizing: border-box;
-  width: 100%;              /* fill the wrapper minus padding */
-    border: 1px solid #444;
+  width: 100%; /* fill the wrapper minus padding */
+  border: 1px solid #444;
   background: #111;
   border-radius: 5px;
-    padding: 10px;
-
+  padding: 10px;
 }
 
 .rules-toggle {
   cursor: pointer;
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   font-size: 1.1em;
   color: #0f0;
   margin-top: 12px;
@@ -71,19 +69,18 @@
   transform: rotate(90deg); /* Rotates ▶ to ▼ */
 }
 
-  .game-container {
+.game-container {
   display: flex;
   margin-top: 10px;
-  width: 100%;  /* make it fill the wrapper */
+  width: 100%; /* make it fill the wrapper */
   box-sizing: border-box;
-  gap: 10px;    /* spacing between panels */
-
+  gap: 10px; /* spacing between panels */
 }
 
-.wrapper, .game-container {
+.wrapper,
+.game-container {
   box-sizing: border-box;
 }
-
 
 .left-panel {
   flex: 1; /* Take up remaining space */
@@ -96,48 +93,48 @@
 }
 
 .right-panel {
-  width: 220px;   /* tighter than before */
+  width: 220px; /* tighter than before */
   padding: 10px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   border: 1px solid #444;
   border-radius: 5px;
   margin: 0 0 10px 0;
 }
-    .grid {
-      display: grid;
-      grid-template-columns: repeat(7, 40px);
-      grid-template-rows: repeat(7, 40px);
-      gap: 2px;
-    }
-    .cell {
-      width: 40px;
-      height: 40px;
-      font-size: 1.7em;  
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: white;
-      border: 1px solid #666;
-      transition: background-color 0.3s ease, transform 0.2s ease;
-    }
-
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 40px);
+  grid-template-rows: repeat(7, 40px);
+  gap: 2px;
+}
+.cell {
+  width: 40px;
+  height: 40px;
+  font-size: 1.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #666;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
+}
 
 .cell.wall {
-  background-color: #444;   /* dark grey for walls */
+  background-color: #444; /* dark grey for walls */
 }
 
 .cell.center {
   background-color: #d0f0d0; /* goal tile stays green */
 }
 
-    .score-section {
-      text-align: center;
-    }
-
+.score-section {
+  text-align: center;
+}
 
 .cell.moving {
   transition: transform 0.2s ease;
@@ -166,25 +163,35 @@
 .emoji {
   display: inline-block;
   /* no fixed width/height */
-  transition: transform 0.2s ease, text-shadow 0.2s ease;
-    will-change: transform;
-
+  transition:
+    transform 0.2s ease,
+    text-shadow 0.2s ease;
+  will-change: transform;
 }
 
 .emoji.active-glow {
   /* a multi-layered pink glow */
   text-shadow:
-    0 0 3px  #ff99cc,
-    0 0 6px  #ff99cc,
-    0 0 9px  #ff99cc;
+    0 0 3px #ff99cc,
+    0 0 6px #ff99cc,
+    0 0 9px #ff99cc;
   /* bump it out just a hair */
   transform: scale(1.15);
 }
 
 @keyframes pulse {
-  0%   { transform: scale(1.10); text-shadow: 0 0 3px #ff99cc; }
-  50%  { transform: scale(1.20); text-shadow: 0 0 12px #ff99cc; }
-  100% { transform: scale(1.10); text-shadow: 0 0 3px #ff99cc; }
+  0% {
+    transform: scale(1.1);
+    text-shadow: 0 0 3px #ff99cc;
+  }
+  50% {
+    transform: scale(1.2);
+    text-shadow: 0 0 12px #ff99cc;
+  }
+  100% {
+    transform: scale(1.1);
+    text-shadow: 0 0 3px #ff99cc;
+  }
 }
 
 .emoji.active-glow {
@@ -207,21 +214,20 @@
 }
 
 .digital-display {
-  font-family: 'Orbitron', monospace;
+  font-family: "Orbitron", monospace;
   font-size: 2.2em;
   color: #0f0;
   background: #111;
-      text-align: center;
+  text-align: center;
   padding: 4px 0;
   border-radius: 4px;
   border: 1px solid #0f0;
   box-shadow:
     0 0 6px #0f0,
     inset 0 0 2px #0f0;
-margin-bottom: 10px;
+  margin-bottom: 10px;
   text-shadow: 0 0 6px #0f0;
 }
-
 
 .controls button {
   width: 100%;
@@ -235,16 +241,15 @@ margin-bottom: 10px;
   border: none;
   border-radius: 6px;
   font-weight: bold;
- cursor: pointer;
+  cursor: pointer;
 }
 
 button,
 button.reset {
-  font-family: 'Orbitron', monospace;  /* match the rest of your right-panel */
-  letter-spacing: 1px;                  /* optional retro touch */
-  text-transform: uppercase;            /* if you like the all-caps look */
+  font-family: "Orbitron", monospace; /* match the rest of your right-panel */
+  letter-spacing: 1px; /* optional retro touch */
+  text-transform: uppercase; /* if you like the all-caps look */
 }
-
 
 button.reset {
   background-color: #222;
@@ -256,11 +261,16 @@ button.reset {
 }
 
 @keyframes neonBlink {
-  0%, 100% {
-    box-shadow: 0 0 6px #7aff7a, 0 0 12px #7aff7a;
+  0%,
+  100% {
+    box-shadow:
+      0 0 6px #7aff7a,
+      0 0 12px #7aff7a;
   }
   50% {
-    box-shadow: 0 0 2px #7aff7a, 0 0 6px #7aff7a;
+    box-shadow:
+      0 0 2px #7aff7a,
+      0 0 6px #7aff7a;
   }
 }
 
@@ -271,8 +281,10 @@ button.reset {
 
 .modal-overlay {
   position: fixed;
-  top: 0; left: 0;
-  width: 100vw; height: 100vh;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
   background: rgba(0, 0, 0, 0.6);
   z-index: 9998;
   font-family: "Fira Code", monospace;
@@ -328,9 +340,8 @@ button.reset {
   font-size: 1em;
   line-height: 1;
   cursor: pointer;
-  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.1);
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.1);
 }
-
 
 .modal-close:hover {
   background: #181818;
@@ -362,7 +373,7 @@ button.reset {
   border: 1px solid #7aff7a;
   padding: 0.4em 1em;
   cursor: pointer;
-  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.07);
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.07);
   transition: transform 0.1s;
 }
 
@@ -371,7 +382,6 @@ button.reset {
   border: 1px inset #7aff7a;
   outline: 1px dotted #7aff7a;
   outline-offset: -4px;
-
 }
 
 .modal-footer button:active,
@@ -421,7 +431,9 @@ button.reset {
   font-size: 1rem;
   cursor: pointer;
   animation: neonBlink 1s infinite alternate;
-  box-shadow: 0 0 5px #7aff7a, 0 0 10px #7aff7a55;
+  box-shadow:
+    0 0 5px #7aff7a,
+    0 0 10px #7aff7a55;
 }
 
 @keyframes neonBlink {
@@ -429,9 +441,12 @@ button.reset {
     box-shadow: 0 0 2px #7aff7a;
   }
   100% {
-    box-shadow: 0 0 8px #7aff7a, 0 0 20px #7aff7a88;
+    box-shadow:
+      0 0 8px #7aff7a,
+      0 0 20px #7aff7a88;
   }
 }
+
 
   </style>
 </head>
