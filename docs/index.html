@@ -565,7 +565,7 @@ button.reset {
 
   
 <script>
-  // 1) CONSTANTS
+// 1) CONSTANTS
   const EMPTY = "";
   const BOX = "📦";
   const WALL = "🧱";
@@ -584,7 +584,6 @@ button.reset {
 };
 
 // Level Index
-
 const levels = [
   {
     name: "Orientation Floor",
@@ -684,7 +683,6 @@ const levels = [
   }
 ];
 
-
 function loadLevel(index) {
   const level = levels[index];
   if (!level) return;
@@ -699,8 +697,6 @@ function loadLevel(index) {
 
   render();
 }
-
-
   // 2) STATE
   game.movesLeft = game.maxMoves;
   game.activeWoman = 0;
@@ -708,7 +704,6 @@ function loadLevel(index) {
  
   let board;
   let currentLevel; // Optional helper
-
 
   // 3) CACHED NODES
   const grid       = document.getElementById("grid");
@@ -722,16 +717,11 @@ function loadLevel(index) {
 function toggleRules() {
   const box = document.getElementById("rulesBox");
   const toggle = document.getElementById("rulesToggle");
-
   const isHidden = box.style.display === "none";
   box.style.display = isHidden ? "block" : "none";
-
   toggle.classList.toggle("open", isHidden);
-
   if (isHidden) syncRulesWidth();
 }
-
-
 
   function getCellElement(x,y) {
     return document.querySelectorAll(".cell")[y*game.size + x];
@@ -823,8 +813,7 @@ function updateScore() {
 
   scoreDisp.textContent = total;
 }
-
-
+  
   function updateMoves() {
     movesDisp.textContent = game.movesLeft;
   }
@@ -930,9 +919,7 @@ function resetGame(button) {
   button.classList.remove("blinking-neon");
   loadLevel(game.levelIndex);
 }
-
-
-
+  
 function submitForApproval(button) {
   if (!game.confirmSubmit) {
     game.confirmSubmit = true;
@@ -971,9 +958,7 @@ function showNextLevelButton() {
   if (btn) btn.style.display = "block";
 }
 
-
 // Modal Handling
-
 function showLevelModal() {
   // 1) unhide the outer wrapper
   const container = document.getElementById('levelModal');
@@ -989,8 +974,6 @@ function showLevelModal() {
   }
 }
 
-
-
 function closeLevelModal() {
   const modal   = document.getElementById('nextLevelModal');
   const overlay = document.getElementById('nextLevelOverlay');
@@ -1004,8 +987,6 @@ function closeLevelModal() {
     }, 400);
   }
 }
-
-
 
 // Trap focus inside modal for keyboard users
 function trapFocus(modal) {
@@ -1032,10 +1013,6 @@ function loadNextLevel() {
   document.getElementById("nextFloorBtn").style.display = "none";
 }
 
-
-
-
-
   // 6) KEY HANDLING
   document.addEventListener("keydown", e => {
     if (e.key.startsWith("Arrow")||e.key==="Tab") e.preventDefault();
@@ -1055,8 +1032,7 @@ function loadNextLevel() {
 
   // 7) INITIAL RENDER
   loadLevel(0);
+  
 </script>
-
-
 </body>
 </html>
