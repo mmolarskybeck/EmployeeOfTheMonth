@@ -451,80 +451,119 @@ button.reset {
   </style>
 </head>
 <body>
-  <div class="wrapper">
-    <div id="rulesToggle" onclick="toggleRules()" class="rules-toggle" role="button" tabindex="0">
-       <span class="arrow">▶</span> <span class="label">How to Play</span>
-    </div>
 
-    <div class="rules" id="rulesBox" style="display:none;">
-    <p>Per company mandate, women must now be visibly “centered” across all departments. Your role: navigate each floor plan and relocate all assigned personnel to central cubicles—no matter the bureaucratic or architectural barriers.</p>
-    <p>Use the arrow keys or WASD to move the currently selected employee. Press Tab to switch between team members.</p>
-    <p>You have 30 moves total to complete your task. Choose wisely.</p>
-    <p>Walls block movement. Boxes (📦) can be pushed—one at a time, into empty spaces only.</p>
-    <p>Higher scores are awarded the closer each woman is to the central cubicle (🎯).</p>
-    <p>Once complete, submit for performance evaluation to receive your visibility metrics.</p>
-    <p>Remember: Compliance is progress. Progress is visibility. Visibility is success.</p>
-    </div>
-
-
-    <div class="game-container">
-  	<div class="left-panel">
-    <div class="grid" id="grid"></div>
+<div class="wrapper">
+  <div
+    id="rulesToggle"
+    onclick="toggleRules()"
+    class="rules-toggle"
+    role="button"
+    tabindex="0"
+  >
+    <span class="arrow">▶</span> <span class="label">How to Play</span>
   </div>
 
-<div class="right-panel">
-  <div class="stats">
-    <div class="dashboard-item">
-      <div class="item-label">MOVES REMAINING</div>
-  	<div id="movesLeftDisplay" class="digital-display">30</div>
-    </div>
-    <div class="dashboard-item">
-      <div class="item-label">CURRENT SCORE</div>
-      <div class="digital-display" id="score">0</div>
-    </div>
-  </div>
-  <div class="controls">
-    <p style="font-size:12px; color:#888; text-align:center;">
-      ←↑↓→ to move · Tab to switch
+  <div class="rules" id="rulesBox" style="display: none">
+    <p>
+      Per company mandate, women must now be visibly “centered” across all
+      departments. Your role: navigate each floor plan and relocate all assigned
+      personnel to central cubicles—no matter the bureaucratic or architectural
+      barriers.
     </p>
-    <button onclick="resetGame(this)" class="reset">Reset</button>
-    <button onclick="submitForApproval(this)" class="submit">Submit for Approval</button>
-    <p id="submittedMsg" style="margin:8px 0 0; font-size:12px; color:#0f0;"></p>
-    <p id="evaluationMsg" style="font-size:13px; color:#ccc;"></p>
-    <button id="nextFloorBtn" style="display: none;" onclick="showLevelModal()">NEXT FLOOR</button>
+    <p>
+      Use the arrow keys or WASD to move the currently selected employee. Press
+      Tab to switch between team members.
+    </p>
+    <p>You have 30 moves total to complete your task. Choose wisely.</p>
+    <p>
+      Walls block movement. Boxes (📦) can be pushed—one at a time, into empty
+      spaces only.
+    </p>
+    <p>
+      Higher scores are awarded the closer each woman is to the central cubicle
+      (🎯).
+    </p>
+    <p>
+      Once complete, submit for performance evaluation to receive your
+      visibility metrics.
+    </p>
+    <p>
+      Remember: Compliance is progress. Progress is visibility. Visibility is
+      success.
+    </p>
+  </div>
 
+  <div class="game-container">
+    <div class="left-panel">
+      <div class="grid" id="grid"></div>
+    </div>
 
-<div id="levelModal" style="display:none;">
-   <div class="modal-overlay" role="dialog" aria-modal="true" id="nextLevelOverlay">
-  <div class="modal-position">
-    <div class="modal-wrapper" id="nextLevelModal">
-      <div class="modal-window">
-        <div class="modal-header">
-          System Notice
-          <button class="modal-close" onclick="closeLevelModal()">×</button>
+    <div class="right-panel">
+      <div class="stats">
+        <div class="dashboard-item">
+          <div class="item-label">MOVES REMAINING</div>
+          <div id="movesLeftDisplay" class="digital-display">30</div>
         </div>
-        <div class="modal-body">
-          🧬 Level 2 initializing. Prepare for increased task complexity and proximity drift.
+        <div class="dashboard-item">
+          <div class="item-label">CURRENT SCORE</div>
+          <div class="digital-display" id="score">0</div>
         </div>
-        <div class="modal-footer">
-          <button onclick="loadNextLevel()">Acknowledge</button>
+      </div>
+      <div class="controls">
+        <p style="font-size: 12px; color: #888; text-align: center">
+          ←↑↓→ to move · Tab to switch
+        </p>
+        <button onclick="resetGame(this)" class="reset">Reset</button>
+        <button onclick="submitForApproval(this)" class="submit">
+          Submit for Approval
+        </button>
+        <p
+          id="submittedMsg"
+          style="margin: 8px 0 0; font-size: 12px; color: #0f0"
+        ></p>
+        <p id="evaluationMsg" style="font-size: 13px; color: #ccc"></p>
+        <button
+          id="nextFloorBtn"
+          style="display: none"
+          onclick="showLevelModal()"
+        >
+          NEXT FLOOR
+        </button>
+
+        <div id="levelModal" style="display: none">
+          <div
+            class="modal-overlay"
+            role="dialog"
+            aria-modal="true"
+            id="nextLevelOverlay"
+          >
+            <div class="modal-position">
+              <div class="modal-wrapper" id="nextLevelModal">
+                <div class="modal-window">
+                  <div class="modal-header">
+                    System Notice
+                    <button class="modal-close" onclick="closeLevelModal()">
+                      ×
+                    </button>
+                  </div>
+                  <div class="modal-body">
+                    🧬 Level 2 initializing. Prepare for increased task
+                    complexity and proximity drift.
+                  </div>
+                  <div class="modal-footer">
+                    <button onclick="loadNextLevel()">Acknowledge</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </div>
 </div>
 
-
-</div>
-
-
-  </div>
-</div>
-
-
-</div>
-</div>
-
+  
 <script>
   // 1) CONSTANTS
   const EMPTY = "";
