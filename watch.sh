@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 set -e
 
+SRC=tests/PowerHourPrototype/src
+OUT=tests/PowerHourPrototype
+
 echo "🔁 Watching for changes…"
+
+# watch‐mode: same flags plus -w
 tweego -w \
   -f sugarcube-2 \
-  -o tests/PowerHourPrototype/index.html \
-  tests/PowerHourPrototype/src/story.twee \
-  -m tests/PowerHourPrototype/src/story.js \
-  -m tests/PowerHourPrototype/src/story.css
+  -m "$SRC"/story.css \
+  -o "$OUT"/index.html \
+  "$SRC"/story.twee

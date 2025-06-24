@@ -1,0 +1,248 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Centering Women Prototype</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #111;
+      color: #0f0;
+      font-family: 'Orbitron', monospace;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    button {
+      font-family: 'Orbitron', monospace;
+      background-color: #000;
+      border: 2px solid #0f0;
+      color: #0f0;
+      padding: 0.5em 1em;
+      cursor: pointer;
+      margin: 0.5em;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-wrapper {
+      background: #000;
+      border: 2px solid #7aff7a;
+      padding: 1em;
+      width: 400px;
+      max-width: 90vw;
+    }
+
+    .modal-header {
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+
+    .modal-footer {
+      margin-top: 1em;
+    }
+
+    .modal-close {
+      float: right;
+      cursor: pointer;
+      color: #7aff7a;
+    }
+
+    .pending {
+      border-color: #ff0;
+      color: #ff0;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 4px #ff0; }
+      50% { box-shadow: 0 0 12px #ff0; }
+      100% { box-shadow: 0 0 4px #ff0; }
+    }
+  </style>
+</head>
+<body>
+   <div class="wrapper">
+    <!-- Rules toggle + blurb -->
+    <div id="rulesToggle" class="rules-toggle" tabindex="0">▶ How to Play</div>
+    <div class="rules" id="rulesBox" style="display:none;"></div>
+
+    <!-- Game container -->
+    <div class="game-container">
+      <div class="left-panel">
+        <div class="grid" id="grid"></div>
+      </div>
+      <div class="right-panel">
+        <div class="stats">
+          <div class="dashboard-item">
+            <div class="item-label">MOVES REMAINING</div>
+            <div id="movesLeftDisplay" class="digital-display">30</div>
+          </div>
+          <div class="dashboard-item">
+            <div class="item-label">CURRENT SCORE</div>
+            <div id="score" class="digital-display">0</div>
+          </div>
+        </div>
+        <div class="controls">
+          <p style="font-size:12px; color:#888; text-align:center;">
+            ←↑↓→ to move · Tab to switch
+          </p>
+          <button onclick="askToReset()" id="resetBtn">Reset Floor</button>
+          <button onclick="askToSubmit()" id="submitBtn">Submit for Approval</button>
+          <p id="submittedMsg" style="font-size:12px; color:#0f0;"></p>
+          <p id="evaluationMsg" style="font-size:13px; color:#ccc;"></p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal: Level Intro / Evaluation -->
+  <div id="levelIntroModal" class="modal-overlay" style="display: none;">
+    <div class="modal-position">
+      <div class="modal-wrapper">
+        <div class="modal-window">
+          <div class="modal-header">
+            Floor Briefing <button class="modal-close" onclick="closeLevelIntro()">&times;</button>
+          </div>
+          <div class="modal-body" id="levelIntroText"></div>
+          <div class="modal-footer" id="levelIntroFooter"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <script>
+    const setup = {
+      game: {
+        currentLevelIndex: 0,
+        totalScore: 0,
+        confirmReset: false,
+        confirmSubmit: false
+      },
+      levels: [
+        {
+          name: "HR Floor",
+          blurb: "Your first assignment. Learn the system. Center your team.",
+          board: [
+            ["", "", "📦", "", "📦", "", ""],
+            ["", "🧱", "", "🧱", "", "🧱", ""],
+            ["📦", "", "📦", "", "📦", "", "📦"],
+            ["", "🧱", "", "🎯", "", "🧱", ""],
+            ["📦", "", "📦", "", "📦", "", "📦"],
+            ["", "🧱", "", "🧱", "", "🧱", ""],
+            ["", "", "📦", "", "📦", "", ""]
+          ],
+          women: [
+            { x:0, y:0 }, { x:6, y:0 }, { x:0, y:6 }, { x:6, y:6 }
+          ],
+          rules: {
+            punishDistanceFrom: [],
+            rewardByWindowHack: false
+          }
+        }
+      ]
+    };
+
+    function renderGrid() {
+      const grid = document.getElementById("grid");
+      const board = setup.levels[setup.game.currentLevelIndex].board;
+      grid.innerHTML = "";
+      for (let y = 0; y < board.length; y++) {
+        for (let x = 0; x < board[y].length; x++) {
+          const cell = document.createElement("div");
+          cell.className = "cell";
+          const tile = board[y][x];
+          if (tile === "🧱") cell.classList.add("wall");
+          else if (tile === "🎯") cell.classList.add("center");
+          cell.textContent = tile;
+          grid.appendChild(cell);
+        }
+      }
+    }
+
+    function loadLevel(index) {
+      setup.game.currentLevelIndex = index;
+      const level = setup.levels[index];
+      document.getElementById("rulesBox").innerHTML = `<p>${level.blurb}</p>`;
+      document.getElementById("movesLeftDisplay").textContent = "30";
+      document.getElementById("score").textContent = "0";
+      document.getElementById("submittedMsg").textContent = "";
+      document.getElementById("evaluationMsg").textContent = "";
+
+      document.getElementById("levelIntroText").innerHTML = `<p>${level.blurb}</p>`;
+      document.getElementById("levelIntroFooter").innerHTML = `<button onclick="closeLevelIntro(); renderGrid();">Begin Floor</button>`;
+      document.getElementById("levelIntroModal").style.display = "block";
+    }
+
+    function closeLevelIntro() {
+      document.getElementById("levelIntroModal").style.display = "none";
+    }
+
+    function askToReset() {
+      const btn = document.getElementById("resetBtn");
+      if (!setup.game.confirmReset) {
+        setup.game.confirmReset = true;
+        btn.textContent = "Click Again to Confirm";
+        btn.classList.add("pending-reset");
+        setTimeout(() => {
+          setup.game.confirmReset = false;
+          btn.textContent = "Reset Floor";
+          btn.classList.remove("pending-reset");
+        }, 3000);
+      } else {
+        setup.game.confirmReset = false;
+        btn.textContent = "Reset Floor";
+        btn.classList.remove("pending-reset");
+        loadLevel(setup.game.currentLevelIndex);
+      }
+    }
+
+    function askToSubmit() {
+      const btn = document.getElementById("submitBtn");
+      if (!setup.game.confirmSubmit) {
+        setup.game.confirmSubmit = true;
+        btn.textContent = "Click Again to Confirm";
+        btn.classList.add("pending-submit");
+        setTimeout(() => {
+          setup.game.confirmSubmit = false;
+          btn.textContent = "Submit for Approval";
+          btn.classList.remove("pending-submit");
+        }, 3000);
+      } else {
+        setup.game.confirmSubmit = false;
+        btn.textContent = "Submit for Approval";
+        btn.classList.remove("pending-submit");
+        confirmSubmit();
+      }
+    }
+
+    function confirmSubmit() {
+      const score = Math.floor(Math.random() * 50);
+      setup.game.totalScore += score;
+      const nextLevel = setup.levels[setup.game.currentLevelIndex + 1];
+      const modal = document.getElementById("levelIntroModal");
+      const body = document.getElementById("levelIntroText");
+      const footer = document.getElementById("levelIntroFooter");
+      body.innerHTML = `<p><strong>Score:</strong> ${score}</p>`;
+      footer.innerHTML = nextLevel
+        ? `<button onclick="loadLevel(setup.game.currentLevelIndex + 1); closeLevelIntro();">Begin ${nextLevel.name}</button>`
+        : `<button onclick="closeLevelIntro();">Done</button>`;
+      modal.style.display = "block";
+    }
+
+    loadLevel(0);
+  </script>
+  
+</body>
+</html>

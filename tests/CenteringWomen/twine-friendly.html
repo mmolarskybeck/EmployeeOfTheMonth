@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Centering Women Prototype</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #111;
+      color: #0f0;
+      font-family: 'Orbitron', monospace;
+      margin: 0;
+      padding: 20px;
+      text-align: center;
+    }
+
+    button {
+      font-family: 'Orbitron', monospace;
+      background-color: #000;
+      border: 2px solid #0f0;
+      color: #0f0;
+      padding: 0.5em 1em;
+      cursor: pointer;
+      margin: 0.5em;
+    }
+
+    .modal-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 1000;
+      display: none;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-wrapper {
+      background: #000;
+      border: 2px solid #7aff7a;
+      padding: 1em;
+      width: 400px;
+      max-width: 90vw;
+    }
+
+    .modal-header {
+      font-weight: bold;
+      margin-bottom: 0.5em;
+    }
+
+    .modal-footer {
+      margin-top: 1em;
+    }
+
+    .modal-close {
+      float: right;
+      cursor: pointer;
+      color: #7aff7a;
+    }
+
+    .pending {
+      border-color: #ff0;
+      color: #ff0;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 4px #ff0; }
+      50% { box-shadow: 0 0 12px #ff0; }
+      100% { box-shadow: 0 0 4px #ff0; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Centering Women</h1>
+  <h3 id="levelName"></h3>
+  <div id="gridContainer"></div>
+
+  <div>
+    <button onclick="askToReset()" id="resetBtn">Reset Floor</button>
+    <button onclick="askToSubmit()" id="submitBtn">Submit for Approval</button>
+  </div>
+
+  <div id="evaluationMsg"></div>
+
+  <div id="levelIntroModal" class="modal-overlay">
+    <div class="modal-wrapper">
+      <div class="modal-header">
+        Floor Briefing <span class="modal-close" onclick="closeLevelIntro()">✕</span>
+      </div>
+      <div class="modal-body" id="levelIntroText"></div>
+      <div class="modal-footer" id="levelIntroFooter"></div>
+    </div>
+  </div>
+
+  <script>
+    const setup = {
+      game: {
+        currentLevelIndex: 0,
+        totalScore: 0,
+        confirmReset: false,
+        confirmSubmit: false
+      },
+      levels: [
+        {
+          name: "HR Floor",
+          blurb: "A simple training level. Learn the system. Center the personnel.",
+          board: [["", "", "📦"], ["", "🎯", ""], ["📦", "", ""]],
+          women: [{x:0,y:0},{x:2,y:0},{x:0,y:2},{x:2,y:2}],
+          rules: {
+            punishDistanceFrom: [],
+            rewardByWindowHack: false
+          }
+        }
+      ]
+    };
+
+    function renderGrid(container) {
+      container.innerHTML = "";
+      const table = document.createElement("table");
+      table.style.margin = "0 auto";
+      const board = setup.levels[setup.game.currentLevelIndex].board;
+      for (let y = 0; y < board.length; y++) {
+        const row = document.createElement("tr");
+        for (let x = 0; x < board[y].length; x++) {
+          const cell = document.createElement("td");
+          cell.style.padding = "10px";
+          cell.textContent = board[y][x] || "";
+          row.appendChild(cell);
+        }
+        table.appendChild(row);
+      }
+      container.appendChild(table);
+    }
+
+    function loadLevel(index) {
+      setup.game.currentLevelIndex = index;
+      const level = setup.levels[index];
+      document.getElementById("levelName").textContent = level.name;
+      const body = document.getElementById("levelIntroText");
+      const footer = document.getElementById("levelIntroFooter");
+      body.innerHTML = `<p>${level.blurb}</p>`;
+      footer.innerHTML = `<button onclick="closeLevelIntro(); renderGrid(document.getElementById('gridContainer'));">Begin Floor</button>`;
+      document.getElementById("levelIntroModal").style.display = "flex";
+    }
+
+    function closeLevelIntro() {
+      document.getElementById("levelIntroModal").style.display = "none";
+    }
+
+    function askToReset() {
+      const btn = document.getElementById("resetBtn");
+      if (!setup.game.confirmReset) {
+        setup.game.confirmReset = true;
+        btn.textContent = "Click Again to Confirm";
+        btn.classList.add("pending");
+        setTimeout(() => {
+          setup.game.confirmReset = false;
+          btn.textContent = "Reset Floor";
+          btn.classList.remove("pending");
+        }, 3000);
+      } else {
+        setup.game.confirmReset = false;
+        btn.textContent = "Reset Floor";
+        btn.classList.remove("pending");
+        loadLevel(setup.game.currentLevelIndex);
+      }
+    }
+
+    function askToSubmit() {
+      const btn = document.getElementById("submitBtn");
+      if (!setup.game.confirmSubmit) {
+        setup.game.confirmSubmit = true;
+        btn.textContent = "Click Again to Confirm";
+        btn.classList.add("pending");
+        setTimeout(() => {
+          setup.game.confirmSubmit = false;
+          btn.textContent = "Submit for Approval";
+          btn.classList.remove("pending");
+        }, 3000);
+      } else {
+        setup.game.confirmSubmit = false;
+        btn.textContent = "Submit for Approval";
+        btn.classList.remove("pending");
+        confirmSubmit();
+      }
+    }
+
+    function confirmSubmit() {
+      const score = Math.floor(Math.random() * 50);
+      setup.game.totalScore += score;
+      const nextLevel = setup.levels[setup.game.currentLevelIndex + 1];
+      const modal = document.getElementById("levelIntroModal");
+      const body = document.getElementById("levelIntroText");
+      const footer = document.getElementById("levelIntroFooter");
+      body.innerHTML = `
+        <p><strong>Score:</strong> ${score}</p>
+        ${nextLevel ? `<hr><p><strong>Next Floor:</strong> ${nextLevel.name}</p><p>${nextLevel.blurb}</p>` : "<p>All levels complete.</p>"}
+      `;
+      footer.innerHTML = nextLevel
+        ? `<button onclick="loadLevel(setup.game.currentLevelIndex + 1); closeLevelIntro();">Begin ${nextLevel.name}</button>`
+        : `<button onclick="closeLevelIntro()">Done</button>`;
+      modal.style.display = "flex";
+    }
+
+    // Load the first level
+    loadLevel(0);
+  </script>
+</body>
+</html>

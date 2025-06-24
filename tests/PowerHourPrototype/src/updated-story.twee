@@ -1,3 +1,16 @@
+:: StoryTitle
+Power Hour Prototype
+
+:: StoryData
+{
+  "ifid": "E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "PowerHourStart",
+  "zoom": 1
+}
+
+:: Story JavaScript [script]
 
 // Make sure setup exists
 window.setup = window.setup || {};
@@ -311,6 +324,14 @@ setup.handleExecute = function(index) {
   const pph = State.variables.pph;
   pph.roundStarted = true;  // mark that we’ve now begun
   const card = pph.taskFeed[index];
+
+// Debug log
+console.log("→ handleExecute()", {
+  track: card?.track, step: card?.step,
+  activeTracks: {...State.variables.pph.activeTracks}
+});
+
+
   if (!card) return;
 
   // 1) Pledges still route to the pledge handler
@@ -513,3 +534,157 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+
+
+
+:: PowerHourStart {"position":"825,350","size":"100,100"}
+<<script>>
+  console.log("▶︎ HEAD SCRIPTS:", 
+    document.querySelectorAll('head script[src]'),
+    "setup.initPowerHour =", typeof setup.initPowerHour
+  );
+<</script>>
+<<if !State.variables.pph>>
+  <<run setup.initPowerHour()>>
+<</if>>
+<<goto "PowerHourLoop">>
+
+
+:: PowerHourLoop {"position":"700,475","size":"100,100"}
+<<if !State.variables.pph>>
+  <<run setup.initPowerHour ()>>
+<</if>>
+<<set _pph = State.variables.pph>>
+<<nobr>>
+
+<!-- MODALS -->
+<<if _pph.errorMessage>>
+<div class="modal-overlay">
+  <div class="modal-wrapper">
+    <div class="modal-card" id="modal">
+      <p><<print _pph.errorMessage>></p>
+      <div class="modal-footer">
+        <<button "OK">>
+          <<run State.variables.pph.errorMessage = null>>
+          <<run Engine.play("PowerHourLoop")>>
+        <</button>>
+      </div>
+    </div>
+  </div>
+</div>
+
+<<elseif _pph.lastEvent>>
+<div class="modal-overlay">
+  <div class="modal-wrapper">
+    <div class="modal-card" id="modal">
+      <p><<print _pph.lastEvent>></p>
+      <div class="modal-footer">
+        <<button "Acknowledge">>
+          <<run State.variables.pph.lastEvent = null>>
+          <<run Engine.play("PowerHourLoop")>>
+        <</button>>
+      </div>
+    </div>
+  </div>
+</div>
+<<else>>
+
+
+
+
+
+<!-- DASHBOARD -->
+    
+    <div id="dashboard">
+    <div id="status">
+      <div>Burnout: <<print "▓".repeat(_pph.burnout) + "░".repeat(10 - _pph.burnout)>> <<print _pph.burnout>>/10</div>
+      <div>Actions Left: <<print _pph.actionsLeft>></div>
+    </div>
+    <div id="progress">
+      Initiative Progress:<br>
+      <<if Object.keys(_pph.activeTracks).length>>
+        <<for _track,_step range _pph.activeTracks>>
+          <<set _bar  = "■".repeat(_step) + "□".repeat(5 - _step)>>
+          <<set _name = _track.padEnd(28, " ")>>
+          • <<print _name>> [<<print _bar>>] <<print _step>>/5<<if _track === _pph.pledgedTrack>> ⬤<</if>><br>
+        <</for>>
+      <<else>>
+        <p>None started yet. Please remember that the Power Hour has begun.</p>
+      <</if>>
+    </div>
+  </div>
+
+
+<<set _pph = State.variables.pph>>
+
+<!-- FEED -->
+
+<div id="feed">
+  <<for _i,_card range $pph.taskFeed>>
+    <div class="ticket-card" data-index="<<=_i>>">
+      <strong>
+        <<= _card.type==="pledge"
+             ? `${_card.track} Visibility Pledge`
+             : `${_card.track} – Step ${_card.step}`>>
+      </strong>
+      <div class="actions">
+        <<if _card.type==="pledge">>
+          <<button "Pledge">>
+            <<run setup.animatePledge(_i)>>
+          <</button>>
+          <<button "Delete">>
+            <<run setup.animateDelete(_i)>>
+          <</button>>
+        <<else>>
+          <<button "Execute">>
+            <<run setup.animateExecute(_i)>>
+          <</button>>
+          <<button "Delete">>
+            <<run setup.animateDelete(_i)>>
+          <</button>>
+        <</if>>
+      </div>
+    </div>
+  <</for>>
+</div>
+<</if>>
+
+<</nobr>>
+
+
+
+:: SoftFail {"position":"975,425","size":"100,100"}
+<<run setup.calculateScore()>>
+<h2>Productivity Power Hour Concluded</h2>
+
+<<if _score > 0>>
+  <p>You didn’t complete a full track, but you made meaningful progress. Partial completions have been logged.</p>
+  <p>CoSy acknowledges your intermediate output with faint approval.</p>
+<<else>>
+  <p>No tracks were completed. CoSy notes a troubling lack of outcomes.</p>
+  <p>Recommended remediation: Self-directed motivational reflection.</p>
+<</if>>
+
+<p>Final Productivity Score: <<print State.variables.pph.score>></p>
+
+<<link "Try Again">>
+  <<goto "PowerHourStart">>
+<</link>>
+
+:: HardFail {"position":"975,525","size":"100,100"}
+<<run setup.calculateScore()>>
+<h2>Burnout Reached!</h2>
+<<if $pph.score > 0>>
+Your burnout metrics hit critical levels, but HQ noticed your productivity streak.  
+
+You’ll get a fast-track decompression break and a shiny commendation for the effort!
+<<else>>
+Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
+<</if>>
+
+Productivity Score: <<print $pph.score>>
+
+
+:: Win {"position":"975,325","size":"100,100"}
+<<run setup.calculateScore()>>
+Congrats, you won with a score of <<print State.variables.pph.score>>!

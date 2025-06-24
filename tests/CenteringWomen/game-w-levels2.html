@@ -1,0 +1,754 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Centering Women: Scoreboard Compact</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: Courier, monospace;
+      background-color: #111;
+      color: white;
+      margin: 0;
+      padding: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+.wrapper {
+  width: 600px;
+  margin: 20px auto;
+  padding: 0 10px;           /* 👈 10px on left and right */
+  position: relative;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+  box-sizing: border-box;
+    padding: 0 10px; /* ✅ This stays */
+
+}
+
+
+/* the little rules banner */
+.rules {
+  background: #222;
+  color: #0f0;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9em;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+  margin: 10px 0;           /* 10px top and bottom only */
+  box-sizing: border-box;
+  width: 100%;              /* fill the wrapper minus padding */
+    border: 1px solid #444;
+  background: #111;
+  border-radius: 5px;
+    padding: 10px;
+
+}
+
+.rules-toggle {
+  cursor: pointer;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1em;
+  color: #0f0;
+  margin-top: 12px;
+  text-align: center;
+  transition: color 0.3s;
+}
+
+.rules-toggle:hover {
+  color: #afffaf;
+}
+
+.rules-toggle .arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.rules-toggle.open .arrow {
+  transform: rotate(90deg); /* Rotates ▶ to ▼ */
+}
+
+  .game-container {
+  display: flex;
+  margin-top: 10px;
+  width: 100%;  /* make it fill the wrapper */
+  box-sizing: border-box;
+  gap: 10px;    /* spacing between panels */
+
+}
+
+.wrapper, .game-container {
+  box-sizing: border-box;
+}
+
+
+.left-panel {
+  flex: 1; /* Take up remaining space */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.right-panel {
+  width: 220px;   /* tighter than before */
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Orbitron', monospace;
+  border: 1px solid #444;
+  border-radius: 5px;
+  margin: 0 0 10px 0;
+}
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(7, 40px);
+      grid-template-rows: repeat(7, 40px);
+      gap: 2px;
+    }
+    .cell {
+      width: 40px;
+      height: 40px;
+      font-size: 1.7em;  
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background-color: white;
+      border: 1px solid #666;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+
+.cell.wall {
+  background-color: #444;   /* dark grey for walls */
+}
+
+.cell.center {
+  background-color: #d0f0d0; /* goal tile stays green */
+}
+
+    .score-section {
+      text-align: center;
+    }
+
+
+.cell.moving {
+  transition: transform 0.2s ease;
+}
+
+.emoji.glow-pop {
+  animation: glowPop 0.3s ease-out;
+  display: inline-block;
+}
+
+@keyframes glowPop {
+  0% {
+    text-shadow: 0 0 0px #ff0077;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 10px #ff0077;
+    transform: scale(1.4);
+  }
+  100% {
+    text-shadow: 0 0 0px #ff0077;
+    transform: scale(1);
+  }
+}
+
+.emoji {
+  display: inline-block;
+  /* no fixed width/height */
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+    will-change: transform;
+
+}
+
+.emoji.active-glow {
+  /* a multi-layered pink glow */
+  text-shadow:
+    0 0 3px  #ff99cc,
+    0 0 6px  #ff99cc,
+    0 0 9px  #ff99cc;
+  /* bump it out just a hair */
+  transform: scale(1.15);
+}
+
+@keyframes pulse {
+  0%   { transform: scale(1.10); text-shadow: 0 0 3px #ff99cc; }
+  50%  { transform: scale(1.20); text-shadow: 0 0 12px #ff99cc; }
+  100% { transform: scale(1.10); text-shadow: 0 0 3px #ff99cc; }
+}
+
+.emoji.active-glow {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.right-panel > .stats {
+  border-bottom: 2px solid #444;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.item-label {
+  font-size: 0.75em;
+  letter-spacing: 1px;
+  color: #aaa;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.digital-display {
+  font-family: 'Orbitron', monospace;
+  font-size: 2.2em;
+  color: #0f0;
+  background: #111;
+      text-align: center;
+  padding: 4px 0;
+  border-radius: 4px;
+  border: 1px solid #0f0;
+  box-shadow:
+    0 0 6px #0f0,
+    inset 0 0 2px #0f0;
+margin-bottom: 10px;
+  text-shadow: 0 0 6px #0f0;
+}
+
+
+.controls button {
+  width: 100%;
+  margin-top: 6px;
+  background-color: #222;
+  border: 3px double #666;
+  color: #0f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+button,
+button.reset {
+  font-family: 'Orbitron', monospace;  /* match the rest of your right-panel */
+  letter-spacing: 1px;                  /* optional retro touch */
+  text-transform: uppercase;            /* if you like the all-caps look */
+}
+
+button {
+      font-size: 16px;
+      border: none;
+      border-radius: 6px;
+      background-color: #0f0;
+      color: #000;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+button.reset {
+  background-color: #222;
+  color: white;
+  border: 3px double #666;
+  margin-bottom: 10px;
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+
+
+
+
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <div id="rulesToggle" onclick="toggleRules()" class="rules-toggle" role="button" tabindex="0">
+       <span class="arrow">▶</span> <span class="label">How to Play</span>
+    </div>
+
+    <div class="rules" id="rulesBox" style="display:none;">
+    <p>Per company mandate, women must now be visibly “centered” across all departments. Your role: navigate each floor plan and relocate all assigned personnel to central cubicles—no matter the bureaucratic or architectural barriers.</p>
+    <p>Use the arrow keys or WASD to move the currently selected employee. Press Tab to switch between team members.</p>
+    <p>You have 30 moves total to complete your task. Choose wisely.</p>
+    <p>Walls block movement. Boxes (📦) can be pushed—one at a time, into empty spaces only.</p>
+    <p>Higher scores are awarded the closer each woman is to the central cubicle (🎯).</p>
+    <p>Once complete, submit for performance evaluation to receive your visibility metrics.</p>
+    <p>Remember: Compliance is progress. Progress is visibility. Visibility is success.</p>
+    </div>
+
+
+    <div class="game-container">
+  	<div class="left-panel">
+    <div class="grid" id="grid"></div>
+  </div>
+
+<div class="right-panel">
+  <div class="stats">
+    <div class="dashboard-item">
+      <div class="item-label">MOVES REMAINING</div>
+  	<div id="movesLeftDisplay" class="digital-display">30</div>
+    </div>
+    <div class="dashboard-item">
+      <div class="item-label">CURRENT SCORE</div>
+      <div class="digital-display" id="score">0</div>
+    </div>
+  </div>
+  <div class="controls">
+    <p style="font-size:12px; color:#888; text-align:center;">
+      ←↑↓→ to move · Tab to switch
+    </p>
+    <button onclick="resetGame(this)" class="reset">Reset</button>
+    <button onclick="submitForApproval(this)">Submit for Approval</button>
+    <p id="submittedMsg" style="margin:8px 0 0; font-size:12px; color:#0f0;"></p>
+    <p id="evaluationMsg" style="font-size:13px; color:#ccc;"></p>
+  </div>
+</div>
+
+
+</div>
+</div>
+
+<script>
+  // 1) CONSTANTS
+  const EMPTY = "";
+  const BOX = "📦";
+  const WALL = "🧱";
+  const CENTER = "🎯";
+
+  const game = {
+  size: 7,
+  maxMoves: 30,
+  levelIndex: 0,
+  totalScore: 0,
+  movesLeft: 30,
+  activeWoman: 0,
+  confirmSubmit: false,
+  confirmReset: false,
+  emojis: ["👵🏻", "👩🏼", "👩🏾‍🦱", "🧕🏽"]
+};
+
+// Level Index
+
+const levels = [
+  {
+    name: "Orientation Floor",
+    intro: "Welcome to the Orientation Floor. Please demonstrate core compliance with centralization policy.",
+    goal: { x: 3, y: 3 },
+    board: [
+      ["", "", "📦", "", "📦", "", ""],
+      ["", "🧱", "", "🧱", "", "🧱", ""],
+      ["📦", "", "📦", "", "📦", "", "📦"],
+      ["", "🧱", "", "🎯", "", "🧱", ""],
+      ["📦", "", "📦", "", "📦", "", "📦"],
+      ["", "🧱", "", "🧱", "", "🧱", ""],
+      ["", "", "📦", "", "📦", "", ""]
+    ],
+    women: [
+      { x: 0, y: 0 },
+      { x: 6, y: 0 },
+      { x: 0, y: 6 },
+      { x: 6, y: 6 }
+    ],
+    rules: {
+      punishDistanceFrom: [],
+      rewardByWindowHack: false
+    }
+  },
+  {
+    name: "Innovation Floor",
+    intro: "Innovation demands flexibility. Proximity to the restroom will be closely monitored.",
+    goal: { x: 3, y: 3 },
+    board: [
+      ["",    "🧱",  "",    "📦",  "",    "🧱", ""],
+      ["",    "",    "📦",  "",    "📦",  "",   ""],
+      ["📦", "",     "📦",  "",    "📦",  "",   "📦"],
+      ["",    "📦",  "",    "🎯",  "",    "📦", ""],
+      ["📦", "",     "📦",  "",    "📦",  "",   "📦"],
+      ["",    "",    "",    "🚻",  "",    "",   ""],
+      ["",    "🧱",  "",    "📦",  "",    "🧱", ""]
+    ],
+    women: [
+      { x: 0, y: 0 },
+      { x: 6, y: 0 },
+      { x: 0, y: 6 },
+      { x: 6, y: 6 }
+    ],
+    rules: {
+      punishDistanceFrom: ["🚻"],
+      rewardByWindowHack: false
+    }
+  },
+  {
+    name: "The Atrium",
+    intro: "Sunlight improves productivity—so they say. Let’s see what it improves here.",
+    goal: { x: 3, y: 3 },
+    board: [
+      ["🪟", "",    "📦",  "",    "📦",  "", "🪟"],
+      ["",   "🧱", "",    "🧱",  "",    "🧱", ""],
+      ["📦", "",   "📦",  "",    "📦",  "",  "📦"],
+      ["",   "🧱", "",    "🎯",  "",    "🧱", ""],
+      ["📦", "",   "📦",  "",    "📦",  "",  "📦"],
+      ["",   "🧱", "",    "🧱",  "",    "🧱", ""],
+      ["🪟", "",   "📦",  "",    "📦",  "",  "🪟"]
+    ],
+    women: [
+      { x: 0, y: 0 },
+      { x: 6, y: 0 },
+      { x: 0, y: 6 },
+      { x: 6, y: 6 }
+    ],
+    rules: {
+      punishDistanceFrom: [],
+      rewardByWindowHack: true
+    }
+  },
+  {
+    name: "Skyview HQ",
+    intro: "The executive tier has extra perks. That includes windows—and accountability.",
+    goal: { x: 3, y: 3 },
+    board: [
+      ["🪟", "🍼",  "🧱",  "",    "",    "🚻", "🪟"],
+      ["",    "🧱",  "📦",  "",    "📦",  "🧱", ""],
+      ["",    "",     "📦",  "",    "📦",  "",    ""],
+      ["",    "📦",  "",    "🎯",  "",    "📦", ""],
+      ["",    "",     "📦",  "",    "📦",  "",    ""],
+      ["",    "🧱",  "📦",  "",    "📦",  "🧱", ""],
+      ["🪟", "",     "",     "",    "",     "",    "🪟"]
+    ],
+    women: [
+      { x: 0, y: 0 },
+      { x: 6, y: 0 },
+      { x: 0, y: 6 },
+      { x: 6, y: 6 }
+    ],
+    rules: {
+      punishDistanceFrom: ["🍼", "🚻"],
+      rewardByWindowHack: true
+    }
+  }
+];
+
+
+function loadLevel(index) {
+  const level = levels[index];
+  if (!level) return;
+
+  board = JSON.parse(JSON.stringify(level.board)); // Deep clone to avoid mutation
+  game.women = JSON.parse(JSON.stringify(level.women));
+  game.goal = { ...level.goal };
+  game.movesLeft = game.maxMoves;
+  game.activeWoman = 0;
+  submitMsg.textContent = "";
+  evalMsg.textContent = "";
+
+  render();
+}
+
+
+  // 2) STATE
+  game.movesLeft = game.maxMoves;
+  game.activeWoman = 0;
+  const emojis     = ["👵🏻","👩🏼","👩🏾‍🦱","🧕🏽"];
+ 
+  let board;
+  let currentLevel; // Optional helper
+
+
+  // 3) CACHED NODES
+  const grid       = document.getElementById("grid");
+  const scoreDisp  = document.getElementById("score");
+  const movesDisp = document.getElementById("movesLeftDisplay");
+  const evalMsg    = document.getElementById("evaluationMsg");
+  const submitMsg  = document.getElementById("submittedMsg");
+  
+
+  // 4) HELPERS
+function toggleRules() {
+  const box = document.getElementById("rulesBox");
+  const toggle = document.getElementById("rulesToggle");
+
+  const isHidden = box.style.display === "none";
+  box.style.display = isHidden ? "block" : "none";
+
+  toggle.classList.toggle("open", isHidden);
+
+  if (isHidden) syncRulesWidth();
+}
+
+
+
+  function getCellElement(x,y) {
+    return document.querySelectorAll(".cell")[y*game.size + x];
+  }
+
+  function buildGrid() {
+    grid.innerHTML = "";
+    for (let y=0; y<game.size; y++) {
+      for (let x=0; x<game.size; x++) {
+        const cell = document.createElement("div");
+        cell.className = "cell";
+
+        // Goal square: green + 🎯
+        if (x === game.goal.x && y === game.goal.y) {
+          cell.classList.add("center");
+          cell.textContent = CENTER;
+        }
+
+        // Draw a woman-avatar if present
+        let drewWoman = false;
+        game.women.forEach((w,i) => {
+          if (!drewWoman && w.x===x && w.y===y) {
+            // Clear any text (removes the 🎯 underneath)
+            cell.textContent = "";
+            const span = document.createElement("span");
+            span.className = "emoji" + (i===game.activeWoman ? " active-glow" : "");
+            span.textContent = emojis[i];
+            cell.appendChild(span);
+            drewWoman = true;
+          }
+        });
+
+        // Otherwise draw wall/box
+        if (!drewWoman && !(x === game.goal.x && y === game.goal.y)) {
+          const tile = board[y][x];
+          if (tile === WALL)     cell.classList.add("wall");
+          else if (tile === BOX) cell.textContent = BOX;
+        }
+
+        grid.appendChild(cell);
+      }
+    }
+  }
+
+  //  SCORE CALCULATION
+function updateScore() {
+  const level = levels[game.levelIndex];
+  const punishTargets = level.rules?.punishDistanceFrom || [];
+  const rewardByWindow = level.rules?.rewardByWindowHack;
+
+  let total = 0;
+
+  game.women.forEach(w => {
+    // Base: distance from goal
+    const d = Math.abs(w.x - game.goal.x) + Math.abs(w.y - game.goal.y);
+    total += d === 0 ? 10 : d === 1 ? 7 : d === 2 ? 4 : -1;
+
+    // Penalty: distance from required resources (e.g. 🚻, 🍼)
+    if (punishTargets.length > 0) {
+      let minDist = Infinity;
+
+      for (let y = 0; y < board.length; y++) {
+        for (let x = 0; x < board[y].length; x++) {
+          if (punishTargets.includes(board[y][x])) {
+            const pd = Math.abs(w.x - x) + Math.abs(w.y - y);
+            if (pd < minDist) minDist = pd;
+          }
+        }
+      }
+
+      if (minDist > 2) total -= Math.min(2, minDist - 2); // small penalty if far away
+    }
+
+    // Bonus: adjacent to a window (🪟)
+    if (rewardByWindow) {
+      const adj = [
+        [w.x - 1, w.y], [w.x + 1, w.y],
+        [w.x, w.y - 1], [w.x, w.y + 1]
+      ];
+
+      const nearWindow = adj.some(([x, y]) =>
+        x >= 0 && y >= 0 && x < board[0].length && y < board.length &&
+        board[y][x] === "🪟"
+      );
+
+      if (nearWindow) total += 3;
+    }
+  });
+
+  scoreDisp.textContent = total;
+}
+
+
+  function updateMoves() {
+    movesDisp.textContent = game.movesLeft;
+  }
+
+ function animateMove(fx, fy, tx, ty) {
+  const fromCell = getCellElement(fx, fy);
+  const avatar = fromCell.querySelector(".emoji");
+
+  if (!avatar) return;
+
+  // Compute pixel offset based on grid (40px + 2px gap)
+  const dx = (tx - fx) * 42;
+  const dy = (ty - fy) * 42;
+
+  // Apply bounce-style transform
+  avatar.style.transition = "transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1)";
+  avatar.style.transform = `translate(${dx}px, ${dy}px)`;
+
+  // Wait for animation to finish, then rerender the grid
+  setTimeout(() => {
+    avatar.style.transition = "";
+    avatar.style.transform = "";
+    render();
+  }, 200);
+}
+
+
+function syncRulesWidth() {
+  const rulesEl = document.querySelector('.rules');
+  const gameEl  = document.querySelector('.game-container');
+  rulesEl.style.width = gameEl.offsetWidth + 'px';
+}
+
+  function render() {
+    buildGrid();
+    updateScore();
+    updateMoves();
+  syncRulesWidth(); 
+  }
+
+  // 5) ACTIONS
+  function move(dx, dy) {
+    if (game.movesLeft<=0) return;
+    const w = game.women[game.activeWoman];
+    const nx = w.x+dx, ny = w.y+dy;
+    // bounds
+    if (nx<0||nx>=game.size||ny<0||ny>=game.size) return;
+    // no stacking
+    if (game.women.some((u,i)=>i!==game.activeWoman&&u.x===nx&&u.y===ny)) return;
+
+    const tile = board[ny][nx];
+    let moved = false;
+
+    // walkable
+    if (tile===EMPTY || tile===CENTER) {
+      w.x=nx; w.y=ny; moved=true;
+    }
+    // push box
+    else if (tile===BOX) {
+      const px=nx+dx, py=ny+dy;
+      if (px>=0&&px<game.size&&py>=0&&py<game.size&&
+          board[py][px]===EMPTY&&
+          !game.women.some(u=>u.x===px&&u.y===py))
+      {
+        board[py][px]=BOX;
+        board[ny][nx]=EMPTY;
+        w.x=nx; w.y=ny;
+        moved=true;
+      }
+    }
+    if (!moved) return;
+    game.movesLeft--;
+    animateMove(w.x-dx,w.y-dy,w.x,w.y);
+    render();
+  }
+
+  function switchWoman(dir) {
+    game.activeWoman=(game.activeWoman+dir+4)%4;
+    render();
+    // pop-glow
+    const w=game.women[game.activeWoman];
+    const span=getCellElement(w.x,w.y).querySelector(".emoji");
+    if(span){ span.classList.add("glow-pop");
+      setTimeout(()=>span.classList.remove("glow-pop"),300);
+    }
+  }
+
+function resetGame(button) {
+  if (!game.confirmReset) {
+    game.confirmReset = true;
+    button.textContent = "CONFIRM RESET";
+    button.style.backgroundColor = "#ff0044";
+    button.style.color = "#fff";
+    setTimeout(() => {
+      game.confirmReset = false;
+      button.textContent = "Reset";
+      button.style.backgroundColor = "#222";
+      button.style.color = "#fff";
+    }, 3000);
+    return;
+  }
+  // Reset confirmed
+  game.confirmReset = false;
+  button.textContent = "Reset";
+  button.style.backgroundColor = "#222";
+  loadLevel(game.levelIndex);
+}
+
+
+
+function submitForApproval(button) {
+  if (!game.confirmSubmit) {
+    game.confirmSubmit = true;
+    button.textContent = "CONFIRM SUBMIT";
+    button.style.backgroundColor = "#44ff44";
+    button.style.color = "#000";
+    setTimeout(() => {
+      game.confirmSubmit = false;
+      button.textContent = "Submit for Approval";
+      button.style.backgroundColor = "#0f0";
+      button.style.color = "#000";
+    }, 3000);
+    return;
+  }
+
+  // Submit confirmed
+  game.confirmSubmit = false;
+  button.textContent = "Submit for Approval";
+  button.style.backgroundColor = "#0f0";
+
+  submitMsg.textContent = "✅ Submission received.";
+  const score = parseInt(scoreDisp.textContent, 10);
+  game.totalScore += score;
+
+  let text = "";
+  if (score >= 35) text = "🌟 Exceeds Expectations. Considered for promotion to Cultural Champion.";
+  else if (score >= 25) text = "👍 Solid Contributor. Please complete your quarterly Empowerment Training.";
+  else if (score >= 15) text = "😬 Room for Growth. Have you scheduled your check-in with HR?";
+  else text = "🔍 Visibility Low. You may be eligible for our Re-centering Fellowship.";
+  evalMsg.textContent = text;
+
+  setTimeout(() => {
+    if (game.levelIndex + 1 < levels.length) {
+      game.levelIndex++;
+      loadLevel(game.levelIndex);
+    } else {
+      alert("✅ All levels complete!");
+    }
+  }, 2000);
+}
+
+
+
+
+  // 6) KEY HANDLING
+  document.addEventListener("keydown", e => {
+    if (e.key.startsWith("Arrow")||e.key==="Tab") e.preventDefault();
+    switch(e.key){
+      case "w": case "W": move(0,-1); break;
+      case "a": case "A": move(-1,0); break;
+      case "s": case "S": move(0,1);  break;
+      case "d": case "D": move(1,0);  break;
+      case "ArrowUp":    move(0,-1); break;
+      case "ArrowLeft":  move(-1,0); break;
+      case "ArrowDown":  move(0,1);  break;
+      case "ArrowRight": move(1,0);  break;
+      case "Tab":        switchWoman(e.shiftKey ? -1 : +1); break;
+      default: return;
+    }
+  });
+
+  // 7) INITIAL RENDER
+  loadLevel(0);
+</script>
+
+
+</body>
+</html>

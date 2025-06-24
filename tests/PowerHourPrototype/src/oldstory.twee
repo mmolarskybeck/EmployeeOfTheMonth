@@ -1,3 +1,366 @@
+:: Story Stylesheet [stylesheet]
+/* ── paste all of story.css here ── */
+@import url("https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;700&family=Inconsolata&family=Source+Code+Pro&display=swap");
+
+
+body {
+  background: #000;
+  color: #f0f0f0;
+  font-family: "Fira Code", monospace;
+  margin: 0;
+}
+
+#sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 240px;
+  height: 100vh;
+  background-color: #000;
+  color: #7aff7a;
+  font-family: "Fira Code", monospace;
+  padding: 2em 1em;
+  border-right: 2px solid #333;
+  box-shadow: 3px 0 0 #222;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  z-index: 1;
+}
+
+.sidebar-title {
+  font-weight: bold;
+  font-size: 1.4em;
+  margin-bottom: 2em;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  color: #7aff7a;
+ text-shadow:
+    0 0 2px #00ffcc,
+    0 0 6px #00ffcc,
+    0 0 10px #00ffaa;
+}
+
+.sidebar-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 1em;
+}
+
+.sidebar-buttons button {
+  background: #000;
+  color: #7aff7a;
+  border: 1px solid #7aff7a;
+  padding: 0.5em;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: left;
+  font-size: 0.85em;
+  transition: background 0.2s, border 0.2s;
+  box-shadow: inset 1px 1px 2px rgba(255,255,255,0.05);
+}
+
+.sidebar-buttons button:hover {
+  background: #111;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+#content-wrapper {
+  margin-left: 240px;
+  padding: 2em;
+  display: flex;
+  justify-content: center;
+}
+
+#main-content {
+  max-width: 1000px;
+  width: 100%;
+}
+
+/* Dashboard */
+#dashboard #status > div {
+  margin: 0.1em 0;
+}
+#dashboard #progress {
+  margin-top: 0.3em;
+}
+#dashboard #progress h4 {
+  font-size: 1em;
+  font-weight: bold;
+  margin: 0;
+}
+
+/* Task Feed */
+#feed {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1em;
+  margin-top: 2em;
+  justify-content: flex-start;
+}
+
+/* Ticket Cards */
+.retro-window.ticket-card {
+  flex: 0 0 200px;
+  background: #000;
+  border: 1px solid #333;
+  box-shadow: 3px 3px 0 #444;
+  color: #f0f0f0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 200px;
+  overflow: visible;
+}
+
+.ticket-card.collapsing {
+  animation: retroCollapse 0.4s ease-out forwards;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+@keyframes retroCollapse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    height: auto;
+    margin-bottom: 1em;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+/* Window Header */
+.window-header {
+  background: #111;
+  color: #7aff7a;
+  padding: 4px 8px;
+  font-weight: bold;
+  font-size: 0.85em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+  box-shadow: inset 0 -1px 0 #000;
+}
+.window-title {
+  font-weight: bold;
+}
+.close-button {
+  background: #000;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.close-button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+/* Card Body */
+.window-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
+  padding: 10px;
+}
+.card-step {
+  font-size: 1.2em;
+  font-weight: bold;
+  text-transform: uppercase;
+}
+.card-track {
+  font-size: 1em;
+  font-weight: bold;
+  margin-bottom: 0.3em;
+  color: #7aff7a;
+}
+.card-title {
+  font-size: 0.85em;
+  color: #bbb;
+  font-style: italic;
+  text-transform: uppercase;
+  margin-bottom: 0.6em;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 0.5em;
+  justify-content: space-between;
+  margin-top: auto;
+}
+.actions button,
+.modal-footer button {
+  background: #111;
+  color: #7aff7a;
+  border: 1px solid #7aff7a;
+  padding: 0.25em 0.75em;
+  font-size: 0.85em;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.07);
+}
+.actions button:hover,
+.modal-footer button:hover, {  
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+.actions button:active,
+.close-button:active,
+.modal-footer button:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.15);
+}
+
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6); 
+  z-index: 9998;                /* just below modal-wrapper (z-index: 9999) */
+  font-family: "Fira Code", monospace;
+
+}
+
+.modal-position {
+  position: fixed;
+  top: 25%;
+  left: calc(50% + 120px);
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+.modal-wrapper {
+  background: #000;
+  border: 2px solid #7aff7a;
+  box-shadow: 0 0 10px #7aff7a88;
+  width: 400px;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  animation: modalPopIn 0.3s ease-out forwards;
+}
+
+.modal-window {
+  display: flex;
+  flex-direction: column;
+  color: #f0f0f0;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #111;
+  color: #7aff7a;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.modal-close {
+  background: transparent;
+  border: 1px solid #7aff7a;
+  color: #7aff7a;
+  padding: 0.2em 0.5em;
+  font-size: 1em;
+  cursor: pointer;
+  font-family: inherit;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.1);
+}
+
+.modal-close:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+.modal-body {
+  background: #000;
+  padding: 1.2em;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5em 1em;
+  background: #111;
+  border-top: 1px solid #333;
+}
+
+.modal-footer button {
+  background: #111;
+  color: #7aff7a;
+  border: 1px solid #7aff7a;
+  padding: 0.4em 1em;
+  cursor: pointer;
+  font-family: inherit;
+  font-size: 0.9em;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.07);
+}
+
+.modal-footer button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-wrapper.collapsing {
+  animation: retroCollapse 0.4s ease-out forwards;
+  /* Remove transform-origin: top; */
+  pointer-events: none;
+  overflow: hidden;
+}
+
+
+.modal-footer button:active,
+.modal-close:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.15);
+  border: 1px inset #7aff7a;
+}
+
+:: Story JavaScript [script]
+// ── paste all of story.js here ── //
+
 
 // Make sure setup exists
 window.setup = window.setup || {};
@@ -513,3 +876,184 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
+
+:: StoryTitle
+Power Hour Prototype
+
+:: StoryData
+{
+  "ifid": "E8C1C441-6E7A-4398-B6FD-CE87EDB5A05A",
+  "format": "SugarCube",
+  "format-version": "2.37.3",
+  "start": "PowerHourStart",
+  "zoom": 1
+}
+
+:: PowerHourStart {"position":"825,350","size":"100,100"}
+<<script>>
+  console.log("HEAD SCRIPTS:", 
+    document.querySelectorAll('head script[src]'),
+    "setup.initPowerHour =", typeof setup.initPowerHour
+  );
+<</script>>
+<<if !State.variables.pph>>
+  <<run setup.initPowerHour()>>
+<</if>>
+<<goto "PowerHourLoop">>
+
+
+:: PowerHourLoop {"position":"700,475","size":"100,100"}
+<<if !State.variables.pph>>
+  <<run setup.initPowerHour ()>>
+<</if>>
+<<set _pph = State.variables.pph>>
+<<nobr>>
+
+<!-- MODALS -->
+<<if _pph.errorMessage>>
+<div class="modal-overlay">
+  <div class="modal-position">
+    <div class="modal-wrapper">
+      <div class="modal-window">
+        <div class="modal-header">
+          <span class="modal-title">System Notice</span>
+          <!-- close button -->
+          <button 
+            class="modal-close action-btn" 
+            data-action="modal-close"
+          >✕</button>
+        </div>
+        <div class="modal-body">
+          <p><<print _pph.errorMessage>></p>
+        </div>
+        <div class="modal-footer">
+          <!-- acknowledge button -->
+          <button 
+            class="action-btn" 
+            data-action="modal-ok"
+          >Acknowledge</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<<elseif _pph.lastEvent>>
+<div class="modal-overlay">
+  <div class="modal-position">
+    <div class="modal-wrapper">
+      <div class="modal-window">
+        <div class="modal-header">
+          <span class="modal-title">System Notice</span>
+          <button class="modal-close action-btn" data-action="modal-close">✕</button>
+        </div>
+        <div class="modal-body">
+          <p><<print _pph.lastEvent>></p>
+        </div>
+        <div class="modal-footer">
+         <button class="action-btn" data-action="modal-ok">Acknowledge</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<</if>>
+
+
+
+<!-- DASHBOARD -->
+    
+    <div id="dashboard">
+    <div id="status">
+      <div>Burnout: <<print "▓".repeat(_pph.burnout) + "░".repeat(10 - _pph.burnout)>> <<print _pph.burnout>>/10</div>
+      <div>Actions Left: <<print _pph.actionsLeft>></div>
+    </div>
+    <div id="progress">
+      Initiative Progress:<br>
+      <<if Object.keys(_pph.activeTracks).length>>
+        <<for _track,_step range _pph.activeTracks>>
+          <<set _bar  = "■".repeat(_step) + "□".repeat(5 - _step)>>
+          <<set _name = _track.padEnd(28, " ")>>
+          • <<print _name>> [<<print _bar>>] <<print _step>>/5<<if _track === _pph.pledgedTrack>> ⬤<</if>><br>
+        <</for>>
+      <<else>>
+        <p>None started yet. Please remember that the Power Hour has begun.</p>
+      <</if>>
+    </div>
+  </div>
+
+
+<<set _pph = State.variables.pph>>
+
+<div id="feed">
+  <<for _i,_card range _pph.taskFeed>>
+ <div class="retro-window ticket-card" data-index="<<=_i>>">
+  <div class="window-header">
+    <span class="window-title">
+      <<= _card.type==="pledge"?"Visibility Pledge":"Task Ticket">>
+    </span>
+    <button class="delete-btn close-button">✕</button>
+  </div>
+  <div class="window-body">
+    <<if _card.type !== "pledge">>
+      <div class="card-step">Step <<= _card.step>></div>
+      <div class="card-track"><<= _card.track>></div>
+      <<if _card.title>> <div class="card-title"><<= _card.title>></div> <</if>>
+      <<if _card.description>> <div class="card-desc"><<= _card.description>></div> <</if>>
+    <<else>>
+      <div class="card-step">Visibility Pledge</div>
+      <div class="card-track"><<= _card.track>></div>
+      <<if _card.description>> <div class="card-desc"><<= _card.description>></div> <</if>>
+    <</if>>
+    <div class="actions">
+      <<if _card.type === "pledge">>
+          <button class="action-btn" data-action="pledge">Pledge</button>
+      <<else>>
+        <button class="action-btn" data-action="execute">Execute</button>
+      <</if>>
+        <button class="action-btn" data-action="pledge">Pledge</button>
+    </div>
+  </div>
+</div>
+
+  <</for>>
+</div>
+<</nobr>>
+
+
+
+:: SoftFail {"position":"975,425","size":"100,100"}
+<<run setup.calculateScore()>>
+<h2>Productivity Power Hour Concluded</h2>
+
+<<if _score > 0>>
+  <p>You didn’t complete a full track, but you made meaningful progress. Partial completions have been logged.</p>
+  <p>CoSy acknowledges your intermediate output with faint approval.</p>
+<<else>>
+  <p>No tracks were completed. CoSy notes a troubling lack of outcomes.</p>
+  <p>Recommended remediation: Self-directed motivational reflection.</p>
+<</if>>
+
+<p>Final Productivity Score: <<print State.variables.pph.score>></p>
+
+<<link "Try Again">>
+  <<goto "PowerHourStart">>
+<</link>>
+
+:: HardFail {"position":"975,525","size":"100,100"}
+<<run setup.calculateScore()>>
+<h2>Burnout Reached!</h2>
+<<if $pph.score > 0>>
+Your burnout metrics hit critical levels, but HQ noticed your productivity streak.  
+
+You’ll get a fast-track decompression break and a shiny commendation for the effort!
+<<else>>
+Burnout at critical levels. Please report to HR immediately for a full decompression workshop.
+<</if>>
+
+Productivity Score: <<print $pph.score>>
+
+
+:: Win {"position":"975,325","size":"100,100"}
+<<run setup.calculateScore()>>
+Congrats, you won with a score of <<print State.variables.pph.score>>!

@@ -1,0 +1,9 @@
+#!/usr/bin/env bash
+set -e
+
+tweego \
+  -f sugarcube-2 \
+  -o tests/PowerHourPrototype/index.html \
+  tests/PowerHourPrototype/src/story.twee
+
+echo "✅ Built tests/PowerHourPrototype/index.html"

@@ -1,13 +1,18 @@
 #!/usr/bin/env bash
-set -e                # stop on first error
-mkdir -p docs         # ensure docs/ exists
+set -e
 
-# compile story.twee + story.js + story.css into docs/index.html
-tweego -w \
+SRC=tests/PowerHourPrototype/src
+OUT=tests/PowerHourPrototype
+
+# 1) make sure output dir exists
+mkdir -p "$OUT"
+
+# 3) compile, inlining head.html into <head>
+tweego \
   -f sugarcube-2 \
+  -m tests/PowerHourPrototype/src/story.css \
   -o tests/PowerHourPrototype/index.html \
-  tests/PowerHourPrototype/src/story.twee \
-  -m tests/PowerHourPrototype/src/story.js \
-  -m tests/PowerHourPrototype/src/story.css
+  tests/PowerHourPrototype/src/story.twee
 
-echo "✅ Built tests/PowerHourPrototype/index.html"
+
+echo "✅ Built $OUT/index.html"
