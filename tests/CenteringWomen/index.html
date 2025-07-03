@@ -1,0 +1,901 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>Centering Women: Scoreboard Compact</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link
+      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@300..700&family=Fira+Mono:wght@400;500;700&display=swap"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="story.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div
+        id="rulesToggle"
+        onclick="toggleRules()"
+        class="rules-toggle"
+        role="button"
+        tabindex="0"
+      >
+        <span class="arrow">▶</span><span class="label" id="rulesLabel">How to Play</span>
+      </div>
+
+      <div class="rules" id="rulesBox" style="display: none">
+        <p>
+          Per company mandate, women must now be visibly “centered” across all
+          departments. Your role: navigate each floor plan and relocate all
+          assigned personnel to central cubicles—no matter the bureaucratic or
+          architectural barriers.
+        </p>
+        <p>
+          Use the arrow keys or WASD to move the currently selected employee.
+          Press Tab to switch between team members.
+        </p>
+        <p>You have 30 moves total to complete your task. Choose wisely.</p>
+        <p>
+          Walls block movement. Boxes (📦) can be pushed—one at a time, into
+          empty spaces only.
+        </p>
+        <p>
+          Higher scores are awarded the closer each woman is to the central
+          cubicle (🎯).
+        </p>
+        <p>
+          Once complete, submit for performance evaluation to receive your
+          visibility metrics.
+        </p>
+        <p>
+          Remember: Compliance is progress. Progress is visibility. Visibility
+          is success.
+        </p>
+      </div>
+
+      <div class="game-container">
+        <div class="left-panel">
+            <div class="level-title" id="levelTitle"></div>
+          <div class="grid" id="grid"></div>
+        </div>
+
+        <div class="right-panel">
+          <div class="stats">
+            <div class="dashboard-item">
+              <div class="item-label">MOVES REMAINING</div>
+              <div id="movesLeftDisplay" class="digital-display">30</div>
+            </div>
+            <div class="dashboard-item">
+              <div class="item-label">CURRENT SCORE</div>
+              <div class="digital-display" id="score">0</div>
+            </div>
+          </div>
+          <div class="controls">
+            <p style="font-size: 12px; color: #888; text-align: center">
+              ←↑↓→ to move · Tab to switch
+            </p>
+            <button onclick="resetGame(this)" class="reset">Reset</button>
+            <button onclick="submitForApproval(this)" class="submit">
+              Submit for Approval
+            </button>
+            <p
+              id="submittedMsg"
+              style="margin: 8px 0 0; font-size: 12px; color: #0f0"
+            ></p>
+            <!-- per‐level score breakdown -->
+            <pre id="levelBreakdown" class="level-breakdown"></pre>
+            <p id="evaluationMsg" style="font-size: 13px; color: #ccc"></p>
+            <button
+              id="nextFloorBtn"
+              style="display: none"
+              onclick="showLevelModal()"
+            >
+              NEXT FLOOR
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="levelModal" style="display: none">
+      <div
+        class="modal-overlay"
+        role="dialog"
+        aria-modal="true"
+        id="nextLevelOverlay"
+      >
+        <div class="modal-position">
+          <div class="modal-wrapper" id="nextLevelModal">
+            <div class="modal-window">
+              <!-- modal header -->
+              <div class="modal-header" id="levelModalHeader">
+                System Notice
+                <button class="modal-close" onclick="closeLevelModal()">
+                  ×
+                </button>
+              </div>
+
+              <!-- modal body -->
+              <div class="modal-body">
+                <div id="levelModalBodyDescription"></div>
+                <div id="levelModalBodyMechanics" class="mechanics-text"></div>
+              </div>
+
+              <div class="modal-footer">
+                <button onclick="loadNextLevel()">Acknowledge</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- FINAL SCORE MODAL -->
+    <div id="finalScoreModal" style="display: none">
+      <div
+        class="modal-overlay"
+        role="dialog"
+        aria-modal="true"
+        id="finalScoreOverlay"
+      >
+        <div class="modal-position">
+          <div class="modal-wrapper" id="finalScoreWindow">
+            <div class="modal-window">
+              <div class="modal-header">
+                Final Report
+                <button class="modal-close" onclick="closeFinalScoreModal()">
+                  ×
+                </button>
+              </div>
+
+              <div class="modal-body" id="finalScoreBody">
+                <!-- will be filled in by JS -->
+              </div>
+
+              <div class="modal-footer">
+                <button onclick="restartGame()">Restart</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+    // preload your effects
+    const walkSfx = new Audio('assets/blip.mp3');
+    walkSfx.volume = 0.1;        // adjust to taste
+    walkSfx.preload = 'auto';
+
+    const pushSfx = new Audio('assets/box.mp3');
+    pushSfx.volume = 0.1;
+    pushSfx.preload = 'auto';
+
+      // 1) CONSTANTS
+      const EMPTY = '';
+      const BOX = '📦';
+      const WALL = '🧱';
+      const CENTER = '🎯';
+      const RESTROOM = '🚻';
+      const LACTATION_ROOM = '🍼';
+      const WINDOW = '🪟';
+
+      const game = {
+        size: 7,
+        maxMoves: 30,
+        levelIndex: 0,
+        totalScore: 0,
+        movesLeft: 30,
+        activeWoman: 0,
+        confirmSubmit: false,
+        confirmReset: false,
+        emojis: ['👵🏻', '👩🏼', '👩🏾‍🦱', '🧕🏽'],
+        levelScores: [], // collect each level’s score
+      };
+
+      // ─── LEVELS INDEX ────────────────────────────────────────────────────
+      const levels = [
+        {
+          name: 'Orientation',
+          description: `To build a stronger workplace from the center out, we’re rethinking where—and how—women are positioned.
+                              Start by helping each team member find their way to the heart of the floor plan.`,
+          mechanics: `🎯 Proximity Bonus: Each woman earns more points the closer she sits to the central cubicle.`,
+          goal: { x: 3, y: 3 },
+          board: [
+            ['', '', BOX, '', BOX, '', ''],
+            ['', WALL, '', WALL, '', WALL, ''],
+            [BOX, '', BOX, '', BOX, '', BOX],
+            ['', WALL, '', CENTER, '', WALL, ''],
+            [BOX, '', BOX, '', BOX, '', BOX],
+            ['', WALL, '', WALL, '', WALL, ''],
+            ['', '', BOX, '', BOX, '', ''],
+          ],
+          women: [
+            { x: 0, y: 0 },
+            { x: 6, y: 0 },
+            { x: 0, y: 6 },
+            { x: 6, y: 6 },
+          ],
+          rules: {
+            punishDistanceFrom: [],
+            rewardByWindowHack: false,
+          },
+        },
+        {
+          name: 'Facilities Alignment',
+          description: `Visibility matters. So does access.
+                              In this phase, you’ll begin coordinating floor plans that support both goals with equal clarity.`,
+          mechanics: `🚻 Restroom Penalty: Women placed ≥2 tiles from a restroom lose 2 points per extra tile.`,
+          goal: { x: 3, y: 3 },
+          board: [
+            ['', '', WALL, '', WALL, '', ''],
+            ['', BOX, '', '', '', BOX, ''],
+            ['', RESTROOM, '', '', '', '', ''],
+            [WALL, '', '', CENTER, '', '', WALL],
+            ['', '', '', '', '', RESTROOM, ''],
+            ['', BOX, '', '', '', BOX, ''],
+            ['', '', WALL, '', WALL, '', ''],
+          ],
+          women: [
+            { x: 0, y: 0 },
+            { x: 6, y: 6 },
+            { x: 3, y: 0 },
+            { x: 0, y: 6 },
+          ],
+          rules: {
+            punishDistanceFrom: [RESTROOM],
+            rewardByWindowHack: false,
+          },
+        },
+        {
+          name: 'Wellness Integration',
+          description: `Care responsibilities don’t stop at the office door.
+                              Consider proximity to wellness resources as you continue to prioritize centered placement.`,
+          mechanics: `🍼 Lactation Penalty: Women placed ≥2 tiles from a lactation room lose 3 points per extra tile.`,
+          goal: { x: 3, y: 3 },
+          board: [
+            ['', '', WALL, '', WALL, '', ''],
+            ['', BOX, '', '', '', BOX, ''],
+            ['', '', RESTROOM, '', '', '', ''],
+            [WALL, '', '', CENTER, '', '', WALL],
+            ['', '', BOX, '', LACTATION_ROOM, '', ''],
+            ['', BOX, '', '', '', BOX, ''],
+            ['', WALL, WALL, '', WALL, '', ''],
+          ],
+          women: [
+            { x: 0, y: 6 },
+            { x: 6, y: 0 },
+            { x: 3, y: 6 },
+            { x: 5, y: 3 },
+          ],
+          rules: {
+            punishDistanceFrom: [RESTROOM, LACTATION_ROOM],
+            rewardByWindowHack: false,
+          },
+        },
+        {
+          name: 'Holistic Visibility',
+          description: `As part of our ongoing commitment to inclusive design, visibility efforts now \
+                  reflect a broader set of environmental considerations. Continue to support equitable \
+                  placement as policies evolve.`,
+          mechanics: `All previous criteria remain in place. No additional guidance at this time.`,
+          goal: { x: 3, y: 3 },
+          board: [
+            [WINDOW, '', '', WALL, '', '', LACTATION_ROOM],
+            ['', WALL, '', BOX, BOX, WALL, ''],
+            ['', BOX, '', '', '', '', ''],
+            [WALL, '', WALL, CENTER, WALL, '', WALL],
+            ['', '', BOX, '', BOX, '', ''],
+            ['', WALL, '', '', '', WALL, ''],
+            [RESTROOM, '', '', WALL, '', '', WINDOW],
+          ],
+
+          // women start farther out
+          women: [
+            { x: 0, y: 2 }, // top left third
+            { x: 6, y: 1 }, // upper right
+            { x: 2, y: 6 }, // bottom center-left
+            { x: 4, y: 5 }, // lower right-mid
+          ],
+
+          rules: {
+            punishDistanceFrom: [RESTROOM, LACTATION_ROOM],
+            rewardByWindowHack: true,
+          },
+        },
+      ];
+
+      // ─── SCORING HELPERS ─────────────────────────────────────────────────────────────
+
+      function nearestDistance(woman, icon) {
+        let minDist = Infinity;
+        for (let y = 0; y < board.length; y++) {
+          for (let x = 0; x < board[y].length; x++) {
+            if (board[y][x] === icon) {
+              const d = Math.abs(woman.x - x) + Math.abs(woman.y - y);
+              if (d < minDist) minDist = d;
+            }
+          }
+        }
+        return minDist;
+      }
+
+      function isAdjacentTo(woman, icon) {
+        return [
+          [woman.x - 1, woman.y],
+          [woman.x + 1, woman.y],
+          [woman.x, woman.y - 1],
+          [woman.x, woman.y + 1],
+        ].some(
+          ([x, y]) =>
+            x >= 0 &&
+            y >= 0 &&
+            x < game.size &&
+            y < game.size &&
+            board[y][x] === icon
+        );
+      }
+
+      function loadLevel(index) {
+        const level = levels[index];
+        if (!level) return;
+
+        board = JSON.parse(JSON.stringify(level.board)); // Deep clone to avoid mutation
+        game.women = JSON.parse(JSON.stringify(level.women));
+        game.goal = { ...level.goal };
+        game.movesLeft = game.maxMoves;
+        game.activeWoman = 0;
+        submitMsg.textContent = '';
+        evalMsg.textContent = '';
+        document.getElementById('levelBreakdown').textContent = '';
+        // re-enable submit button
+        const submitBtn = document.querySelector('.submit');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Submit for Approval';
+        // (also clear any confirm-blinking state)
+        game.confirmSubmit = false;
+        submitBtn.classList.remove('blinking-neon');
+        
+        render();
+
+        document.getElementById('levelTitle').textContent =
+  `Level ${game.levelIndex + 1}: ${levels[game.levelIndex].name}`;
+
+      }
+      // 2) STATE
+      game.movesLeft = game.maxMoves;
+      game.activeWoman = 0;
+      const emojis = ['👵🏻', '👩🏼', '👩🏾‍🦱', '🧕🏽'];
+
+      let board;
+      let currentLevel; // Optional helper
+
+      // 3) CACHED NODES
+      const grid = document.getElementById('grid');
+      const scoreDisp = document.getElementById('score');
+      const movesDisp = document.getElementById('movesLeftDisplay');
+      const evalMsg = document.getElementById('evaluationMsg');
+      const submitMsg = document.getElementById('submittedMsg');
+
+      // 4) HELPERS
+      function toggleRules() {
+        const box = document.getElementById('rulesBox');
+        const toggle = document.getElementById('rulesToggle');
+        const isHidden = box.style.display === 'none';
+        box.style.display = isHidden ? 'block' : 'none';
+        toggle.classList.toggle('open', isHidden);
+        if (isHidden) syncRulesWidth();
+      }
+
+      function getCellElement(x, y) {
+        return document.querySelectorAll('.cell')[y * game.size + x];
+      }
+
+      function buildGrid() {
+        grid.innerHTML = '';
+        for (let y = 0; y < game.size; y++) {
+          for (let x = 0; x < game.size; x++) {
+            const cell = document.createElement('div');
+            cell.className = 'cell';
+
+            // Goal square: green + 🎯
+            if (x === game.goal.x && y === game.goal.y) {
+              cell.classList.add('center');
+              cell.textContent = CENTER;
+            }
+
+            // Draw a woman-avatar if present
+            let drewWoman = false;
+            game.women.forEach((w, i) => {
+              if (!drewWoman && w.x === x && w.y === y) {
+                // Clear any text (removes the 🎯 underneath)
+                cell.textContent = '';
+                const span = document.createElement('span');
+                span.className =
+                  'emoji' + (i === game.activeWoman ? ' active-glow' : '');
+                span.textContent = emojis[i];
+                cell.appendChild(span);
+                drewWoman = true;
+              }
+            });
+
+            // Otherwise draw all other tile‐types
+            if (!drewWoman && !(x === game.goal.x && y === game.goal.y)) {
+              const tile = board[y][x];
+
+              if (tile === WALL) {
+                cell.classList.add('wall');
+              } else if (tile === BOX) {
+                cell.textContent = BOX;
+              } else if (tile === RESTROOM) {
+                cell.textContent = RESTROOM;
+              } else if (tile === LACTATION_ROOM) {
+                cell.textContent = LACTATION_ROOM;
+              } else if (tile === WINDOW) {
+                cell.textContent = WINDOW;
+              }
+            }
+
+            grid.appendChild(cell);
+          }
+        }
+      }
+      // ─── 4) SCORING ──────────────────────────────────────────────────────────────
+
+      function computeScoreComponents() {
+        const lvl = levels[game.levelIndex];
+        let centerTotal = 0;
+        let restroomTotal = 0;
+        let lactationTotal = 0;
+        let windowBonus = 0;
+
+        game.women.forEach((w) => {
+          // Center proximity
+          const dC = Math.abs(w.x - lvl.goal.x) + Math.abs(w.y - lvl.goal.y);
+          centerTotal += Math.max(15 - 3 * dC, 0);
+
+          // Restroom penalty
+          if (lvl.rules.punishDistanceFrom.includes(RESTROOM)) {
+            const dR = nearestDistance(w, RESTROOM);
+            if (isFinite(dR) && dR > 1) {
+              restroomTotal += -2 * (dR - 1);
+            }
+          }
+
+          // Lactation penalty
+          if (lvl.rules.punishDistanceFrom.includes(LACTATION_ROOM)) {
+            const dL = nearestDistance(w, LACTATION_ROOM);
+            if (isFinite(dL) && dL > 1) {
+              lactationTotal += -3 * (dL - 1);
+            }
+          }
+
+          // Hidden window hack
+          if (lvl.rules.rewardByWindowHack && isAdjacentTo(w, WINDOW)) {
+            const bonusPerWoman = game.levelIndex === 3 ? 30 : 5;
+            windowBonus += bonusPerWoman;
+          }
+        });
+
+        const moveBonus = Math.ceil((game.movesLeft / game.maxMoves) * 10);
+        const subtotal =
+          centerTotal + restroomTotal + lactationTotal + moveBonus;
+        const total = Math.max(subtotal + windowBonus, 0);
+
+        return {
+          centerTotal,
+          restroomTotal,
+          lactationTotal,
+          moveBonus,
+          windowBonus,
+          total,
+        };
+      }
+
+      function updateScore() {
+        const c = computeScoreComponents();
+        scoreDisp.textContent = c.total;
+      }
+
+      function updateMoves() {
+        movesDisp.textContent = game.movesLeft;
+      }
+
+      function animateMove(fx, fy, tx, ty) {
+        const fromCell = getCellElement(fx, fy);
+        const avatar = fromCell.querySelector('.emoji');
+
+        if (!avatar) return;
+
+        // Compute pixel offset based on grid (40px + 2px gap)
+        const dx = (tx - fx) * 42;
+        const dy = (ty - fy) * 42;
+
+        // Apply bounce-style transform
+        avatar.style.transition =
+          'transform 200ms cubic-bezier(0.34, 1.56, 0.64, 1)';
+        avatar.style.transform = `translate(${dx}px, ${dy}px)`;
+
+        // Wait for animation to finish, then rerender the grid
+        setTimeout(() => {
+          avatar.style.transition = '';
+          avatar.style.transform = '';
+          render();
+        }, 200);
+      }
+
+      function syncRulesWidth() {
+        const rulesEl = document.querySelector('.rules');
+        const gameEl = document.querySelector('.game-container');
+        rulesEl.style.width = gameEl.offsetWidth + 'px';
+      }
+
+      function render() {
+        buildGrid();
+        updateScore();
+        updateMoves();
+        syncRulesWidth();
+      }
+
+      // 5) ACTIONS
+      function move(dx, dy) {
+        if (game.movesLeft <= 0) return;
+        const w = game.women[game.activeWoman];
+        const nx = w.x + dx,
+          ny = w.y + dy;
+        // bounds
+        if (nx < 0 || nx >= game.size || ny < 0 || ny >= game.size) return;
+        // no stacking
+        if (
+          game.women.some(
+            (u, i) => i !== game.activeWoman && u.x === nx && u.y === ny
+          )
+        )
+          return;
+
+        const tile = board[ny][nx];
+        let moved = false;
+
+        // walkable
+        if (tile === EMPTY || tile === CENTER) {
+            // reset & play footstep
+            walkSfx.currentTime = 0;
+            walkSfx.play();
+
+          w.x = nx;
+          w.y = ny;
+          moved = true;
+        }
+        // push box
+        else if (tile === BOX) {
+          const px = nx + dx,
+            py = ny + dy;
+          if (
+            px >= 0 &&
+            px < game.size &&
+            py >= 0 &&
+            py < game.size &&
+            board[py][px] === EMPTY &&
+            !game.women.some((u) => u.x === px && u.y === py)
+          ) {
+             // play box push
+            pushSfx.currentTime = 0;
+            pushSfx.play();
+
+            board[py][px] = BOX;
+            board[ny][nx] = EMPTY;
+            w.x = nx;
+            w.y = ny;
+            moved = true;
+          }
+        }
+        if (!moved) return;
+        game.movesLeft--;
+        animateMove(w.x - dx, w.y - dy, w.x, w.y);
+        render();
+      }
+
+      function switchWoman(dir) {
+        game.activeWoman = (game.activeWoman + dir + 4) % 4;
+        render();
+        // pop-glow
+        const w = game.women[game.activeWoman];
+        const span = getCellElement(w.x, w.y).querySelector('.emoji');
+        if (span) {
+          span.classList.add('glow-pop');
+          setTimeout(() => span.classList.remove('glow-pop'), 300);
+        }
+      }
+
+      function resetGame(button) {
+        if (!game.confirmReset) {
+          game.confirmReset = true;
+          button.textContent = 'CONFIRM RESET?';
+          button.classList.add('blinking-neon');
+          setTimeout(() => {
+            game.confirmReset = false;
+            button.textContent = 'Reset';
+            button.classList.remove('blinking-neon');
+          }, 3000);
+          return;
+        }
+        // Reset confirmed
+        game.confirmReset = false;
+        button.textContent = 'Reset';
+        button.classList.remove('blinking-neon');
+        loadLevel(game.levelIndex);
+      }
+
+      function submitForApproval(button) {
+        // first click: arm the confirmation
+        if (!game.confirmSubmit) {
+          game.confirmSubmit = true;
+          button.textContent = 'CONFIRM SUBMISSION?';
+          button.classList.add('blinking-neon');
+          // revert after 3s if they don’t click again
+          setTimeout(() => {
+            game.confirmSubmit = false;
+            button.textContent = 'Submit for Approval';
+            button.classList.remove('blinking-neon');
+          }, 3000);
+          return;
+        }
+
+        // second click: actually submit
+        game.confirmSubmit = false;
+        button.textContent = 'Submit for Approval';
+        button.classList.remove('blinking-neon');
+
+        // compute once, up front
+        const c = computeScoreComponents();
+        const lvl = levels[game.levelIndex];
+
+        // short-circuit for levels 1–3
+        if (game.levelIndex < levels.length - 1) {
+          // badge
+          evalMsg.textContent = `✅ Submission received.`;
+
+          // performance text (no broken ternary!)
+          const message =
+            c.total >= 25
+              ? '👍 Solid Contributor. Keep refining placements.'
+              : '🔍 Visibility Low. Focus on centering and access.';
+          submitMsg.textContent = message;
+
+          // breakdown lines
+          const lines = [`Center points:       +${c.centerTotal}`];
+          if (
+            levels[game.levelIndex].rules.punishDistanceFrom.includes(RESTROOM)
+          ) {
+            lines.push(`Restroom penalty:    ${c.restroomTotal}`);
+          }
+          if (
+            levels[game.levelIndex].rules.punishDistanceFrom.includes(
+              LACTATION_ROOM
+            )
+          ) {
+            lines.push(`Lactation penalty:   ${c.lactationTotal}`);
+          }
+          lines.push(`Move bonus:          +${c.moveBonus}`);
+          lines.push(`------------------------`);
+          lines.push(`Level total:         ${c.total}`);
+          game.levelScores.push(c.total);
+          game.totalScore += c.total;
+
+          document.getElementById('levelBreakdown').textContent =
+            lines.join('\n');
+
+          // disable the submit button so it can't be clicked again
+          button.disabled = true;
+          showNextLevelButton();
+          return;
+        }
+
+        // 4) FINAL BREAKDOWN (only on last level)
+        // — push & accumulate the last level’s score:
+        game.levelScores.push(c.total);
+        game.totalScore += c.total;
+
+        const lines = [
+          `Last-level score:    ${c.total}`,
+          `\n› Breakdown`,
+          `  Center points:    +${c.centerTotal}`,
+        ];
+
+        if (lvl.rules.punishDistanceFrom.includes(RESTROOM))
+          lines.push(`  Restroom penalty:  ${c.restroomTotal}`);
+        if (lvl.rules.punishDistanceFrom.includes(LACTATION_ROOM))
+          lines.push(`  Lactation penalty: ${c.lactationTotal}`);
+
+        lines.push(`  Move bonus:        +${c.moveBonus}`);
+        if (c.windowBonus) lines.push(`  Env. bonus:       +${c.windowBonus}`);
+
+        lines.push('  ---------------------------');
+        const grand = game.totalScore; // after we just added the level
+        lines.push(`  CUMULATIVE TOTAL:  ${grand}`);
+
+        // --- overall verdict --------------------------------------------------
+        let verdict;
+        if (grand >= 120)
+          verdict = '🌟 Outstanding — you set the visibility benchmark!';
+        else if (grand >= 90)
+          verdict = '👍 Commendable effort — policy targets achieved.';
+        else if (grand >= 60)
+          verdict = '🧐 Needs improvement — consider strategic moves.';
+        else verdict = '⚠️ Under review — visibility below expectations.';
+        lines.push('\n' + verdict);
+        // ---------------------------------------------------------------------
+
+        document.getElementById('finalScoreBody').textContent =
+          lines.join('\n');
+        showFullBreakdown();
+      }
+
+      function showNextLevelButton() {
+        const btn = document.getElementById('nextFloorBtn');
+        const isLast = game.levelIndex + 1 >= levels.length;
+
+        btn.style.display = 'block';
+
+        if (!isLast) {
+          btn.textContent = 'NEXT FLOOR';
+          btn.onclick = showLevelModal;
+        } else {
+          btn.textContent = 'VIEW FINAL SCORE';
+          btn.onclick = showFinalScore;
+        }
+      }
+
+      // — Show the final-score modal (now just opens it)
+      function showFinalScore() {
+        // don’t touch body.textContent here – it was filled earlier
+        document.getElementById('nextFloorBtn').style.display = 'none';
+        document.getElementById('finalScoreModal').style.display = 'block';
+        document.getElementById('finalScoreOverlay').style.display = 'block';
+        trapFocus(document.getElementById('finalScoreWindow'));
+      }
+
+      function showFullBreakdown() {
+        document.getElementById('finalScoreModal').style.display = 'block';
+        document.getElementById('finalScoreOverlay').style.display = 'block';
+        trapFocus(document.getElementById('finalScoreWindow'));
+      }
+
+      // Modal Handling
+      function showLevelModal() {
+        const nextIndex = game.levelIndex + 1;
+        const level = levels[nextIndex];
+        if (!level) return;
+
+        // header
+        const hdr = document.getElementById('levelModalHeader');
+        hdr.childNodes[0].nodeValue = `Level ${nextIndex + 1}: ${level.name}`;
+
+        // body
+        const descEl = document.getElementById('levelModalBodyDescription');
+        const mechEl = document.getElementById('levelModalBodyMechanics');
+        descEl.textContent = level.description;
+        mechEl.textContent = level.mechanics;
+
+        // show
+        document.getElementById('levelModal').style.display = 'block';
+        document.getElementById('nextLevelOverlay').style.display = 'block';
+
+        trapFocus(document.getElementById('nextLevelModal'));
+      }
+
+      function closeLevelModal() {
+        const modal = document.getElementById('nextLevelModal');
+        const overlay = document.getElementById('nextLevelOverlay');
+        if (modal && overlay) {
+          modal.classList.add('collapsing');
+          setTimeout(() => {
+            overlay.style.display = 'none';
+            modal.classList.remove('collapsing');
+            // hide the outer too:
+            document.getElementById('levelModal').style.display = 'none';
+          }, 400);
+        }
+      }
+
+      // Trap focus inside modal for keyboard users
+      function trapFocus(modal) {
+        const focusable = modal.querySelectorAll(
+          'button, [tabindex]:not([tabindex="-1"])'
+        );
+        if (focusable.length === 0) return;
+        const first = focusable[0];
+        const last = focusable[focusable.length - 1];
+        modal.addEventListener('keydown', (e) => {
+          if (e.key !== 'Tab') return;
+          if (e.shiftKey && document.activeElement === first) {
+            e.preventDefault();
+            last.focus();
+          } else if (!e.shiftKey && document.activeElement === last) {
+            e.preventDefault();
+            first.focus();
+          }
+        });
+      }
+
+      // Next Level Handling
+
+      function loadNextLevel() {
+        closeLevelModal();
+        game.levelIndex++;
+        loadLevel(game.levelIndex);
+        document.getElementById('nextFloorBtn').style.display = 'none';
+      }
+
+    function closeFinalScoreModal() {
+  const wrapper = document.getElementById('finalScoreWindow');
+  const overlay = document.getElementById('finalScoreOverlay');
+
+  // 1) add the retroCollapse animation
+  wrapper.classList.add('collapsing');
+
+  // 2) after the animation duration (0.4s), remove it and hide everything
+  setTimeout(() => {
+    wrapper.classList.remove('collapsing');
+    overlay.style.display = 'none';
+    document.getElementById('finalScoreModal').style.display = 'none';
+  }, 400);
+}
+
+
+      function restartGame() {
+        closeFinalScoreModal();
+        game.levelIndex = 0;
+        game.totalScore = 0;
+        loadLevel(0);
+      }
+
+      // 6) KEY HANDLING
+      document.addEventListener('keydown', (e) => {
+        if (e.key.startsWith('Arrow') || e.key === 'Tab') e.preventDefault();
+        switch (e.key) {
+          case 'w':
+          case 'W':
+            move(0, -1);
+            break;
+          case 'a':
+          case 'A':
+            move(-1, 0);
+            break;
+          case 's':
+          case 'S':
+            move(0, 1);
+            break;
+          case 'd':
+          case 'D':
+            move(1, 0);
+            break;
+          case 'ArrowUp':
+            move(0, -1);
+            break;
+          case 'ArrowLeft':
+            move(-1, 0);
+            break;
+          case 'ArrowDown':
+            move(0, 1);
+            break;
+          case 'ArrowRight':
+            move(1, 0);
+            break;
+          case 'Tab':
+            switchWoman(e.shiftKey ? -1 : +1);
+            break;
+          default:
+            return;
+        }
+      });
+
+      // 7) INITIAL RENDER
+      loadLevel(0);
+    </script>
+  </body>
+</html>

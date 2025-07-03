@@ -15,7 +15,7 @@ Power Hour Prototype
 <<run setup.initPowerHour()>>
 <<goto "PowerHourLoop">>
 
-:: PowerHourLoop {"position":"700,475","size":"100, 100"}
+:: PowerHourLoop {"position":"700,475","size":"100,100"}
 <<nobr>>
 <<run setup.ensureFullFeed()>>
 <<set _pph = State.variables.pph>>
@@ -81,46 +81,113 @@ Power Hour Prototype
     </div>
   </div>
 
-<div id="feed">
-  <<for _i range setup.FEED_SIZE>>
-    <<set _card = State.variables.pph.taskFeed[_i]>>
-    <<if _card>>
-      <div class="retro-window ticket-card" data-index="<<print _i>>">
-        
-        <div class="window-header">
-          <span class="window-title">Task Ticket</span>
-          <button type="button" class="close-button">✕</button>
 
-        </div>
-        
-        <div class="window-body">
-          <<if _card.type === "normal">>
-            <div class="card-step">Step <<print _card.step>></div>
-            <div class="card-track"><<print _card.track>></div>
-            <div class="card-title">
-              <<print _card.track + " – Step " + _card.step>>
-            </div>
-            <div class="actions">
-                <button type="button" class="execute-button">Execute</button>
-                <button type="button" class="delete-button">Delete</button>
-            </div>
-          <<else>>
-            <div class="card-step">Visibility Pledge</div>
-            <div class="card-track"><<print _card.track>></div>
-            <div class="actions">
-                <button type="button" class="pledge-button">Pledge</button>
-                <button type="button" class="delete-button">Delete</button>
-            </div>
-          <</if>>
-        </div>
-      
+<div id="feed">
+
+<!-- CARD 1 -->
+<div class="ticket-card" data-index="0">
+  <<set _card = State.variables.pph.taskFeed[0]>>
+    <div class="ticket-card" data-index="<<print _i>>">
+      <div class="window-header">
+        <span class="window-title">Task Ticket</span>
+        <<button "✕">>
+          <<run setup.animateDelete(0)>>
+        <</button>>
       </div>
-    <</if>>
-  <</for>>
+
+    <<print (
+      _card.type === "normal"
+        ? _card.track + " – Step " + _card.step
+        : _card.track + " Visibility Pledge"
+    )>>
+
+  <<if _card.type === "pledge">>
+    <div class="actions">
+    <<button "Pledge">><<run setup.animatePledge(0)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(0)>><</button>>
+    </div>
+  <<else>>
+    <div class="actions">
+    <<button "Execute">><<run setup.animateExecute(0)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(0)>><</button>>
+    </div>
+  <</if>>
 </div>
 
-<</if>>
 
+  <!-- CARD 2 -->
+<div class="ticket-card" data-index="1">
+  <<set _card = State.variables.pph.taskFeed[1]>>
+  <strong>
+    <<print (
+      _card.type === "normal"
+        ? _card.track + " – Step " + _card.step
+        : _card.track + " Visibility Pledge"
+    )>>
+  </strong>
+
+  <<if _card.type === "pledge">>
+        <div class="actions">
+    <<button "Pledge">><<run setup.animatePledge(1)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(1)>><</button>>
+    </div>
+  <<else>>
+        <div class="actions">
+    <<button "Execute">><<run setup.animateExecute(1)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(1)>><</button>>
+    </div>
+  <</if>>
+</div>
+  <!-- CARD 3 -->
+<div class="ticket-card" data-index="2">
+  <<set _card = State.variables.pph.taskFeed[2]>>
+  <strong>
+    <<print (
+      _card.type === "normal"
+        ? _card.track + " – Step " + _card.step
+        : _card.track + " Visibility Pledge"
+    )>>
+  </strong>
+
+  <<if _card.type === "pledge">>
+        <div class="actions">
+    <<button "Pledge">><<run setup.animatePledge(2)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(2)>><</button>>
+    </div>
+  <<else>>
+        <div class="actions">
+    <<button "Execute">><<run setup.animateExecute(2)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(2)>><</button>>
+    </div>
+  <</if>>
+</div>
+
+<!-- CARD 4 -->
+<div class="ticket-card" data-index="3">
+  <<set _card = State.variables.pph.taskFeed[3]>>
+  <strong>
+    <<print (
+      _card.type === "normal"
+        ? _card.track + " – Step " + _card.step
+        : _card.track + " Visibility Pledge"
+    )>>
+  </strong>
+
+  <<if _card.type === "pledge">>
+        <div class="actions">
+    <<button "Pledge">><<run setup.animatePledge(3)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(3)>><</button>>
+    </div>
+  <<else>>
+        <div class="actions">
+    <<button "Execute">><<run setup.animateExecute(3)>><</button>>
+    <<button "Delete">><<run setup.animateDelete(3)>><</button>>
+    </div>
+  <</if>>
+</div>
+
+</div>
+<</if>>
 <</nobr>>
 
 
@@ -513,39 +580,4 @@ document.addEventListener('keydown', function(e) {
     });
   }
 });
-
-// Delegate the ✕ close‐button
-$(document).on('click', '.close-button', function () {
-  const idx = +this.closest('.ticket-card').dataset.index;
-  setup.animateDelete(idx);
-});
-
-// Delegate Execute
-$(document).on('click', '.execute-button', function () {
-  const idx = +this.closest('.ticket-card').dataset.index;
-  setup.animateExecute(idx);
-});
-
-// Delegate Delete
-$(document).on('click', '.delete-button', function () {
-  const idx = +this.closest('.ticket-card').dataset.index;
-  setup.animateDelete(idx);
-});
-
-
-// one delegate for all ticket‐card buttons
-document.addEventListener('click', function(e) {
-  const btn = /** @type {HTMLElement} */(e.target);
-  const card = btn.closest('.ticket-card');
-  if (!card) return;
-  const i = Number(card.dataset.index);
-
-  e.preventDefault();
-  if (btn.matches('.close-button'))      setup.animateDelete(i);
-  else if (btn.matches('.delete-button')) setup.animateDelete(i);
-  else if (btn.matches('.execute-button'))setup.animateExecute(i);
-  else if (btn.matches('.pledge-button')) setup.animatePledge(i);
-});
-
-
 

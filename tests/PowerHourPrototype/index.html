@@ -303,7 +303,7 @@ ul#menu-core {
 }
 
 /* Ticket Cards */
-.ticket-card {
+.retro-window-ticket-card {
   flex: 0 0 200px;
   background: #000;
   border: 1px solid #333;
@@ -316,13 +316,13 @@ ul#menu-core {
   overflow: visible;
 }
 
-.ticket-card.collapsing {
+.retro-window-ticket-card.collapsing {
   animation: retroCollapse 0.4s ease-out forwards;
   pointer-events: none;
   overflow: hidden;
 }
 
-.ticket-card button {
+.retro-window-ticket-card .actions button {
   display: block;
   width: 100%;
   padding: 0.4em 0;
@@ -353,6 +353,7 @@ ul#menu-core {
 }
 /* Window Header */
 .window-header {
+  
   background: #111;
   color: #7aff7a;
   padding: 4px 8px;
@@ -367,6 +368,7 @@ ul#menu-core {
 .window-title {
   font-weight: bold;
 }
+
 .close-button {
   background: #000;
   color: #f0f0f0;
@@ -386,6 +388,7 @@ ul#menu-core {
   outline: 1px dotted #7aff7a;
   outline-offset: -4px;
 }
+
 
 /* Card Body */
 .window-body {
@@ -570,6 +573,37 @@ ul#menu-core {
 .modal-close:active {
   transform: scale(0.98);
   box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.15);
+  border: 1px inset #7aff7a;
+}
+
+/* ===================================================================
+   FORCE‐OVERRIDE for our ticket‐card close buttons
+   =================================================================== */
+button.close-button {
+  all: unset;               /* nuke SugarCube’s defaults */
+  background: #000;         /* pure black */
+  color: #f0f0f0;           /* white X */
+  border: 1px solid #555;   /* grey frame */
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.close-button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+button.close-button:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 2px rgba(255,255,255,0.15);
   border: 1px inset #7aff7a;
 }</style>
 </head>
@@ -948,8 +982,41 @@ document.addEventListener('keydown', function(e) {
       Engine.play('PowerHourLoop');
     });
   }
+});
+
+// Delegate the ✕ close‐button
+$(document).on('click', '.close-button', function () {
+  const idx = +this.closest('.ticket-card').dataset.index;
+  setup.animateDelete(idx);
+});
+
+// Delegate Execute
+$(document).on('click', '.execute-button', function () {
+  const idx = +this.closest('.ticket-card').dataset.index;
+  setup.animateExecute(idx);
+});
+
+// Delegate Delete
+$(document).on('click', '.delete-button', function () {
+  const idx = +this.closest('.ticket-card').dataset.index;
+  setup.animateDelete(idx);
+});
+
+
+// one delegate for all ticket‐card buttons
+document.addEventListener('click', function(e) {
+  const btn = /** @type {HTMLElement} */(e.target);
+  const card = btn.closest('.ticket-card');
+  if (!card) return;
+  const i = Number(card.dataset.index);
+
+  e.preventDefault();
+  if (btn.matches('.close-button'))      setup.animateDelete(i);
+  else if (btn.matches('.delete-button')) setup.animateDelete(i);
+  else if (btn.matches('.execute-button'))setup.animateExecute(i);
+  else if (btn.matches('.pledge-button')) setup.animatePledge(i);
 });</script><tw-passagedata pid="1" name="PowerHourStart" tags="" position="825,350" size="100,100">&lt;&lt;run setup.initPowerHour()&gt;&gt;
-&lt;&lt;goto &quot;PowerHourLoop&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="PowerHourLoop" tags="" position="700,475" size="100,100">&lt;&lt;nobr&gt;&gt;
+&lt;&lt;goto &quot;PowerHourLoop&quot;&gt;&gt;</tw-passagedata><tw-passagedata pid="2" name="PowerHourLoop" tags="" position="700,475" size="100, 100">&lt;&lt;nobr&gt;&gt;
 &lt;&lt;run setup.ensureFullFeed()&gt;&gt;
 &lt;&lt;set _pph = State.variables.pph&gt;&gt;
 
@@ -1014,113 +1081,46 @@ document.addEventListener('keydown', function(e) {
     &lt;/div&gt;
   &lt;/div&gt;
 
-
 &lt;div id=&quot;feed&quot;&gt;
+  &lt;&lt;for _i range setup.FEED_SIZE&gt;&gt;
+    &lt;&lt;set _card = State.variables.pph.taskFeed[_i]&gt;&gt;
+    &lt;&lt;if _card&gt;&gt;
+      &lt;div class=&quot;retro-window ticket-card&quot; data-index=&quot;&lt;&lt;print _i&gt;&gt;&quot;&gt;
+        
+        &lt;div class=&quot;window-header&quot;&gt;
+          &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
+          &lt;button type=&quot;button&quot; class=&quot;close-button&quot;&gt;✕&lt;/button&gt;
 
-&lt;!-- CARD 1 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;0&quot;&gt;
-  &lt;&lt;set _card = State.variables.pph.taskFeed[0]&gt;&gt;
-    &lt;div class=&quot;ticket-card&quot; data-index=&quot;&lt;&lt;print _i&gt;&gt;&quot;&gt;
-      &lt;div class=&quot;window-header&quot;&gt;
-        &lt;span class=&quot;window-title&quot;&gt;Task Ticket&lt;/span&gt;
-        &lt;&lt;button &quot;✕&quot; class=&quot;close-button&quot;&gt;&gt;
-          &lt;&lt;run setup.animateDelete(0)&gt;&gt;
-        &lt;&lt;/button&gt;&gt;
+        &lt;/div&gt;
+        
+        &lt;div class=&quot;window-body&quot;&gt;
+          &lt;&lt;if _card.type === &quot;normal&quot;&gt;&gt;
+            &lt;div class=&quot;card-step&quot;&gt;Step &lt;&lt;print _card.step&gt;&gt;&lt;/div&gt;
+            &lt;div class=&quot;card-track&quot;&gt;&lt;&lt;print _card.track&gt;&gt;&lt;/div&gt;
+            &lt;div class=&quot;card-title&quot;&gt;
+              &lt;&lt;print _card.track + &quot; – Step &quot; + _card.step&gt;&gt;
+            &lt;/div&gt;
+            &lt;div class=&quot;actions&quot;&gt;
+                &lt;button type=&quot;button&quot; class=&quot;execute-button&quot;&gt;Execute&lt;/button&gt;
+                &lt;button type=&quot;button&quot; class=&quot;delete-button&quot;&gt;Delete&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;&lt;else&gt;&gt;
+            &lt;div class=&quot;card-step&quot;&gt;Visibility Pledge&lt;/div&gt;
+            &lt;div class=&quot;card-track&quot;&gt;&lt;&lt;print _card.track&gt;&gt;&lt;/div&gt;
+            &lt;div class=&quot;actions&quot;&gt;
+                &lt;button type=&quot;button&quot; class=&quot;pledge-button&quot;&gt;Pledge&lt;/button&gt;
+                &lt;button type=&quot;button&quot; class=&quot;delete-button&quot;&gt;Delete&lt;/button&gt;
+            &lt;/div&gt;
+          &lt;&lt;/if&gt;&gt;
+        &lt;/div&gt;
+      
       &lt;/div&gt;
-
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
-    )&gt;&gt;
-
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-    &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-    &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(0)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
+    &lt;&lt;/if&gt;&gt;
+  &lt;&lt;/for&gt;&gt;
 &lt;/div&gt;
 
-
-  &lt;!-- CARD 2 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;1&quot;&gt;
-  &lt;&lt;set _card = State.variables.pph.taskFeed[1]&gt;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
-    )&gt;&gt;
-  &lt;/strong&gt;
-
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(1)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
-  &lt;!-- CARD 3 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;2&quot;&gt;
-  &lt;&lt;set _card = State.variables.pph.taskFeed[2]&gt;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
-    )&gt;&gt;
-  &lt;/strong&gt;
-
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(2)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
-
-&lt;!-- CARD 4 --&gt;
-&lt;div class=&quot;ticket-card&quot; data-index=&quot;3&quot;&gt;
-  &lt;&lt;set _card = State.variables.pph.taskFeed[3]&gt;&gt;
-  &lt;strong&gt;
-    &lt;&lt;print (
-      _card.type === &quot;normal&quot;
-        ? _card.track + &quot; – Step &quot; + _card.step
-        : _card.track + &quot; Visibility Pledge&quot;
-    )&gt;&gt;
-  &lt;/strong&gt;
-
-  &lt;&lt;if _card.type === &quot;pledge&quot;&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Pledge&quot;&gt;&gt;&lt;&lt;run setup.animatePledge(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;else&gt;&gt;
-        &lt;div class=&quot;actions&quot;&gt;
-    &lt;&lt;button &quot;Execute&quot;&gt;&gt;&lt;&lt;run setup.animateExecute(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;&lt;button &quot;Delete&quot;&gt;&gt;&lt;&lt;run setup.animateDelete(3)&gt;&gt;&lt;&lt;/button&gt;&gt;
-    &lt;/div&gt;
-  &lt;&lt;/if&gt;&gt;
-&lt;/div&gt;
-
-&lt;/div&gt;
 &lt;&lt;/if&gt;&gt;
+
 &lt;&lt;/nobr&gt;&gt;</tw-passagedata><tw-passagedata pid="3" name="Win" tags="" position="975,325" size="100,100">&lt;&lt;run setup.calculateScore()&gt;&gt;
 Congrats, you won with a score of &lt;&lt;print State.variables.pph.score&gt;&gt;!</tw-passagedata><tw-passagedata pid="4" name="SoftFail" tags="" position="975,425" size="100,100">&lt;&lt;run setup.calculateScore()&gt;&gt;
 Time’s up—no track completed. 

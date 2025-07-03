@@ -1,0 +1,485 @@
+body {
+  font-family: 'Fira Code', 'Courier New', Courier, monospace;
+  background-color: #111;
+  color: white;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.wrapper {
+  width: 600px;
+  margin: 20px auto;
+  padding: 0 10px; /* 👈 10px on left and right */
+  position: relative;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+  box-sizing: border-box;
+  padding: 0 10px; /* ✅ This stays */
+}
+
+#rulesLabel {
+  color: #aaa;
+  font-size: 0.9em;
+  letter-spacing: 1px;
+  margin-left: .4em;
+  margin-bottom: 0px;
+  padding: 0;
+}
+
+.arrow {
+  font-size: 0.9em;
+}
+
+/* the little rules banner */
+.rules {
+  background: #222;
+  color: #0f0;
+  font-family: 'Orbitron', monospace;
+  font-size: 0.9em;
+  border: 1px solid #0f0;
+  border-radius: 4px;
+  margin: 10px 0; /* 10px top and bottom only */
+  box-sizing: border-box;
+  width: 100%; /* fill the wrapper minus padding */
+  border: 1px solid #444;
+  background: #111;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.rules-toggle {
+  cursor: pointer;
+  font-family: 'Orbitron', monospace;
+  font-size: 1.1em;
+  color: #0f0;
+  margin-top: 12px;
+  text-align: center;
+  transition: color 0.3s;
+}
+
+.rules-toggle:hover {
+  color: #afffaf;
+}
+
+.rules-toggle .arrow {
+  display: inline-block;
+  transition: transform 0.3s ease;
+}
+
+.rules-toggle.open .arrow {
+  transform: rotate(90deg); /* Rotates ▶ to ▼ */
+}
+
+.game-container {
+  display: flex;
+  margin-top: 10px;
+  width: 100%; /* make it fill the wrapper */
+  box-sizing: border-box;
+  gap: 10px; /* spacing between panels */
+}
+
+.wrapper,
+.game-container {
+  box-sizing: border-box;
+}
+
+.level-title {
+  font-family: 'Orbitron', monospace;
+  margin-bottom: 8px;
+  font-size: .9em;
+  letter-spacing: 1px;
+  color: #aaa;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.left-panel {
+  flex: 1; /* Take up remaining space */
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.right-panel {
+  width: 220px; /* tighter than before */
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: 'Orbitron', monospace;
+  border: 1px solid #444;
+  border-radius: 5px;
+  margin: 0 0 10px 0;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(7, 40px);
+  grid-template-rows: repeat(7, 40px);
+  gap: 2px;
+}
+.cell {
+  width: 40px;
+  height: 40px;
+  font-size: 1.7em;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  border: 1px solid #666;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.cell.wall {
+  background-color: #444; /* dark grey for walls */
+}
+
+.cell.center {
+  background-color: #d0f0d0; /* goal tile stays green */
+}
+
+.score-section {
+  text-align: center;
+}
+
+.cell.moving {
+  transition: transform 0.2s ease;
+}
+
+.emoji.glow-pop {
+  animation: glowPop 0.3s ease-out;
+  display: inline-block;
+}
+
+@keyframes glowPop {
+  0% {
+    text-shadow: 0 0 0px #ff0077;
+    transform: scale(1);
+  }
+  50% {
+    text-shadow: 0 0 10px #ff0077;
+    transform: scale(1.4);
+  }
+  100% {
+    text-shadow: 0 0 0px #ff0077;
+    transform: scale(1);
+  }
+}
+
+.emoji {
+  display: inline-block;
+  /* no fixed width/height */
+  transition: transform 0.2s ease, text-shadow 0.2s ease;
+  will-change: transform;
+}
+
+.emoji.active-glow {
+  /* a multi-layered pink glow */
+  text-shadow: 0 0 3px #ff99cc, 0 0 6px #ff99cc, 0 0 9px #ff99cc;
+  /* bump it out just a hair */
+  transform: scale(1.15);
+}
+
+@keyframes pulse {
+  0% {
+    transform: scale(1.1);
+    text-shadow: 0 0 3px #ff99cc;
+  }
+  50% {
+    transform: scale(1.2);
+    text-shadow: 0 0 12px #ff99cc;
+  }
+  100% {
+    transform: scale(1.1);
+    text-shadow: 0 0 3px #ff99cc;
+  }
+}
+
+.emoji.active-glow {
+  animation: pulse 1.5s ease-in-out infinite;
+}
+
+.right-panel > .stats {
+  border-bottom: 2px solid #444;
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+
+.item-label {
+  font-size: 0.75em;
+  letter-spacing: 1px;
+  color: #aaa;
+  text-align: center;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.digital-display {
+  font-family: 'Orbitron', monospace;
+  font-size: 2.2em;
+  color: #0f0;
+  background: #111;
+  text-align: center;
+  padding: 4px 0;
+  border-radius: 4px;
+  border: 1px solid #0f0;
+  box-shadow: 0 0 6px #0f0, inset 0 0 2px #0f0;
+  margin-bottom: 10px;
+  text-shadow: 0 0 6px #0f0;
+}
+
+.controls button {
+  width: 100%;
+  margin-top: 6px;
+  background-color: #222;
+  border: 3px double #666;
+  color: #0f0;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-size: 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+button,
+button.reset {
+  font-family: 'Orbitron', monospace; /* match the rest of your right-panel */
+  letter-spacing: 1px; /* optional retro touch */
+  text-transform: uppercase; /* if you like the all-caps look */
+}
+
+button.reset {
+  background-color: #222;
+  color: white;
+  border: 3px double #666;
+  margin-bottom: 10px;
+  padding: 6px 14px;
+  font-size: 14px;
+}
+
+button.submit {
+  border: 3px double #7aff7a;
+  color: #7aff7a; /* match the glow color */
+  background-color: #222; /* same as other controls */
+}
+
+button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+@keyframes neonBlink {
+  0%,
+  100% {
+    box-shadow: 0 0 6px #7aff7a, 0 0 12px #7aff7a;
+  }
+  50% {
+    box-shadow: 0 0 2px #7aff7a, 0 0 6px #7aff7a;
+  }
+}
+
+.blinking-neon {
+  animation: neonBlink 1s infinite alternate;
+  border: 2px solid #7aff7a !important;
+}
+
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center; /* centers horizontally */
+  align-items: center; /* centers vertically */
+  z-index: 9998;
+}
+
+.modal-position {
+  /* stop centering & magic translate */
+  position: relative !important;
+  top: 0 !important;
+  left: 0 !important;
+  transform: none !important;
+  margin: 0 auto;               /* center horizontally */
+}
+
+/* Make all modals align to the top of the viewport, with padding */
+.modal-overlay .modal-position {
+  display: flex;
+  align-items: flex-start; /* pin to the top instead of centering */
+  justify-content: center;
+  padding-top: 2rem; /* some breathing room */
+  overflow-y: auto; /* allow scrolling if content is tall */
+}
+
+/* And constrain the window so it can scroll internally if very tall */
+.modal-overlay .modal-window {
+  max-height: 80vh; /* never exceed 80% of viewport height */
+  overflow-y: auto;
+}
+
+.modal-wrapper {
+  background: #000;
+  border: 2px solid #7aff7a;
+  box-shadow: 0 0 12px #7aff7a;
+  width: 32vw;
+  max-width: 90vw;
+  display: flex;
+  flex-direction: column;
+  animation: modalPopIn 0.3s ease-out forwards;
+  color: #f0f0f0;
+}
+
+.modal-window {
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.modal-header {
+  background: #111;
+  color: #7aff7a;
+  padding: 0.5em 1em;
+  font-weight: bold;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #333;
+}
+
+.modal-close {
+  background: #181818;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  width: 1.2em;
+  height: 1.2em;
+  font-size: 1.5em;
+  line-height: 1;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.1s;
+  font-weight: normal;
+    font-family: "Fira Code", monospace;
+}
+
+.modal-close:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+.modal-body {
+  background: #000;
+  padding: 1.2em;
+  font-size: 0.95em;
+  line-height: 1.4;
+}
+
+.modal-footer {
+  display: flex;
+  justify-content: flex-end;
+  padding: 0.5em 1em;
+  background: #111;
+  border-top: 1px solid #333;
+}
+
+/* Modal footer “Acknowledge” (and any other modal footers) */
+.modal-footer button {
+  font-family: 'Fira Code', monospace;
+  background: #111;
+  color: #7aff7a;
+  border: 1px solid #7aff7a;
+  padding: 0.4em 1em;
+  cursor: pointer;
+  box-shadow: inset 1px 1px 2px rgba(255, 255, 255, 0.07);
+  transition: transform 0.1s;
+}
+
+.modal-footer button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+.modal-footer button:active,
+.modal-close:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.15);
+}
+
+@keyframes modalPopIn {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes retroCollapse {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+    height: auto;
+    margin-bottom: 1em;
+  }
+  100% {
+    opacity: 0;
+    transform: scaleY(0);
+    height: 0;
+    margin-bottom: 0;
+    padding: 0;
+  }
+}
+
+.modal-wrapper.collapsing {
+  animation: retroCollapse 0.4s ease-out forwards;
+  pointer-events: none;
+  overflow: hidden;
+}
+
+#levelModalBodyDescription {
+  margin-bottom: 1em;
+}
+
+#nextFloorBtn {
+  background: #000;
+  color: #7aff7a;
+  border: 2px solid #7aff7a;
+  padding: 0.5em 1em;
+  font-size: 1rem;
+  cursor: pointer;
+  animation: neonBlink 1s infinite alternate;
+  box-shadow: 0 0 5px #7aff7a, 0 0 10px #7aff7a55;
+}
+
+@keyframes neonBlink {
+  0% {
+    box-shadow: 0 0 2px #7aff7a;
+  }
+  100% {
+    box-shadow: 0 0 8px #7aff7a, 0 0 20px #7aff7a88;
+  }
+}
+
+#finalScoreBody {
+  white-space: pre-wrap;
+}

@@ -205,7 +205,7 @@ ul#menu-core {
 }
 
 /* Ticket Cards */
-.ticket-card {
+.retro-window-ticket-card {
   flex: 0 0 200px;
   background: #000;
   border: 1px solid #333;
@@ -218,13 +218,13 @@ ul#menu-core {
   overflow: visible;
 }
 
-.ticket-card.collapsing {
+.retro-window-ticket-card.collapsing {
   animation: retroCollapse 0.4s ease-out forwards;
   pointer-events: none;
   overflow: hidden;
 }
 
-.ticket-card button {
+.retro-window-ticket-card .actions button {
   display: block;
   width: 100%;
   padding: 0.4em 0;
@@ -255,6 +255,7 @@ ul#menu-core {
 }
 /* Window Header */
 .window-header {
+  
   background: #111;
   color: #7aff7a;
   padding: 4px 8px;
@@ -269,6 +270,7 @@ ul#menu-core {
 .window-title {
   font-weight: bold;
 }
+
 .close-button {
   background: #000;
   color: #f0f0f0;
@@ -288,6 +290,7 @@ ul#menu-core {
   outline: 1px dotted #7aff7a;
   outline-offset: -4px;
 }
+
 
 /* Card Body */
 .window-body {
@@ -472,5 +475,36 @@ ul#menu-core {
 .modal-close:active {
   transform: scale(0.98);
   box-shadow: inset 2px 2px 2px rgba(255, 255, 255, 0.15);
+  border: 1px inset #7aff7a;
+}
+
+/* ===================================================================
+   FORCE‐OVERRIDE for our ticket‐card close buttons
+   =================================================================== */
+button.close-button {
+  all: unset;               /* nuke SugarCube’s defaults */
+  background: #000;         /* pure black */
+  color: #f0f0f0;           /* white X */
+  border: 1px solid #555;   /* grey frame */
+  width: 20px;
+  height: 20px;
+  font-size: 14px;
+  font-weight: bold;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+button.close-button:hover {
+  background: #181818;
+  border: 1px inset #7aff7a;
+  outline: 1px dotted #7aff7a;
+  outline-offset: -4px;
+}
+
+button.close-button:active {
+  transform: scale(0.98);
+  box-shadow: inset 2px 2px 2px rgba(255,255,255,0.15);
   border: 1px inset #7aff7a;
 }
